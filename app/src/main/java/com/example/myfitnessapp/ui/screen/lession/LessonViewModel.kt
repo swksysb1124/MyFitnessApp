@@ -38,22 +38,27 @@ class LessonViewModel : ViewModel() {
         startExerciseTimer()
     }
 
-    private fun startExerciseTimer() {
-        viewModelScope.launch {
-            _timerRunning.value = true
-            val initialTime = 30000L // 30 seconds for example
-            _timeLeft.value = initialTime
+    private fun getCurrentExerciseOrNull(): Exercise? =
+        _currentExerciseIndex.value
+            ?.let { _exercises.value?.get(it) }
 
+
+    private fun startExerciseTimer() {
+        val currentExercise = getCurrentExerciseOrNull() ?: return
+        viewModelScope.launch {
+            // start timer
+            _timerRunning.value = true
+            // countdown timer
+            _timeLeft.value = currentExercise.duration
             while ((_timeLeft.value ?: 0) > 0) {
                 delay(1000)
                 _timeLeft.value = _timeLeft.value?.minus(1000)
             }
-
+            // stop timer
             _timerRunning.value = false
 
-            if ((_currentExerciseIndex.value ?: 0) < (_exercises.value?.size ?: 0) - 1) {
+            if (hasNextExercise()) {
                 _currentExerciseIndex.value = (_currentExerciseIndex.value ?: 0) + 1
-                _timeLeft.value = initialTime
                 startExerciseTimer()
             } else {
                 _showExerciseList.value = true
@@ -61,4 +66,7 @@ class LessonViewModel : ViewModel() {
             }
         }
     }
+
+    private fun hasNextExercise(): Boolean =
+        (_currentExerciseIndex.value ?: 0) < (_exercises.value?.size ?: 0) - 1
 }
