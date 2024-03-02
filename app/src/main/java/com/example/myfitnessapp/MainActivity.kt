@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.lifecycle.ViewModelProvider
 import com.example.myfitnessapp.ui.screen.lession.LessonScreen
 import com.example.myfitnessapp.ui.screen.lession.LessonViewModel
+import com.example.myfitnessapp.ui.screen.lession.LessonViewModelFactory
 import com.example.myfitnessapp.ui.screen.login.LoginViewModel
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
@@ -17,7 +18,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
-        lessonViewModel = ViewModelProvider(this)[LessonViewModel::class.java]
+        lessonViewModel = ViewModelProvider(
+            this,
+            LessonViewModelFactory(application)
+        )[LessonViewModel::class.java]
 
         setContent {
             MyFitnessAppTheme {

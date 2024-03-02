@@ -9,8 +9,8 @@ class LessonManager(
     private val repository: LessonExerciseRepository,
     val onLessonStart: () -> Unit = {},
     val onLessonFinished: () -> Unit = {},
-    val onCurrentExerciseChange: (Int, Exercise) -> Unit = { _, _ -> },
-    val onTimeLeft: (Long) -> Unit = {}
+    val onExerciseChange: (index: Int, exercise: Exercise) -> Unit = { _, _ -> },
+    val onExerciseTimeLeft: (timeLeftIsMs: Long, exercise: Exercise) -> Unit = { _, _ -> }
 ) {
     val exercises: List<Exercise> = repository.getExercises()
     private val internalExercises = mutableListOf<Exercise>()
@@ -30,9 +30,9 @@ class LessonManager(
 
     private suspend fun startExercise() {
         val currentExercise = getCurrentExercise()
-        onCurrentExerciseChange(currentExerciseIndex, currentExercise)
+        onExerciseChange(currentExerciseIndex, currentExercise)
         startTimer(currentExercise.duration) { timeLeftInMs ->
-            onTimeLeft(timeLeftInMs)
+            onExerciseTimeLeft(timeLeftInMs, currentExercise)
         }
         if (hasNext()) {
             next()
