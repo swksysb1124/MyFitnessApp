@@ -8,7 +8,7 @@ class LessonExerciseRepository {
         return listOf(
             Exercise("深蹲", TimeUnit.SECONDS.toMillis(30)),
             Exercise("伏地挺身", TimeUnit.SECONDS.toMillis(30)),
-            Exercise("平板支撐", TimeUnit.SECONDS.toMillis(60)),
+            Exercise("平板支撐", TimeUnit.SECONDS.toMillis(60))
         )
     }
 

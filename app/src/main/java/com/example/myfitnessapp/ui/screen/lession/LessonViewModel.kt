@@ -58,7 +58,7 @@ class LessonViewModel(
     }
 
     private fun onExerciseChange(index: Int, exercise: Exercise) {
-        speak(exercise.name)
+        speakExerciseName(exercise)
         _currentExercise.value = exercise
     }
 
@@ -67,6 +67,11 @@ class LessonViewModel(
             speak((timeLeftInMs / 1000).toString())
         }
         _timeLeft.value = timeLeftInMs
+    }
+
+    private fun speakExerciseName(exercise: Exercise) {
+        val wording = "開始${exercise.name}，${exercise.duration.speakableDuration()}"
+        speak(wording)
     }
 
     private fun speak(text: String) {
