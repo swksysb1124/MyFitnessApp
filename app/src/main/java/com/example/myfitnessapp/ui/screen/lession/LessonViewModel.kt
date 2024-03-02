@@ -2,7 +2,6 @@ package com.example.myfitnessapp.ui.screen.lession
 
 import android.media.AudioManager
 import android.media.ToneGenerator
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -40,7 +39,7 @@ class LessonViewModel : ViewModel() {
 
     fun startLesson() {
         _showExerciseList.value = false
-        startExerciseTimer()
+        startExercise()
     }
 
     private fun getCurrentExerciseOrNull(): Exercise? =
@@ -48,32 +47,41 @@ class LessonViewModel : ViewModel() {
             ?.let { _exercises.value?.get(it) }
 
 
-    private fun startExerciseTimer() {
+    private fun startExercise() {
         val currentExercise = getCurrentExerciseOrNull() ?: return
         viewModelScope.launch {
-            // start timer
-            _timerRunning.value = true
-            // countdown timer
-            _timeLeft.value = currentExercise.duration
-            while ((_timeLeft.value ?: 0) > 0) {
-                delay(1000)
-                _timeLeft.value = _timeLeft.value?.minus(1000)
-
-                if (_timeLeft.value ?: 0 <= 3000) {
+            startTimer(currentExercise.duration) { timeLeftInMs ->
+                if (timeLeftInMs <= 3000) {
                     toneGenerator.startTone(ToneGenerator.TONE_CDMA_ABBR_ALERT, 200)
                 }
             }
-            // stop timer
-            _timerRunning.value = false
-
             if (hasNextExercise()) {
                 _currentExerciseIndex.value = (_currentExerciseIndex.value ?: 0) + 1
-                startExerciseTimer()
+                startExercise()
             } else {
                 _showExerciseList.value = true
                 _currentExerciseIndex.value = 0
             }
         }
+    }
+
+    private suspend fun startTimer(
+        duration: Long,
+        onTimeLeft: (Long) -> Unit = {}
+    ) {
+        // start timer
+        _timerRunning.value = true
+        // countdown timer
+        _timeLeft.value = duration
+        onTimeLeft(duration)
+
+        while ((_timeLeft.value ?: 0) > 0) {
+            delay(1000)
+            _timeLeft.value = _timeLeft.value?.minus(1000)
+            onTimeLeft(_timeLeft.value ?: 0)
+        }
+        // stop timer
+        _timerRunning.value = false
     }
 
     private fun hasNextExercise(): Boolean =
