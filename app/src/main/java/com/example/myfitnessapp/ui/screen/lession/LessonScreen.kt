@@ -18,6 +18,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -38,7 +39,7 @@ fun LessonScreen(viewModel: LessonViewModel) {
     val exercises by viewModel.exercises.observeAsState(emptyList())
     val currentExercise by viewModel.currentExercise.observeAsState()
     val timerRunning by viewModel.timerRunning.observeAsState(false)
-    val timeLeft by viewModel.timeLeft.observeAsState(0L)
+    val timeLeft by viewModel.timeLeft.collectAsState(0)
     val showExerciseList by viewModel.showExerciseList.observeAsState(true)
 
     Surface(

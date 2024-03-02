@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myfitnessapp.model.Exercise
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
@@ -24,8 +26,8 @@ class LessonViewModel : ViewModel() {
     private val _timerRunning = MutableLiveData(false)
     val timerRunning: LiveData<Boolean> = _timerRunning
 
-    private val _timeLeft = MutableLiveData(0L)
-    val timeLeft: LiveData<Long> = _timeLeft
+    private val _timeLeft = MutableStateFlow(0L)
+    val timeLeft = _timeLeft.asStateFlow()
 
     private val _showExerciseList = MutableLiveData(true)
     val showExerciseList: LiveData<Boolean> = _showExerciseList
@@ -79,6 +81,7 @@ class LessonViewModel : ViewModel() {
                 if (timeLeftInMs <= 3000) {
                     toneGenerator.startTone(ToneGenerator.TONE_CDMA_ABBR_ALERT, 200)
                 }
+                _timeLeft.value = timeLeftInMs
             }
             if (hasNextExercise()) {
                 currentExerciseIndex += 1
@@ -97,13 +100,13 @@ class LessonViewModel : ViewModel() {
         // start timer
         _timerRunning.value = true
         // countdown timer
-        _timeLeft.value = duration
-        onTimeLeft(duration)
+        var timeLeft = duration
+        onTimeLeft(timeLeft)
 
-        while ((_timeLeft.value ?: 0) > 0) {
+        while (timeLeft > 0) {
             delay(1000)
-            _timeLeft.value = _timeLeft.value?.minus(1000)
-            onTimeLeft(_timeLeft.value ?: 0)
+            timeLeft -= 1000
+            onTimeLeft(timeLeft)
         }
         // stop timer
         _timerRunning.value = false
