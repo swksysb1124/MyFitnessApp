@@ -26,12 +26,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.Exercise
+import com.example.myfitnessapp.util.KeepScreenOn
 
 val backgroundColor = Color(0xFF35374B)
 val textColor = Color(0xFFF5F7F8)
 
 @Composable
 fun LessonScreen(viewModel: LessonViewModel) {
+    KeepScreenOn()
+
     val exercises by viewModel.exercises.observeAsState(emptyList())
     val currentExerciseIndex by viewModel.currentExerciseIndex.observeAsState(0)
     val timerRunning by viewModel.timerRunning.observeAsState(false)
