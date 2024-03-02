@@ -43,6 +43,7 @@ fun LessonScreen(viewModel: LessonViewModel) {
     val currentExercise by viewModel.currentExercise.observeAsState()
     val timeLeft by viewModel.timeLeft.collectAsState(0)
     val showExerciseList by viewModel.showExerciseList.observeAsState(true)
+    val buttonLabel by viewModel.buttonLabel.observeAsState("開始訓練")
 
     Surface(
         modifier = Modifier
@@ -51,7 +52,7 @@ fun LessonScreen(viewModel: LessonViewModel) {
             .padding(16.dp)
     ) {
         if (showExerciseList) {
-            LessonDetailPage(exercises) {
+            LessonDetailPage(exercises, buttonLabel) {
                 viewModel.startLesson()
             }
         } else {
@@ -63,6 +64,7 @@ fun LessonScreen(viewModel: LessonViewModel) {
 @Composable
 private fun LessonDetailPage(
     exercises: List<Exercise>,
+    buttonLabel: String,
     onLessonStart: () -> Unit = {},
 ) {
     Column(
@@ -92,7 +94,7 @@ private fun LessonDetailPage(
             onClick = { onLessonStart() }
         ) {
             Text(
-                text = "開始訓練",
+                text = buttonLabel,
                 fontSize = 20.sp,
                 modifier = Modifier.padding(vertical = 10.dp)
             )

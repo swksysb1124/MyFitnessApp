@@ -19,7 +19,7 @@ class LessonManager(
     init {
         initInternalExercises(
             exercises = exercises,
-            rest = Exercise("休息時間", TimeUnit.SECONDS.toMillis(10))
+            rest = Exercise("休息", TimeUnit.SECONDS.toMillis(10))
         )
     }
 

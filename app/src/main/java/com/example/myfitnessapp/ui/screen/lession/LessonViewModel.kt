@@ -35,6 +35,9 @@ class LessonViewModel(
     private val _showExerciseList = MutableLiveData(true)
     val showExerciseList: LiveData<Boolean> = _showExerciseList
 
+    private val _buttonLabel = MutableLiveData("開始訓練")
+    val buttonLabel: LiveData<String> = _buttonLabel
+
     private var isTextToSpeechInit = false
     private lateinit var textToSpeech: TextToSpeech
 
@@ -42,8 +45,14 @@ class LessonViewModel(
         repository = lessonExerciseRepository,
         onExerciseChange = ::onExerciseChange,
         onExerciseTimeLeft = ::onExerciseTimeLeft,
-        onLessonStart = { _showExerciseList.value = false },
-        onLessonFinished = { _showExerciseList.value = true }
+        onLessonStart = {
+            _showExerciseList.value = false
+        },
+        onLessonFinished = {
+            speak("訓練結束")
+            _showExerciseList.value = true
+            _buttonLabel.value = "重新訓練"
+        }
     )
 
     init {
