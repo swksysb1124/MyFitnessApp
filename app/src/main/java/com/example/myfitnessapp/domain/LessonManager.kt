@@ -66,18 +66,18 @@ class LessonManager(
         internalExercises.addAll(repository.createInternalExercises(exercises, rest))
     }
 
-    fun getCurrentExercise(): Exercise = internalExercises[currentExerciseIndex]
+    private fun getCurrentExercise(): Exercise = internalExercises[currentExerciseIndex]
 
-    fun hasNext(): Boolean =
+    private fun hasNext(): Boolean =
         currentExerciseIndex < internalExercises.size - 1
 
-    fun next() {
+    private fun next() {
         if (hasNext()) {
             currentExerciseIndex += 1
         }
     }
 
-    fun reset() {
+    private fun reset() {
         currentExerciseIndex = 0
     }
 }
