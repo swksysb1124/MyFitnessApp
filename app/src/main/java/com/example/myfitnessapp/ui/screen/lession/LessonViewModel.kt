@@ -1,5 +1,8 @@
 package com.example.myfitnessapp.ui.screen.lession
 
+import android.media.AudioManager
+import android.media.ToneGenerator
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,11 +28,13 @@ class LessonViewModel : ViewModel() {
     private val _showExerciseList = MutableLiveData(true)
     val showExerciseList: LiveData<Boolean> = _showExerciseList
 
+    private val toneGenerator = ToneGenerator(AudioManager.STREAM_ALARM, 100)
+
     init {
         _exercises.value = listOf(
-            Exercise("Squats", TimeUnit.SECONDS.toMillis(30)),
-            Exercise("Push-ups", TimeUnit.SECONDS.toMillis(30)),
-            Exercise("Plank", TimeUnit.SECONDS.toMillis(60))
+            Exercise("深蹲", TimeUnit.SECONDS.toMillis(30)),
+            Exercise("伏地挺身", TimeUnit.SECONDS.toMillis(30)),
+            Exercise("平板支撐", TimeUnit.SECONDS.toMillis(60)),
         )
     }
 
@@ -53,6 +58,10 @@ class LessonViewModel : ViewModel() {
             while ((_timeLeft.value ?: 0) > 0) {
                 delay(1000)
                 _timeLeft.value = _timeLeft.value?.minus(1000)
+
+                if (_timeLeft.value ?: 0 <= 3000) {
+                    toneGenerator.startTone(ToneGenerator.TONE_CDMA_ABBR_ALERT, 200)
+                }
             }
             // stop timer
             _timerRunning.value = false
