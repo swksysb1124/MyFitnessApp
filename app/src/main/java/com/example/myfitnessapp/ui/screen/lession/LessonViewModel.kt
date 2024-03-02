@@ -12,11 +12,14 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 class LessonViewModel : ViewModel() {
+    private val internalExercises = mutableListOf<Exercise>()
+    private var currentExerciseIndex = 0
+
     private val _exercises = MutableLiveData<List<Exercise>>()
     val exercises: LiveData<List<Exercise>> = _exercises
 
-    private val _currentExerciseIndex = MutableLiveData(0)
-    val currentExerciseIndex: LiveData<Int> = _currentExerciseIndex
+    private val _currentExercise = MutableLiveData<Exercise>()
+    val currentExercise: LiveData<Exercise> = _currentExercise
 
     private val _timerRunning = MutableLiveData(false)
     val timerRunning: LiveData<Boolean> = _timerRunning
@@ -30,25 +33,47 @@ class LessonViewModel : ViewModel() {
     private val toneGenerator = ToneGenerator(AudioManager.STREAM_ALARM, 100)
 
     init {
-        _exercises.value = listOf(
-            Exercise("深蹲", TimeUnit.SECONDS.toMillis(30)),
-            Exercise("伏地挺身", TimeUnit.SECONDS.toMillis(30)),
-            Exercise("平板支撐", TimeUnit.SECONDS.toMillis(60)),
+        val exercises = getExercises()
+        _exercises.value = exercises
+        initInternalExercises(
+            exercises = exercises,
+            rest = Exercise("休息時間", TimeUnit.SECONDS.toMillis(10))
         )
     }
+
+    private fun initInternalExercises(
+        exercises: List<Exercise>,
+        rest: Exercise
+    ) {
+        val result = mutableListOf<Exercise>().apply {
+            exercises.onEachIndexed { index, exercise ->
+                add(exercise)
+                if (index != exercises.lastIndex) {
+                    add(rest)
+                }
+            }
+        }
+        internalExercises.clear()
+        internalExercises.addAll(result)
+    }
+
+    private fun getExercises() = listOf(
+        Exercise("深蹲", TimeUnit.SECONDS.toMillis(30)),
+        Exercise("伏地挺身", TimeUnit.SECONDS.toMillis(30)),
+        Exercise("平板支撐", TimeUnit.SECONDS.toMillis(60)),
+    )
 
     fun startLesson() {
         _showExerciseList.value = false
         startExercise()
     }
 
-    private fun getCurrentExerciseOrNull(): Exercise? =
-        _currentExerciseIndex.value
-            ?.let { _exercises.value?.get(it) }
+    private fun getCurrentExercise(): Exercise = internalExercises[currentExerciseIndex]
 
 
     private fun startExercise() {
-        val currentExercise = getCurrentExerciseOrNull() ?: return
+        val currentExercise = getCurrentExercise()
+        _currentExercise.value = currentExercise
         viewModelScope.launch {
             startTimer(currentExercise.duration) { timeLeftInMs ->
                 if (timeLeftInMs <= 3000) {
@@ -56,11 +81,11 @@ class LessonViewModel : ViewModel() {
                 }
             }
             if (hasNextExercise()) {
-                _currentExerciseIndex.value = (_currentExerciseIndex.value ?: 0) + 1
+                currentExerciseIndex += 1
                 startExercise()
             } else {
                 _showExerciseList.value = true
-                _currentExerciseIndex.value = 0
+                currentExerciseIndex = 0
             }
         }
     }
@@ -85,5 +110,5 @@ class LessonViewModel : ViewModel() {
     }
 
     private fun hasNextExercise(): Boolean =
-        (_currentExerciseIndex.value ?: 0) < (_exercises.value?.size ?: 0) - 1
+        currentExerciseIndex < internalExercises.size - 1
 }

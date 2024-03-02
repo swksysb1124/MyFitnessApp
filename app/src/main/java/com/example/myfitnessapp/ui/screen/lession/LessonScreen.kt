@@ -36,7 +36,7 @@ fun LessonScreen(viewModel: LessonViewModel) {
     KeepScreenOn()
 
     val exercises by viewModel.exercises.observeAsState(emptyList())
-    val currentExerciseIndex by viewModel.currentExerciseIndex.observeAsState(0)
+    val currentExercise by viewModel.currentExercise.observeAsState()
     val timerRunning by viewModel.timerRunning.observeAsState(false)
     val timeLeft by viewModel.timeLeft.observeAsState(0L)
     val showExerciseList by viewModel.showExerciseList.observeAsState(true)
@@ -83,7 +83,7 @@ fun LessonScreen(viewModel: LessonViewModel) {
                         .background(backgroundColor)
                 ) {
                     Text(
-                        text = exercises.getOrNull(currentExerciseIndex)?.name ?: "",
+                        text = currentExercise?.name ?: "",
                         fontSize = 40.sp,
                         color = textColor,
                         modifier = Modifier
