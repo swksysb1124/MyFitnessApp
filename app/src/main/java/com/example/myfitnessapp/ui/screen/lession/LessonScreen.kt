@@ -38,7 +38,6 @@ fun LessonScreen(viewModel: LessonViewModel) {
 
     val exercises by viewModel.exercises.observeAsState(emptyList())
     val currentExercise by viewModel.currentExercise.observeAsState()
-    val timerRunning by viewModel.timerRunning.observeAsState(false)
     val timeLeft by viewModel.timeLeft.collectAsState(0)
     val showExerciseList by viewModel.showExerciseList.observeAsState(true)
 

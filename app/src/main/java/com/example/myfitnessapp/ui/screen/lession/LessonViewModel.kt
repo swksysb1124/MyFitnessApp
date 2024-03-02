@@ -6,25 +6,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myfitnessapp.domain.LessonManager
 import com.example.myfitnessapp.model.Exercise
-import kotlinx.coroutines.delay
+import com.example.myfitnessapp.repository.LessonExerciseRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 
-class LessonViewModel : ViewModel() {
-    private val internalExercises = mutableListOf<Exercise>()
-    private var currentExerciseIndex = 0
-
+class LessonViewModel(
+    lessonExerciseRepository: LessonExerciseRepository = LessonExerciseRepository()
+) : ViewModel() {
     private val _exercises = MutableLiveData<List<Exercise>>()
     val exercises: LiveData<List<Exercise>> = _exercises
 
     private val _currentExercise = MutableLiveData<Exercise>()
     val currentExercise: LiveData<Exercise> = _currentExercise
-
-    private val _timerRunning = MutableLiveData(false)
-    val timerRunning: LiveData<Boolean> = _timerRunning
 
     private val _timeLeft = MutableStateFlow(0L)
     val timeLeft = _timeLeft.asStateFlow()
@@ -33,85 +29,32 @@ class LessonViewModel : ViewModel() {
     val showExerciseList: LiveData<Boolean> = _showExerciseList
 
     private val toneGenerator = ToneGenerator(AudioManager.STREAM_ALARM, 100)
-
-    init {
-        val exercises = getExercises()
-        _exercises.value = exercises
-        initInternalExercises(
-            exercises = exercises,
-            rest = Exercise("休息時間", TimeUnit.SECONDS.toMillis(10))
-        )
-    }
-
-    private fun initInternalExercises(
-        exercises: List<Exercise>,
-        rest: Exercise
-    ) {
-        val result = mutableListOf<Exercise>().apply {
-            exercises.onEachIndexed { index, exercise ->
-                add(exercise)
-                if (index != exercises.lastIndex) {
-                    add(rest)
-                }
+    private val lessonManager: LessonManager = LessonManager(
+        repository = lessonExerciseRepository,
+        onCurrentExerciseChange = { _, exercise ->
+            _currentExercise.value = exercise
+        },
+        onTimeLeft = { timeLeftInMs ->
+            if (timeLeftInMs <= 3000) {
+                toneGenerator.startTone(ToneGenerator.TONE_CDMA_ABBR_ALERT, 200)
             }
+            _timeLeft.value = timeLeftInMs
+        },
+        onLessonStart = {
+            _showExerciseList.value = false
+        },
+        onLessonFinished = {
+            _showExerciseList.value = true
         }
-        internalExercises.clear()
-        internalExercises.addAll(result)
-    }
-
-    private fun getExercises() = listOf(
-        Exercise("深蹲", TimeUnit.SECONDS.toMillis(30)),
-        Exercise("伏地挺身", TimeUnit.SECONDS.toMillis(30)),
-        Exercise("平板支撐", TimeUnit.SECONDS.toMillis(60)),
     )
 
+    init {
+        _exercises.value = lessonManager.exercises
+    }
+
     fun startLesson() {
-        _showExerciseList.value = false
-        startExercise()
-    }
-
-    private fun getCurrentExercise(): Exercise = internalExercises[currentExerciseIndex]
-
-
-    private fun startExercise() {
-        val currentExercise = getCurrentExercise()
-        _currentExercise.value = currentExercise
         viewModelScope.launch {
-            startTimer(currentExercise.duration) { timeLeftInMs ->
-                if (timeLeftInMs <= 3000) {
-                    toneGenerator.startTone(ToneGenerator.TONE_CDMA_ABBR_ALERT, 200)
-                }
-                _timeLeft.value = timeLeftInMs
-            }
-            if (hasNextExercise()) {
-                currentExerciseIndex += 1
-                startExercise()
-            } else {
-                _showExerciseList.value = true
-                currentExerciseIndex = 0
-            }
+            lessonManager.startLesson()
         }
     }
-
-    private suspend fun startTimer(
-        duration: Long,
-        onTimeLeft: (Long) -> Unit = {}
-    ) {
-        // start timer
-        _timerRunning.value = true
-        // countdown timer
-        var timeLeft = duration
-        onTimeLeft(timeLeft)
-
-        while (timeLeft > 0) {
-            delay(1000)
-            timeLeft -= 1000
-            onTimeLeft(timeLeft)
-        }
-        // stop timer
-        _timerRunning.value = false
-    }
-
-    private fun hasNextExercise(): Boolean =
-        currentExerciseIndex < internalExercises.size - 1
 }
