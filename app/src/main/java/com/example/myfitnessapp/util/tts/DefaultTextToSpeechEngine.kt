@@ -7,7 +7,7 @@ import java.util.Locale
 /**
  * Implement text-to-speech function by integrating [android.speech.tts.TextToSpeech]
  */
-class DefaultTextToSpeechModule(application: Application) : TextToSpeechModule {
+class DefaultTextToSpeechEngine(application: Application) : TextToSpeechEngine {
     private var isTextToSpeechInit = false
 
     private val textToSpeech: TextToSpeech =

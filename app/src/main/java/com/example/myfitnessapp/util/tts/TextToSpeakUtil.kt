@@ -1,16 +1,23 @@
 package com.example.myfitnessapp.util.tts
 
 import android.app.Application
-import com.example.myfitnessapp.util.SingletonHolder
 import java.util.Locale
 
 /**
- * Encapsulate underlying Text-To-Speech module
+ * hide the underlying Text-To-Speech engine
  */
-class TextToSpeakUtil private constructor(application: Application) : TextToSpeechModule {
-    private val textToSpeech: TextToSpeechModule = DefaultTextToSpeechModule(application)
-    override fun setLanguage(locale: Locale) = textToSpeech.setLanguage(locale)
-    override fun speak(text: String) = textToSpeech.speak(text)
-    companion object : SingletonHolder<TextToSpeakUtil, Application>(::TextToSpeakUtil)
+class TextToSpeakUtil private constructor(private val textToSpeechEngine: TextToSpeechEngine) : TextToSpeechEngine {
+    override fun setLanguage(locale: Locale) = textToSpeechEngine.setLanguage(locale)
+    override fun speak(text: String) = textToSpeechEngine.speak(text)
+
+    companion object {
+        fun create(
+            application: Application,
+            customTextToSpeechEngine: TextToSpeechEngine? = null
+        ): TextToSpeakUtil {
+            val ttsEngine = customTextToSpeechEngine ?: DefaultTextToSpeechEngine(application)
+            return TextToSpeakUtil(ttsEngine)
+        }
+    }
 }
 
