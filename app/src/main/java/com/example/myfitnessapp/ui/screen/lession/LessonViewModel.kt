@@ -1,9 +1,7 @@
 package com.example.myfitnessapp.ui.screen.lession
 
 import android.app.Application
-import android.speech.tts.TextToSpeech
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,18 +10,19 @@ import androidx.lifecycle.viewModelScope
 import com.example.myfitnessapp.domain.LessonManager
 import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.repository.LessonExerciseRepository
+import com.example.myfitnessapp.util.TextToSpeakUtil
+import com.example.myfitnessapp.util.TextToSpeech
 import com.example.myfitnessapp.util.speakableDuration
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 private const val remindToNextTime = 5000
 
 class LessonViewModel(
-    application: Application,
+    private val textToSpeech: TextToSpeech,
     lessonExerciseRepository: LessonExerciseRepository = LessonExerciseRepository()
-) : AndroidViewModel(application) {
+) : ViewModel() {
     private val _exercises = MutableLiveData<List<Exercise>>()
     val exercises: LiveData<List<Exercise>> = _exercises
 
@@ -38,9 +37,6 @@ class LessonViewModel(
 
     private val _buttonLabel = MutableLiveData("開始訓練")
     val buttonLabel: LiveData<String> = _buttonLabel
-
-    private var isTextToSpeechInit = false
-    private lateinit var textToSpeech: TextToSpeech
 
     private val lessonManager: LessonManager = LessonManager(
         repository = lessonExerciseRepository,
@@ -58,13 +54,6 @@ class LessonViewModel(
 
     init {
         _exercises.value = lessonManager.exercises
-        textToSpeech = TextToSpeech(application.applicationContext) { status ->
-            if (status == TextToSpeech.SUCCESS) {
-                Log.d("TAG", "TextToSpeech init success")
-                textToSpeech.setLanguage(Locale.TRADITIONAL_CHINESE)
-                isTextToSpeechInit = true
-            }
-        }
     }
 
     private fun onExerciseChange(index: Int, exercise: Exercise) {
@@ -85,7 +74,7 @@ class LessonViewModel(
     }
 
     private fun speak(text: String) {
-        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null)
+        textToSpeech.speak(text)
     }
 
     fun startLesson() {
@@ -99,6 +88,7 @@ class LessonViewModel(
 class LessonViewModelFactory(private val application: Application) :
     ViewModelProvider.AndroidViewModelFactory(application) {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return LessonViewModel(application) as T
+        val textToSpeech = TextToSpeakUtil.getInstance(application)
+        return LessonViewModel(textToSpeech) as T
     }
 }
