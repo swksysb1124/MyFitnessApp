@@ -40,8 +40,6 @@ val textColor = Color(0xFFF5F7F8)
 
 @Composable
 fun LessonScreen(viewModel: LessonViewModel) {
-    KeepScreenOn()
-
     val exercises by viewModel.exercises.observeAsState(emptyList())
     val currentExercise by viewModel.currentExercise.observeAsState()
     val timeLeft by viewModel.timeLeft.collectAsState(0)
@@ -111,6 +109,7 @@ private fun LessonExercisePage(
     currentExercise: Exercise?,
     timeLeft: Long
 ) {
+    KeepScreenOn()
     Box(Modifier.background(backgroundColor)) {
         Column(
             modifier = Modifier
