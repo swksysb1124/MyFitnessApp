@@ -46,7 +46,7 @@ class LessonViewModel(
             _showExerciseList.value = false
         },
         onLessonFinished = {
-            speak("訓練結束")
+            speakLessonFinished()
             _showExerciseList.value = true
             _buttonLabel.value = "重新訓練"
         }
@@ -56,31 +56,35 @@ class LessonViewModel(
         _exercises.value = lessonManager.exercises
     }
 
+    fun startLesson() {
+        viewModelScope.launch {
+            lessonManager.startLesson()
+        }
+    }
+
     private fun onExerciseChange(index: Int, exercise: Exercise) {
-        speakExerciseName(exercise)
+        speakExerciseStarted(exercise)
         _currentExercise.value = exercise
     }
 
     private fun onExerciseTimeLeft(timeLeftInMs: Long, exercise: Exercise) {
         if (timeLeftInMs <= remindToNextTime) {
-            speak((timeLeftInMs / 1000).toString())
+            speakExerciseTimeLeft(timeLeftInMs)
         }
         _timeLeft.value = timeLeftInMs
     }
 
-    private fun speakExerciseName(exercise: Exercise) {
+    private fun speakExerciseStarted(exercise: Exercise) {
         val wording = "開始${exercise.name}，${exercise.duration.speakableDuration()}"
-        speak(wording)
+        textToSpeech.speak(wording)
     }
 
-    private fun speak(text: String) {
-        textToSpeech.speak(text)
+    private fun speakExerciseTimeLeft(timeLeftInMs: Long) {
+        textToSpeech.speak((timeLeftInMs / 1000).toString())
     }
 
-    fun startLesson() {
-        viewModelScope.launch {
-            lessonManager.startLesson()
-        }
+    private fun speakLessonFinished() {
+        textToSpeech.speak("訓練結束")
     }
 }
 
