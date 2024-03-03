@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.util.KeepScreenOn
+import com.example.myfitnessapp.util.formattedDuration
 
 @Composable
 fun LessonExercisePage(
