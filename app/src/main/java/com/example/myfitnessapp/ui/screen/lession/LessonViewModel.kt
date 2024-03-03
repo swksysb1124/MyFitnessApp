@@ -10,8 +10,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.myfitnessapp.domain.LessonManager
 import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.repository.LessonExerciseRepository
-import com.example.myfitnessapp.util.TextToSpeakUtil
-import com.example.myfitnessapp.util.TextToSpeech
+import com.example.myfitnessapp.util.tts.TextToSpeakUtil
+import com.example.myfitnessapp.util.tts.TextToSpeechModule
 import com.example.myfitnessapp.util.speakableDuration
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 private const val remindToNextTime = 5000
 
 class LessonViewModel(
-    private val textToSpeech: TextToSpeech,
+    private val textToSpeech: TextToSpeechModule,
     lessonExerciseRepository: LessonExerciseRepository = LessonExerciseRepository()
 ) : ViewModel() {
     private val _exercises = MutableLiveData<List<Exercise>>()

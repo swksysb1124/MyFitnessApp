@@ -1,21 +1,18 @@
-package com.example.myfitnessapp.util
+package com.example.myfitnessapp.util.tts
 
 import android.app.Application
 import android.speech.tts.TextToSpeech
-import android.util.Log
 import java.util.Locale
 
-private const val TAG = "TextToSpeakUtil"
-
-class TextToSpeakUtil private constructor(application: Application) :
-    com.example.myfitnessapp.util.TextToSpeech {
-
+/**
+ * Implement text-to-speech function by integrating [android.speech.tts.TextToSpeech]
+ */
+class DefaultTextToSpeechModule(application: Application) : TextToSpeechModule {
     private var isTextToSpeechInit = false
 
     private val textToSpeech: TextToSpeech =
         TextToSpeech(application.applicationContext) { status ->
             if (status == TextToSpeech.SUCCESS) {
-                Log.d(TAG, "TextToSpeech init success")
                 isTextToSpeechInit = true
             }
         }
@@ -35,11 +32,4 @@ class TextToSpeakUtil private constructor(application: Application) :
             throw IllegalStateException("TextToSpeech module is not yet initialized successfully")
         }
     }
-
-    companion object : SingletonHolder<TextToSpeakUtil, Application>(::TextToSpeakUtil)
-}
-
-interface TextToSpeech {
-    fun setLanguage(locale: Locale)
-    fun speak(text: String)
 }
