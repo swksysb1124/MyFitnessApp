@@ -1,5 +1,6 @@
 package com.example.myfitnessapp.ui.screen.lession
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,6 +28,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -114,6 +117,15 @@ private fun LessonExercisePage(
                 .align(Alignment.Center)
                 .background(backgroundColor)
         ) {
+            if (currentExercise?.icon != null) {
+                Image(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(300.dp),
+                    painter = painterResource(id = currentExercise.icon),
+                    contentDescription = null
+                )
+            }
             Text(
                 text = currentExercise?.name ?: "",
                 fontSize = 40.sp,
@@ -124,7 +136,7 @@ private fun LessonExercisePage(
             )
             Text(
                 text = timeLeft.formattedDuration(),
-                fontSize = 35.sp,
+                fontSize = 50.sp,
                 color = textColor,
                 modifier = Modifier
                     .padding(bottom = 16.dp)
@@ -143,9 +155,7 @@ fun ExerciseList(
     LazyColumn(modifier = modifier.fillMaxWidth()) {
         itemsIndexed(exercises) { index, exercise ->
             ExerciseRow(onItemClick, exercise)
-            if (index != exercises.lastIndex) {
-                Divider()
-            }
+            Divider()
         }
     }
 }
@@ -159,8 +169,16 @@ private fun ExerciseRow(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onItemClick() },
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
+        if (exercise.icon != null) {
+            Image(
+                modifier = Modifier.size(80.dp),
+                painter = painterResource(id = exercise.icon),
+                contentDescription = null
+            )
+        }
         Text(
             text = exercise.name,
             fontSize = 20.sp,
