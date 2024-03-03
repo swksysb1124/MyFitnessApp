@@ -14,9 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.Exercise
+import com.example.myfitnessapp.repository.LessonExerciseRepository
+import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.formattedDuration
 
 @Composable
@@ -54,5 +57,18 @@ fun ExerciseRow(
             modifier = Modifier
                 .padding(vertical = 8.dp, horizontal = 16.dp)
         )
+    }
+}
+
+@Preview
+@Composable
+fun ExerciseRowPreview() {
+    val exercise = LessonExerciseRepository().getExercises().first()
+    MyFitnessAppTheme {
+        ExerciseRow(
+            exercise = exercise,
+            onItemClick = {}
+        )
+
     }
 }

@@ -12,9 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.Exercise
+import com.example.myfitnessapp.repository.LessonExerciseRepository
+import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.KeepScreenOn
 import com.example.myfitnessapp.util.formattedDuration
 
@@ -56,5 +59,17 @@ fun LessonExercisePage(
                     .align(Alignment.CenterHorizontally)
             )
         }
+    }
+}
+
+@Preview
+@Composable
+fun LessonExercisePagePreview() {
+    val exercise = LessonExerciseRepository().getExercises().first()
+    MyFitnessAppTheme {
+        LessonExercisePage(
+            currentExercise = exercise,
+            timeLeft = 60_000,
+        )
     }
 }

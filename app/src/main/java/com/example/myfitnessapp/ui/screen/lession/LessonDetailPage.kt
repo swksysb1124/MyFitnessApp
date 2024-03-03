@@ -15,9 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.Exercise
+import com.example.myfitnessapp.repository.LessonExerciseRepository
+import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
 @Composable
 fun LessonDetailPage(
@@ -58,5 +61,19 @@ fun LessonDetailPage(
             )
         }
         Spacer(modifier = Modifier.height(20.dp))
+    }
+}
+
+@Preview
+@Composable
+fun LessonDetailPagePreview() {
+    val exercises = LessonExerciseRepository().getExercises()
+    MyFitnessAppTheme {
+        LessonDetailPage(
+            exercises = exercises,
+            buttonLabel = "開始訓練",
+        ) {
+
+        }
     }
 }

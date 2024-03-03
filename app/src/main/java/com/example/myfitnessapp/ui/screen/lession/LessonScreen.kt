@@ -10,7 +10,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
+import com.example.myfitnessapp.util.tts.TextToSpeechEngine
+import java.util.Locale
 
 val backgroundColor = Color(0xFF35374B)
 val textColor = Color(0xFFF5F7F8)
@@ -38,3 +42,23 @@ fun LessonScreen(viewModel: LessonViewModel) {
         }
     }
 }
+
+@Preview(showSystemUi = true)
+@Composable
+fun LessonScreenPreview() {
+    val viewModel = LessonViewModel(
+        textToSpeech = object : TextToSpeechEngine {
+            override fun setLanguage(locale: Locale) {
+                // do nothing
+            }
+
+            override fun speak(text: String) {
+                // do nothing
+            }
+        }
+    )
+    MyFitnessAppTheme {
+        LessonScreen(viewModel)
+    }
+}
+
