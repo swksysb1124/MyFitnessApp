@@ -2,13 +2,11 @@ package com.example.myfitnessapp.ui.screen.lession
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -17,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,6 +29,7 @@ fun LessonDetailPage(
     buttonLabel: String,
     onLessonStart: () -> Unit = {},
 ) {
+    val sumOfExerciseDuration = exercises.sumOf { it.duration }.formattedDuration()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,65 +43,12 @@ fun LessonDetailPage(
                 .align(Alignment.CenterHorizontally)
                 .padding(vertical = 20.dp)
         )
-        Row(
-            modifier = Modifier
-                .padding(horizontal = 20.dp)
-                .fillMaxWidth(),
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .height(70.dp)
-                    .background(
-                        color = Color(0xFF78A083),
-                        shape = RoundedCornerShape(
-                            topStart = 20.dp,
-                            bottomStart = 20.dp
-                        )
-                    )
-                    .padding(10.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    "強度",
-                    fontSize = 16.sp,
-                    color = Color(0xFF35374B)
-                )
-                Text(
-                    "初級",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF35374B)
-                )
-            }
-            Spacer(modifier = Modifier.width(2.dp))
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .height(70.dp)
-                    .background(
-                        color = Color(0xFF78A083),
-                        shape = RoundedCornerShape(
-                            topEnd = 20.dp,
-                            bottomEnd = 20.dp
-                        )
-                    )
-                    .padding(10.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    "訓練時間",
-                    fontSize = 16.sp,
-                    color = Color(0xFF35374B)
-                )
-                Text(
-                    exercises.sumOf { it.duration }.formattedDuration(),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF35374B)
-                )
-            }
-        }
+        RoundCornerStatusRow(
+            statusList = listOf(
+                Status("訓練時間", sumOfExerciseDuration),
+                Status("消耗熱量", "3千卡")
+            )
+        )
         Spacer(modifier = Modifier.height(20.dp))
         ExerciseList(
             exercises = exercises,
