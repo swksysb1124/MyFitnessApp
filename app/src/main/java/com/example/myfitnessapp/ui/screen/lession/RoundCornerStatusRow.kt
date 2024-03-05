@@ -20,9 +20,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun RoundCornerStatusRow(statusList: List<Status>) {
+fun RoundCornerStatusRow(
+    statusList: List<Status>,
+    modifier: Modifier = Modifier
+) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .padding(horizontal = 20.dp)
             .fillMaxWidth(),
     ) {

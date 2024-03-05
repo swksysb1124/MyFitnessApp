@@ -2,7 +2,7 @@ package com.example.myfitnessapp.ui.screen.lession
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,8 +18,8 @@ fun ExerciseList(
     onItemClick: () -> Unit = {}
 ) {
     LazyColumn(modifier = modifier.fillMaxWidth()) {
-        itemsIndexed(exercises) { index, exercise ->
-            ExerciseRow(onItemClick, exercise)
+        items(exercises) { exercise ->
+            ExerciseRow(exercise, onItemClick = onItemClick)
             Divider()
         }
     }

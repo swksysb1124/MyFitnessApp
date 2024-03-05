@@ -24,11 +24,12 @@ import com.example.myfitnessapp.util.formattedDuration
 
 @Composable
 fun ExerciseRow(
-    onItemClick: () -> Unit,
-    exercise: Exercise
+    exercise: Exercise,
+    modifier: Modifier = Modifier,
+    onItemClick: () -> Unit = {},
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clickable { onItemClick() },
         horizontalArrangement = Arrangement.SpaceBetween,
