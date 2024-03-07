@@ -68,6 +68,7 @@ fun LessonDetailPage(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
+                .padding(bottom = 20.dp)
         )
         Button(
             colors = ButtonDefaults.buttonColors(
