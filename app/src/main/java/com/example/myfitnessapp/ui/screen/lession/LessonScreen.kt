@@ -38,7 +38,9 @@ fun LessonScreen(viewModel: LessonViewModel) {
                 viewModel.startLesson()
             }
         } else {
-            LessonExercisePage(currentExercise, timeLeft)
+            currentExercise?.let {
+                LessonExercisePage(it, timeLeft)
+            }
         }
     }
 }

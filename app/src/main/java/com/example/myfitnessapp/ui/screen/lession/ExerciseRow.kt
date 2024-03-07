@@ -17,17 +17,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myfitnessapp.model.Activity
 import com.example.myfitnessapp.model.Exercise
-import com.example.myfitnessapp.repository.LessonExerciseRepository
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.formattedDuration
 
 @Composable
 fun ExerciseRow(
-    exercise: Exercise,
+    activity: Activity<Exercise>,
     modifier: Modifier = Modifier,
     onItemClick: () -> Unit = {},
 ) {
+    val exercise = activity.content
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -35,13 +36,11 @@ fun ExerciseRow(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if (exercise.icon != null) {
-            Image(
-                modifier = Modifier.size(80.dp),
-                painter = painterResource(id = exercise.icon),
-                contentDescription = null
-            )
-        }
+        Image(
+            modifier = Modifier.size(80.dp),
+            painter = painterResource(id = exercise.icon),
+            contentDescription = null
+        )
         Text(
             text = exercise.name,
             fontSize = 20.sp,
@@ -51,7 +50,7 @@ fun ExerciseRow(
                 .padding(vertical = 8.dp, horizontal = 16.dp)
         )
         Text(
-            text = exercise.duration.formattedDuration(),
+            text = activity.durationInSecond.formattedDuration(),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = textColor,
@@ -64,12 +63,10 @@ fun ExerciseRow(
 @Preview
 @Composable
 fun ExerciseRowPreview() {
-    val exercise = LessonExerciseRepository().getExercises().first()
     MyFitnessAppTheme {
         ExerciseRow(
-            exercise = exercise,
+            activity = Activity(Exercise.Squat, 30),
             onItemClick = {}
         )
-
     }
 }

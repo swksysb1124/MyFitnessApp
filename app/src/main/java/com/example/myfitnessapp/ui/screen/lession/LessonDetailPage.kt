@@ -18,18 +18,31 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myfitnessapp.domain.CaloriesBurnedCalculator
+import com.example.myfitnessapp.model.Activity
 import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.repository.LessonExerciseRepository
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.formattedDuration
+import kotlin.math.roundToInt
 
 @Composable
 fun LessonDetailPage(
-    exercises: List<Exercise>,
+    exercises: List<Activity<Exercise>>,
     buttonLabel: String,
     onLessonStart: () -> Unit = {},
 ) {
-    val sumOfExerciseDuration = exercises.sumOf { it.duration }.formattedDuration()
+    val calculator = CaloriesBurnedCalculator()
+    val sumOfExerciseDuration = exercises.sumOf { it.durationInSecond }.formattedDuration()
+    val sumCaloriesBurned = exercises.sumOf {
+        val exercise = it.content
+        calculator.calculate(
+            mets = exercise.mets,
+            weightInKg = 80.0,
+            mins = (it.durationInSecond.toDouble() / 60.0)
+        )
+    }.roundToInt()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -46,7 +59,7 @@ fun LessonDetailPage(
         RoundCornerStatusRow(
             statusList = listOf(
                 Status("訓練時間", sumOfExerciseDuration),
-                Status("消耗熱量", "3千卡")
+                Status("消耗熱量", "${sumCaloriesBurned}千卡")
             )
         )
         Spacer(modifier = Modifier.height(20.dp))
@@ -77,7 +90,7 @@ fun LessonDetailPage(
 @Preview
 @Composable
 fun LessonDetailPagePreview() {
-    val exercises = LessonExerciseRepository().getExercises()
+    val exercises = LessonExerciseRepository().getActivities()
     MyFitnessAppTheme {
         LessonDetailPage(
             exercises = exercises,
