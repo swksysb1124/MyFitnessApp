@@ -7,10 +7,14 @@ import com.example.myfitnessapp.model.Rest
 class LessonExerciseRepository {
     fun getActivities(): List<Activity<Exercise>> {
         return listOf(
-            Activity(Exercise.Swimming, 3600),
-            Activity(Exercise.PullUp, 30),
-            Activity(Exercise.Squat, 30),
-            Activity(Exercise.PushUp, 30),
+            Activity(Exercise.Swimming, 60 * 60),
+            Activity(Exercise.HighStrengthRunning, 60 * 30),
+            Activity(Exercise.BrisklyWalking, 60 * 30),
+            Activity(Exercise.PullUp, 60),
+            Activity(Exercise.Crunch, 60),
+            Activity(Exercise.Squat, 60),
+            Activity(Exercise.PushUp, 60),
+            Activity(Exercise.Bridge, 60),
             Activity(Exercise.Plank, 60)
         )
     }
