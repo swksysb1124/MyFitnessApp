@@ -1,5 +1,6 @@
 package com.example.myfitnessapp.ui.screen.lession
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,6 +19,7 @@ import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.repository.LessonExerciseRepository
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ExerciseList(
     modifier: Modifier = Modifier,
@@ -28,8 +30,12 @@ fun ExerciseList(
         ExerciseEmptyView()
     } else {
         LazyColumn(modifier = modifier.fillMaxSize()) {
-            items(exercises) { exercise ->
-                ExerciseRow(exercise, onItemClick = onItemClick)
+            items(exercises, key = { it.content.icon }) { exercise ->
+                ExerciseRow(
+                    activity = exercise,
+                    modifier = Modifier.animateItemPlacement(), // no working now...
+                    onItemClick = onItemClick
+                )
                 Divider()
             }
         }
