@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.ViewModelProvider
-import com.example.myfitnessapp.ui.screen.lession.LessonScreen
 import com.example.myfitnessapp.ui.screen.lession.LessonViewModel
 import com.example.myfitnessapp.ui.screen.lession.LessonViewModelFactory
 import com.example.myfitnessapp.ui.screen.login.LoginViewModel
+import com.example.myfitnessapp.ui.screen.main.MainScreen
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MyFitnessAppTheme {
-                LessonScreen(viewModel = lessonViewModel)
+                MainScreen(viewModel = lessonViewModel)
             }
         }
     }

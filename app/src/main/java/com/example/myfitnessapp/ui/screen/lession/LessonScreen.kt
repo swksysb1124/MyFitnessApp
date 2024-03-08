@@ -20,7 +20,10 @@ val backgroundColor = Color(0xFF35374B)
 val textColor = Color(0xFFF5F7F8)
 
 @Composable
-fun LessonScreen(viewModel: LessonViewModel) {
+fun LessonScreen(
+    viewModel: LessonViewModel,
+    modifier: Modifier = Modifier
+) {
     val exercises by viewModel.exercises.observeAsState(emptyList())
     val currentExercise by viewModel.currentExercise.observeAsState()
     val timeLeft by viewModel.timeLeft.collectAsState(0)
@@ -28,7 +31,7 @@ fun LessonScreen(viewModel: LessonViewModel) {
     val buttonLabel by viewModel.buttonLabel.observeAsState("開始訓練")
 
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .background(backgroundColor)
             .fillMaxSize()
             .padding(16.dp)
