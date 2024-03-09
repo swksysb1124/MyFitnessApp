@@ -14,11 +14,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myfitnessapp.ui.screen.backgroundColor
 import com.example.myfitnessapp.ui.screen.rowBackgroundColor
 import com.example.myfitnessapp.ui.screen.textColor
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
@@ -41,7 +41,7 @@ fun LessonRow(
     ) {
         Column {
             if (name != null) {
-                Text(text = name, fontSize = 16.sp, color = Color.DarkGray)
+                Text(text = name, fontSize = 16.sp, color = backgroundColor)
             }
             Spacer(modifier = Modifier.height(5.dp))
             Text(startTime, fontSize = 30.sp, color = textColor, textAlign = TextAlign.Center)
@@ -49,7 +49,7 @@ fun LessonRow(
             Text(duration, fontSize = 16.sp, color = textColor)
         }
         Box {
-            Text("日 一 二 三 四 五 六", fontSize = 18.sp, color = Color.Gray)
+            Text("日 一 二 三 四 五 六", fontSize = 18.sp, color = backgroundColor)
         }
     }
 }
