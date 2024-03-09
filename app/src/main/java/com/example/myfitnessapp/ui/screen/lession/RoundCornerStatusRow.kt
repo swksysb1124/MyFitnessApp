@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myfitnessapp.ui.screen.rowBackgroundColor
 
 @Composable
 fun RoundCornerStatusRow(
@@ -32,7 +33,7 @@ fun RoundCornerStatusRow(
         statusList.onEachIndexed { index, status ->
             val shape = getStatusShape(index, statusList)
             val textColor = Color(0xFF35374B)
-            val backgroundColor = Color(0xFF78A083)
+            val backgroundColor = rowBackgroundColor
             Column(
                 modifier = Modifier
                     .weight(1f)

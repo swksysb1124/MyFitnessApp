@@ -14,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,6 +21,9 @@ import com.example.myfitnessapp.domain.CaloriesBurnedCalculator
 import com.example.myfitnessapp.model.Activity
 import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.repository.LessonExerciseRepository
+import com.example.myfitnessapp.ui.screen.backgroundColor
+import com.example.myfitnessapp.ui.screen.buttonBackgroundColor
+import com.example.myfitnessapp.ui.screen.textColor
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.formattedDuration
 import kotlin.math.roundToInt
@@ -72,7 +74,7 @@ fun LessonDetailPage(
         )
         Button(
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF50727B)
+                containerColor = buttonBackgroundColor
             ),
             shape = RoundedCornerShape(8.dp),
             modifier = Modifier.fillMaxWidth(),

@@ -19,6 +19,8 @@ import com.example.myfitnessapp.model.Activity
 import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.model.Rest
 import com.example.myfitnessapp.repository.LessonExerciseRepository
+import com.example.myfitnessapp.ui.screen.backgroundColor
+import com.example.myfitnessapp.ui.screen.textColor
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.KeepScreenOn
 import com.example.myfitnessapp.util.formattedDuration
