@@ -9,6 +9,7 @@ import kotlinx.coroutines.delay
 class LessonManager(
     private val repository: LessonExerciseRepository,
     val onLessonStart: () -> Unit = {},
+    val onLessonStop: () -> Unit = {},
     val onLessonFinished: () -> Unit = {},
     val onActivityChange: (index: Int, activity: Activity<*>) -> Unit = { _, _ -> },
     val onActivityTimeLeft: (timeLeftInSecond: Int, activity: Activity<*>) -> Unit = { _, _ -> }
@@ -16,6 +17,9 @@ class LessonManager(
     val activities: List<Activity<Exercise>> = repository.getActivities()
     private val internalExercises = mutableListOf<Activity<*>>()
     private var currentExerciseIndex = 0
+
+    @Volatile
+    private var isTimerStopped = false
 
     init {
         initInternalExercises(
@@ -25,8 +29,13 @@ class LessonManager(
     }
 
     suspend fun startLesson() {
+        isTimerStopped = false
         onLessonStart()
         startExercise()
+    }
+
+    fun stopLesson() {
+        isTimerStopped = true
     }
 
     private suspend fun startExercise() {
@@ -34,6 +43,11 @@ class LessonManager(
         onActivityChange(currentExerciseIndex, currentActivity)
         startTimer(currentActivity.durationInSecond) { timeLeftInSecond ->
             onActivityTimeLeft(timeLeftInSecond, currentActivity)
+        }
+        if (isTimerStopped) {
+            onLessonStop()
+            reset()
+            return
         }
         if (hasNext()) {
             next()
@@ -52,7 +66,7 @@ class LessonManager(
         var timeLeft = durationInSecond
         onTimeLeftInSecond(timeLeft)
 
-        while (timeLeft > 0) {
+        while (timeLeft > 0 && !isTimerStopped) {
             delay(1000)
             timeLeft -= 1
             onTimeLeftInSecond(timeLeft)
