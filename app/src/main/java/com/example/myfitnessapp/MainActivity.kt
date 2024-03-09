@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MyFitnessAppTheme {
-                MainScreen(viewModel = lessonViewModel)
+                MainScreen()
             }
         }
     }
