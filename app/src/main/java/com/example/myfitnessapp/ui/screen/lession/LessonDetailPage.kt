@@ -23,18 +23,21 @@ import com.example.myfitnessapp.domain.CaloriesBurnedCalculator
 import com.example.myfitnessapp.model.Activity
 import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.repository.LessonExerciseRepository
+import com.example.myfitnessapp.ui.screen.ScreenTitleRow
 import com.example.myfitnessapp.ui.screen.backgroundColor
 import com.example.myfitnessapp.ui.screen.buttonBackgroundColor
-import com.example.myfitnessapp.ui.screen.plan.ScreenTitleRow
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.formattedDuration
 import kotlin.math.roundToInt
+
+const val LessonContentRoute = "lesson_content"
 
 @Composable
 fun LessonDetailPage(
     exercises: List<Activity<Exercise>>,
     buttonLabel: String,
     onLessonStart: () -> Unit = {},
+    onBackPressed: () -> Unit = {},
 ) {
     val calculator = CaloriesBurnedCalculator()
     val sumOfExerciseDuration = exercises.sumOf { it.durationInSecond }.formattedDuration()
@@ -52,13 +55,18 @@ fun LessonDetailPage(
             .fillMaxSize()
             .background(backgroundColor)
     ) {
-        ScreenTitleRow(title = "訓練內容")
+        ScreenTitleRow(
+            title = "訓練內容",
+            onBackPressed = onBackPressed
+        )
         Row(
             modifier = Modifier.padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             RoundCornerStatusRow(
-                modifier = Modifier.weight(2f).height(70.dp),
+                modifier = Modifier
+                    .weight(2f)
+                    .height(70.dp),
                 statusList = listOf(
                     Status("時間", sumOfExerciseDuration),
                     Status("消耗", "${sumCaloriesBurned}kcal")
@@ -66,7 +74,9 @@ fun LessonDetailPage(
             )
             Spacer(modifier = Modifier.width(8.dp))
             StartButton(
-                modifier = Modifier.weight(1f).height(70.dp),
+                modifier = Modifier
+                    .weight(1f)
+                    .height(70.dp),
                 onLessonStart = onLessonStart,
                 buttonLabel
             )
@@ -117,8 +127,8 @@ fun LessonDetailPagePreview() {
         LessonDetailPage(
             exercises = exercises,
             buttonLabel = "開始",
-        ) {
-
-        }
+            onLessonStart = {},
+            onBackPressed = {}
+        )
     }
 }

@@ -16,7 +16,8 @@ import java.util.Locale
 
 @Composable
 fun LessonScreen(
-    viewModel: LessonViewModel
+    viewModel: LessonViewModel,
+    onBackPressed: () -> Unit = {}
 ) {
     val exercises by viewModel.exercises.observeAsState(emptyList())
     val currentExercise by viewModel.currentExercise.observeAsState()
@@ -30,9 +31,12 @@ fun LessonScreen(
             .fillMaxSize()
     ) {
         if (showExerciseList) {
-            LessonDetailPage(exercises, buttonLabel) {
-                viewModel.startLesson()
-            }
+            LessonDetailPage(
+                exercises = exercises,
+                buttonLabel = buttonLabel,
+                onLessonStart = { viewModel.startLesson() },
+                onBackPressed = onBackPressed,
+            )
         } else {
             currentExercise?.let {
                 LessonExercisePage(it, timeLeft)
