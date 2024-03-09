@@ -12,7 +12,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,7 +22,7 @@ import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.repository.LessonExerciseRepository
 import com.example.myfitnessapp.ui.screen.backgroundColor
 import com.example.myfitnessapp.ui.screen.buttonBackgroundColor
-import com.example.myfitnessapp.ui.screen.textColor
+import com.example.myfitnessapp.ui.screen.plan.ScreenTitleRow
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.formattedDuration
 import kotlin.math.roundToInt
@@ -50,14 +49,7 @@ fun LessonDetailPage(
             .fillMaxSize()
             .background(backgroundColor)
     ) {
-        Text(
-            text = "今日訓練",
-            color = textColor,
-            fontSize = 30.sp,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(vertical = 20.dp)
-        )
+        ScreenTitleRow(title = "今日訓練")
         RoundCornerStatusRow(
             statusList = listOf(
                 Status("訓練時間", sumOfExerciseDuration),

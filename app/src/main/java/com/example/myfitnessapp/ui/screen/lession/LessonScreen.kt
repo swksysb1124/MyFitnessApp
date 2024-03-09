@@ -30,7 +30,6 @@ fun LessonScreen(
         modifier = Modifier
             .background(backgroundColor)
             .fillMaxSize()
-            .padding(16.dp)
     ) {
         if (showExerciseList) {
             LessonDetailPage(exercises, buttonLabel) {
