@@ -10,9 +10,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.ui.screen.lession.LessonContentRoute
-import com.example.myfitnessapp.ui.screen.lession.LessonScreen
-import com.example.myfitnessapp.ui.screen.lession.LessonViewModel
-import com.example.myfitnessapp.ui.screen.lession.LessonViewModelFactory
+import com.example.myfitnessapp.ui.screen.lession.LessonContentViewModel
+import com.example.myfitnessapp.ui.screen.lession.LessonExercisePage
+import com.example.myfitnessapp.ui.screen.lession.LessonExerciseRoute
+import com.example.myfitnessapp.ui.screen.lession.LessonExerciseViewModel
+import com.example.myfitnessapp.ui.screen.lession.LessonExerciseViewModelFactory
+import com.example.myfitnessapp.ui.screen.lession.LessonContentScreen
 import com.example.myfitnessapp.ui.screen.login.LoginViewModel
 import com.example.myfitnessapp.ui.screen.main.MainScreen
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
@@ -20,15 +23,17 @@ import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 class MainActivity : ComponentActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
-    private lateinit var lessonViewModel: LessonViewModel
+    private lateinit var lessonViewModel: LessonContentViewModel
+    private lateinit var lessonExerciseViewModel: LessonExerciseViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
-        lessonViewModel = ViewModelProvider(
+        lessonViewModel = ViewModelProvider(this)[LessonContentViewModel::class.java]
+        lessonExerciseViewModel = ViewModelProvider(
             this,
-            LessonViewModelFactory(application)
-        )[LessonViewModel::class.java]
+            LessonExerciseViewModelFactory(application)
+        )[LessonExerciseViewModel::class.java]
 
         setContent {
             MyFitnessAppTheme {
@@ -47,8 +52,20 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable(LessonContentRoute) {
-                        LessonScreen(
+                        LessonContentScreen(
                             viewModel = lessonViewModel,
+                            onStartButtonClick = {
+                                mainNavController.navigate(LessonExerciseRoute)
+                            },
+                            onBackPressed = {
+                                mainNavController.popBackStack()
+                            }
+                        )
+                    }
+
+                    composable(LessonExerciseRoute) {
+                        LessonExercisePage(
+                            viewModel = lessonExerciseViewModel,
                             onBackPressed = {
                                 mainNavController.popBackStack()
                             }
