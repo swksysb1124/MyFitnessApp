@@ -1,6 +1,6 @@
 package com.example.myfitnessapp.util.tts
 
-import android.app.Application
+import android.content.Context
 import java.util.Locale
 
 /**
@@ -12,10 +12,10 @@ class TextToSpeakUtil private constructor(private val textToSpeechEngine: TextTo
 
     companion object {
         fun create(
-            application: Application,
+            context: Context,
             customTextToSpeechEngine: TextToSpeechEngine? = null
         ): TextToSpeakUtil {
-            val ttsEngine = customTextToSpeechEngine ?: DefaultTextToSpeechEngine(application)
+            val ttsEngine = customTextToSpeechEngine ?: DefaultTextToSpeechEngine(context)
             return TextToSpeakUtil(ttsEngine)
         }
     }

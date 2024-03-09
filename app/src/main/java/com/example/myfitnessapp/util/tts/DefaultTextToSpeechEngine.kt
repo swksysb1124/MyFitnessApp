@@ -1,17 +1,17 @@
 package com.example.myfitnessapp.util.tts
 
-import android.app.Application
+import android.content.Context
 import android.speech.tts.TextToSpeech
 import java.util.Locale
 
 /**
  * Implement text-to-speech function by integrating [android.speech.tts.TextToSpeech]
  */
-class DefaultTextToSpeechEngine(application: Application) : TextToSpeechEngine {
+class DefaultTextToSpeechEngine(context: Context) : TextToSpeechEngine {
     private var isTextToSpeechInit = false
 
     private val textToSpeech: TextToSpeech =
-        TextToSpeech(application.applicationContext) { status ->
+        TextToSpeech(context) { status ->
             if (status == TextToSpeech.SUCCESS) {
                 isTextToSpeechInit = true
             }
