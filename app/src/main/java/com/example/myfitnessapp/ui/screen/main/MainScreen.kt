@@ -29,6 +29,7 @@ const val MainRoute = "main_route"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
+    loginViewModel: LoginViewModel,
     onLessonClick: () -> Unit = {}
 ) {
     val bottomNavController = rememberNavController()
@@ -69,8 +70,6 @@ fun MainScreen(
             }
         }
     ) { innerPadding ->
-        val loginViewModel = LoginViewModel()
-
         NavHost(
             navController = bottomNavController,
             startDestination = BotoomeNaviScreen.MyLesson.route,
