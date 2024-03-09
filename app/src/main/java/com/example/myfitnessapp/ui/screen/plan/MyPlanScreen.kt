@@ -49,7 +49,7 @@ fun MyPlanScreen() {
             }
         }
         LazyColumn(
-            Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
+            Modifier.padding(horizontal = 20.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(lessons) { lesson ->
