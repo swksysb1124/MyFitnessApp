@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,23 +38,25 @@ fun ExerciseRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            modifier = Modifier.size(80.dp),
+            modifier = Modifier.size(70.dp).padding(5.dp),
             painter = painterResource(id = exercise.icon),
             contentDescription = null
         )
         Text(
             text = exercise.name,
             fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
             color = Color.White,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .padding(vertical = 8.dp, horizontal = 16.dp)
         )
         Text(
             text = activity.durationInSecond.formattedDuration(),
             fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
             color = textColor,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .padding(vertical = 8.dp, horizontal = 16.dp)
         )

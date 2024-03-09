@@ -36,7 +36,6 @@ fun ExerciseList(
                     modifier = Modifier.animateItemPlacement(), // no working now...
                     onItemClick = onItemClick
                 )
-                Divider()
             }
         }
     }

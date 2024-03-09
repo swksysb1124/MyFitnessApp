@@ -2,16 +2,19 @@ package com.example.myfitnessapp.ui.screen.lession
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,36 +52,60 @@ fun LessonDetailPage(
             .fillMaxSize()
             .background(backgroundColor)
     ) {
-        ScreenTitleRow(title = "今日訓練")
-        RoundCornerStatusRow(
-            statusList = listOf(
-                Status("訓練時間", sumOfExerciseDuration),
-                Status("消耗熱量", "${sumCaloriesBurned}千卡")
+        ScreenTitleRow(title = "訓練內容")
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            RoundCornerStatusRow(
+                modifier = Modifier.weight(2f).height(70.dp),
+                statusList = listOf(
+                    Status("時間", sumOfExerciseDuration),
+                    Status("消耗", "${sumCaloriesBurned}kcal")
+                )
             )
-        )
+            Spacer(modifier = Modifier.width(8.dp))
+            StartButton(
+                modifier = Modifier.weight(1f).height(70.dp),
+                onLessonStart = onLessonStart,
+                buttonLabel
+            )
+        }
         Spacer(modifier = Modifier.height(20.dp))
         ExerciseList(
             exercises = exercises,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .padding(bottom = 20.dp)
+                .padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 20.dp,
+                )
         )
-        Button(
-            colors = ButtonDefaults.buttonColors(
-                containerColor = buttonBackgroundColor
-            ),
-            shape = RoundedCornerShape(8.dp),
-            modifier = Modifier.fillMaxWidth(),
-            onClick = { onLessonStart() }
-        ) {
-            Text(
-                text = buttonLabel,
-                fontSize = 20.sp,
-                modifier = Modifier.padding(vertical = 10.dp)
-            )
-        }
         Spacer(modifier = Modifier.height(20.dp))
+    }
+}
+
+@Composable
+private fun StartButton(
+    modifier: Modifier = Modifier,
+    onLessonStart: () -> Unit,
+    buttonLabel: String
+) {
+    Button(
+        colors = ButtonDefaults.buttonColors(
+            containerColor = buttonBackgroundColor
+        ),
+        shape = RoundedCornerShape(20.dp),
+        modifier = modifier,
+        onClick = { onLessonStart() }
+    ) {
+        Text(
+            text = buttonLabel,
+            fontSize = 20.sp,
+            modifier = Modifier.padding(vertical = 10.dp)
+        )
     }
 }
 
@@ -89,7 +116,7 @@ fun LessonDetailPagePreview() {
     MyFitnessAppTheme {
         LessonDetailPage(
             exercises = exercises,
-            buttonLabel = "開始訓練",
+            buttonLabel = "開始",
         ) {
 
         }

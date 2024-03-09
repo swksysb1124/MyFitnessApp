@@ -36,7 +36,7 @@ class LessonViewModel(
     private val _showExerciseList = MutableLiveData(true)
     val showExerciseList: LiveData<Boolean> = _showExerciseList
 
-    private val _buttonLabel = MutableLiveData("開始訓練")
+    private val _buttonLabel = MutableLiveData("開始")
     val buttonLabel: LiveData<String> = _buttonLabel
 
     private val lessonManager: LessonManager = LessonManager(
@@ -49,7 +49,7 @@ class LessonViewModel(
         onLessonFinished = {
             speakLessonFinished()
             _showExerciseList.value = true
-            _buttonLabel.value = "重新訓練"
+            _buttonLabel.value = "重新"
         }
     )
 
