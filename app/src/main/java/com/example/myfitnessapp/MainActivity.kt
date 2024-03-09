@@ -17,6 +17,7 @@ import com.example.myfitnessapp.ui.screen.lession.LessonExerciseViewModel
 import com.example.myfitnessapp.ui.screen.lession.LessonExerciseViewModelFactory
 import com.example.myfitnessapp.ui.screen.lession.LessonContentScreen
 import com.example.myfitnessapp.ui.screen.login.LoginViewModel
+import com.example.myfitnessapp.ui.screen.main.MainRoute
 import com.example.myfitnessapp.ui.screen.main.MainScreen
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
@@ -40,11 +41,11 @@ class MainActivity : ComponentActivity() {
                 val mainNavController = rememberNavController()
                 NavHost(
                     navController = mainNavController,
-                    startDestination = "main",
+                    startDestination = MainRoute,
                     enterTransition = { EnterTransition.None },
                     exitTransition = { ExitTransition.None }
                 ) {
-                    composable("main") {
+                    composable(MainRoute) {
                         MainScreen(
                             onLessonClick = {
                                 mainNavController.navigate(LessonContentRoute)

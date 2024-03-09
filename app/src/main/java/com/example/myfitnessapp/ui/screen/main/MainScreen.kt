@@ -24,6 +24,8 @@ import com.example.myfitnessapp.ui.screen.login.LoginScreen
 import com.example.myfitnessapp.ui.screen.login.LoginViewModel
 import com.example.myfitnessapp.ui.screen.plan.MyPlanScreen
 
+const val MainRoute = "main_route"
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
