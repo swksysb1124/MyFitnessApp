@@ -5,18 +5,27 @@ import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.model.Rest
 
 class LessonExerciseRepository {
-    fun getActivities(): List<Activity<Exercise>> {
-        return listOf(
-            Activity(Exercise.Swimming, 60 * 60),
-            Activity(Exercise.HighStrengthRunning, 60 * 30),
-            Activity(Exercise.BrisklyWalking, 60 * 30),
-            Activity(Exercise.PullUp, 60),
-            Activity(Exercise.Crunch, 60),
-            Activity(Exercise.Squat, 60),
-            Activity(Exercise.PushUp, 60),
-            Activity(Exercise.Bridge, 60),
-            Activity(Exercise.Plank, 60)
-        )
+    fun getActivities(id: String?): List<Activity<Exercise>> {
+        return when (id) {
+            "1" -> listOf(
+                Activity(Exercise.Crunch, 30),
+                Activity(Exercise.Swimming, 60),
+                Activity(Exercise.Plank, 45),
+                Activity(Exercise.Squat, 30),
+            )
+
+            "2" -> listOf(
+                Activity(Exercise.PushUp, 30),
+                Activity(Exercise.PullUp, 60),
+                Activity(Exercise.Bridge, 60),
+            )
+
+            "3" -> listOf(
+                Activity(Exercise.MediumStrengthRunning, 30 * 60),
+            )
+
+            else -> emptyList()
+        }
     }
 
     fun createInternalExercises(
