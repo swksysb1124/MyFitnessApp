@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -22,13 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.myfitnessapp.domain.CaloriesBurnedCalculator
 import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.color.buttonBackgroundColor
 import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
-import com.example.myfitnessapp.util.formattedDuration
-import kotlin.math.roundToInt
 
 @Composable
 fun LessonContentScreen(
@@ -39,23 +35,14 @@ fun LessonContentScreen(
     val lesson by viewModel.lesson.observeAsState()
     val exercises by viewModel.exercises.observeAsState(emptyList())
     val buttonLabel by viewModel.buttonLabel.observeAsState("立即開始")
+    val sumOfExerciseDuration by viewModel.sumOfExerciseDuration.observeAsState("00:00")
+    val sumOfBurnedCalories by viewModel.sumOfBurnedCalories.observeAsState(0)
 
     Surface(
         modifier = Modifier
             .background(backgroundColor)
             .fillMaxSize()
     ) {
-        val calculator = CaloriesBurnedCalculator()
-        val sumOfExerciseDuration = exercises.sumOf { it.durationInSecond }.formattedDuration()
-        val sumCaloriesBurned = exercises.sumOf {
-            val exercise = it.content
-            calculator.calculate(
-                mets = exercise.mets,
-                weightInKg = 80.0,
-                mins = (it.durationInSecond.toDouble() / 60.0)
-            )
-        }.roundToInt()
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -79,7 +66,7 @@ fun LessonContentScreen(
                             add(Status("起始時間", startTime))
                         }
                         add(Status("總費時長", sumOfExerciseDuration))
-                        add(Status("消耗熱量", "${sumCaloriesBurned}kcal"))
+                        add(Status("消耗熱量", "${sumOfBurnedCalories}kcal"))
                     }
                 )
             }
@@ -96,7 +83,8 @@ fun LessonContentScreen(
                     )
             )
             StartButton(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(horizontal = 20.dp)
                     .height(70.dp),
                 onLessonStart = {
