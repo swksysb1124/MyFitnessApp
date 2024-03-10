@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.model.WeekDay
-import com.example.myfitnessapp.ui.screen.ScreenTitleRow
+import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.speakableDuration
@@ -56,6 +56,7 @@ fun MyPlanScreen(
             .background(backgroundColor)
             .fillMaxSize()
     ) {
+        /** TODO **/
         ScreenTitleRow(
             title = "我的訓練",
             icon = {

@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.domain.CaloriesBurnedCalculator
-import com.example.myfitnessapp.ui.screen.ScreenTitleRow
+import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.color.buttonBackgroundColor
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme

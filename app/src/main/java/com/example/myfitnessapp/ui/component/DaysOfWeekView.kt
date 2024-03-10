@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.ui.screen
+package com.example.myfitnessapp.ui.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row

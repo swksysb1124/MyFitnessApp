@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.ui.screen
+package com.example.myfitnessapp.ui.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -59,6 +59,7 @@ fun ScreenTitleRow(
 @Composable
 fun ScreenTitleRowPreview() {
     MyFitnessAppTheme {
+        /** TODO **/
         ScreenTitleRow(
             title = "訓練內容",
             onBackPressed = {},

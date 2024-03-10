@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.WeekDay
-import com.example.myfitnessapp.ui.screen.DaysOfWeekView
+import com.example.myfitnessapp.ui.component.DaysOfWeekView
 import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.color.rowBackgroundColor
 import com.example.myfitnessapp.ui.color.textColor
