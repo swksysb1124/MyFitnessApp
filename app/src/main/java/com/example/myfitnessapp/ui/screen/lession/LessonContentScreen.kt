@@ -23,9 +23,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.domain.CaloriesBurnedCalculator
-import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.color.buttonBackgroundColor
+import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.formattedDuration
 import kotlin.math.roundToInt
@@ -36,8 +36,9 @@ fun LessonContentScreen(
     onBackPressed: () -> Unit = {},
     onStartButtonClick: (id: String?) -> Unit = {}
 ) {
+    val lesson by viewModel.lesson.observeAsState()
     val exercises by viewModel.exercises.observeAsState(emptyList())
-    val buttonLabel by viewModel.buttonLabel.observeAsState("開始")
+    val buttonLabel by viewModel.buttonLabel.observeAsState("立即開始")
 
     Surface(
         modifier = Modifier
@@ -61,7 +62,7 @@ fun LessonContentScreen(
                 .background(backgroundColor)
         ) {
             ScreenTitleRow(
-                title = "訓練內容",
+                title = lesson?.name ?: "訓練內容",
                 onBackPressed = onBackPressed
             )
             Row(
@@ -70,22 +71,16 @@ fun LessonContentScreen(
             ) {
                 RoundCornerStatusRow(
                     modifier = Modifier
-                        .weight(2f)
+                        .weight(3f)
                         .height(70.dp),
-                    statusList = listOf(
-                        Status("時間", sumOfExerciseDuration),
-                        Status("消耗", "${sumCaloriesBurned}kcal")
-                    )
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                StartButton(
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(70.dp),
-                    onLessonStart = {
-                        onStartButtonClick(viewModel.id)
-                    },
-                    buttonLabel
+                    statusList = mutableListOf<Status>().apply {
+                        val startTime = lesson?.startTime
+                        if (startTime != null) {
+                            add(Status("起始時間", startTime))
+                        }
+                        add(Status("總費時長", sumOfExerciseDuration))
+                        add(Status("消耗熱量", "${sumCaloriesBurned}kcal"))
+                    }
                 )
             }
             Spacer(modifier = Modifier.height(20.dp))
@@ -99,6 +94,15 @@ fun LessonContentScreen(
                         end = 16.dp,
                         bottom = 20.dp,
                     )
+            )
+            StartButton(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .height(70.dp),
+                onLessonStart = {
+                    onStartButtonClick(viewModel.id)
+                },
+                buttonLabel
             )
             Spacer(modifier = Modifier.height(20.dp))
         }
