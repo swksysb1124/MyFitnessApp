@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.myfitnessapp.navigation.NaviScreen
+import com.example.myfitnessapp.repository.LessonExerciseRepository
 import com.example.myfitnessapp.ui.screen.lession.LessonContentScreen
 import com.example.myfitnessapp.ui.screen.lession.LessonContentViewModel
 import com.example.myfitnessapp.ui.screen.lession.LessonExercisePage
@@ -23,13 +24,11 @@ import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.tts.TextToSpeakUtil
 
 class MainActivity : ComponentActivity() {
-
-    private lateinit var loginViewModel: LoginViewModel
     private lateinit var textToSpeech: TextToSpeakUtil
+    private val lessonExerciseRepository: LessonExerciseRepository by lazy { LessonExerciseRepository() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         textToSpeech = TextToSpeakUtil.create(application)
 
         setContent {
@@ -45,7 +44,6 @@ class MainActivity : ComponentActivity() {
                         route = NaviScreen.Main.route
                     ) {
                         MainScreen(
-                            loginViewModel = loginViewModel,
                             onLessonClick = { id ->
                                 mainNavController.navigate(
                                     NaviScreen.Lesson.createNaviRoute(id)
@@ -64,7 +62,10 @@ class MainActivity : ComponentActivity() {
                             viewModel = viewModel(
                                 key = lessonId,
                                 initializer = {
-                                    LessonContentViewModel(id = lessonId)
+                                    LessonContentViewModel(
+                                        id = lessonId,
+                                        lessonExerciseRepository = lessonExerciseRepository
+                                    )
                                 }
                             ),
                             onStartButtonClick = {
@@ -92,7 +93,8 @@ class MainActivity : ComponentActivity() {
                                 initializer = {
                                     LessonExerciseViewModel(
                                         id = lessonId,
-                                        textToSpeech = textToSpeech
+                                        textToSpeech = textToSpeech,
+                                        lessonExerciseRepository = lessonExerciseRepository
                                     )
                                 }
                             ),
