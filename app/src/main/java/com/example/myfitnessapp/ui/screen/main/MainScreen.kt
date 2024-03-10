@@ -18,24 +18,22 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.myfitnessapp.navigation.BotoomeNaviScreen
+import com.example.myfitnessapp.navigation.BottomNaviScreen
 import com.example.myfitnessapp.ui.screen.backgroundColor
 import com.example.myfitnessapp.ui.screen.login.LoginScreen
 import com.example.myfitnessapp.ui.screen.login.LoginViewModel
 import com.example.myfitnessapp.ui.screen.plan.MyPlanScreen
 
-const val MainRoute = "main_route"
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     loginViewModel: LoginViewModel,
-    onLessonClick: () -> Unit = {}
+    onLessonClick: (id: String) -> Unit = {}
 ) {
     val bottomNavController = rememberNavController()
     val bottomNaviScreen = listOf(
-        BotoomeNaviScreen.MyLesson,
-        BotoomeNaviScreen.Profile
+        BottomNaviScreen.MyLesson,
+        BottomNaviScreen.Profile
     )
 
     Scaffold(
@@ -72,13 +70,13 @@ fun MainScreen(
     ) { innerPadding ->
         NavHost(
             navController = bottomNavController,
-            startDestination = BotoomeNaviScreen.MyLesson.route,
+            startDestination = BottomNaviScreen.MyLesson.route,
             modifier = Modifier.padding(innerPadding),
             enterTransition = { EnterTransition.None },
             exitTransition = { ExitTransition.None }
         ) {
-            composable(BotoomeNaviScreen.MyLesson.route) { MyPlanScreen(onLessonClick = onLessonClick) }
-            composable(BotoomeNaviScreen.Profile.route) { LoginScreen(viewModel = loginViewModel) }
+            composable(BottomNaviScreen.MyLesson.route) { MyPlanScreen(onLessonClick = onLessonClick) }
+            composable(BottomNaviScreen.Profile.route) { LoginScreen(viewModel = loginViewModel) }
         }
     }
 }
