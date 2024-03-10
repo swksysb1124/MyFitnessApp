@@ -7,17 +7,17 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.myfitnessapp.ui.screen.lession.LessonContentRoute
+import androidx.navigation.navArgument
+import com.example.myfitnessapp.navigation.NaviScreen
 import com.example.myfitnessapp.ui.screen.lession.LessonContentScreen
 import com.example.myfitnessapp.ui.screen.lession.LessonContentViewModel
 import com.example.myfitnessapp.ui.screen.lession.LessonExercisePage
-import com.example.myfitnessapp.ui.screen.lession.LessonExerciseRoute
 import com.example.myfitnessapp.ui.screen.lession.LessonExerciseViewModel
 import com.example.myfitnessapp.ui.screen.login.LoginViewModel
-import com.example.myfitnessapp.ui.screen.main.MainRoute
 import com.example.myfitnessapp.ui.screen.main.MainScreen
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.tts.TextToSpeakUtil
@@ -25,13 +25,11 @@ import com.example.myfitnessapp.util.tts.TextToSpeakUtil
 class MainActivity : ComponentActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
-    private lateinit var lessonViewModel: LessonContentViewModel
     private lateinit var textToSpeech: TextToSpeakUtil
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
-        lessonViewModel = ViewModelProvider(this)[LessonContentViewModel::class.java]
         textToSpeech = TextToSpeakUtil.create(application)
 
         setContent {
@@ -39,30 +37,47 @@ class MainActivity : ComponentActivity() {
                 val mainNavController = rememberNavController()
                 NavHost(
                     navController = mainNavController,
-                    startDestination = MainRoute,
+                    startDestination = NaviScreen.Main.route,
                     enterTransition = { EnterTransition.None },
                     exitTransition = { ExitTransition.None }
                 ) {
-                    composable(MainRoute) {
+                    composable(
+                        route = NaviScreen.Main.route
+                    ) {
                         MainScreen(
                             loginViewModel = loginViewModel,
-                            onLessonClick = {
-                                mainNavController.navigate(LessonContentRoute)
+                            onLessonClick = { id ->
+                                mainNavController.navigate(
+                                    NaviScreen.Lesson.createNaviRoute(id)
+                                )
                             }
                         )
                     }
-                    composable(LessonContentRoute) {
+                    composable(
+                        route = NaviScreen.Lesson.route,
+                        arguments = listOf(
+                            navArgument(NaviScreen.LESSON_ID) { type = NavType.StringType }
+                        )
+                    ) {
+                        val planId = it.arguments?.getString(NaviScreen.LESSON_ID)
                         LessonContentScreen(
-                            viewModel = lessonViewModel,
+                            viewModel = viewModel(
+                                key = planId,
+                                initializer = {
+                                    LessonContentViewModel(id = planId)
+                                }
+                            ),
                             onStartButtonClick = {
-                                mainNavController.navigate(LessonExerciseRoute)
+                                mainNavController.navigate(NaviScreen.LessonExercise.route)
                             },
                             onBackPressed = {
                                 mainNavController.popBackStack()
                             }
                         )
                     }
-                    composable(LessonExerciseRoute) {
+                    composable(
+                        route = "/lesson/exercises"
+                    ) {
                         LessonExercisePage(
                             viewModel = viewModel(
                                 initializer = {
