@@ -14,6 +14,7 @@ import androidx.navigation.navArgument
 import com.example.myfitnessapp.navigation.NaviScreen
 import com.example.myfitnessapp.repository.LessonExerciseRepository
 import com.example.myfitnessapp.repository.LessonRepository
+import com.example.myfitnessapp.repository.ProfileRepository
 import com.example.myfitnessapp.ui.screen.lession.LessonContentScreen
 import com.example.myfitnessapp.ui.screen.lession.LessonContentViewModel
 import com.example.myfitnessapp.ui.screen.lession.LessonExercisePage
@@ -26,6 +27,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var textToSpeech: TextToSpeakUtil
     private val lessonExerciseRepository: LessonExerciseRepository by lazy { LessonExerciseRepository() }
     private val lessonRepository: LessonRepository by lazy { LessonRepository() }
+    private val profileRepository: ProfileRepository by lazy { ProfileRepository() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +47,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         MainScreen(
                             lessonRepository = lessonRepository,
+                            profileRepository = profileRepository,
                             onLessonClick = { id ->
                                 mainNavController.navigate(
                                     NaviScreen.Lesson.createNaviRoute(id)

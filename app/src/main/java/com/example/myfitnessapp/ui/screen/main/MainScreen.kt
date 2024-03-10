@@ -21,15 +21,18 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.navigation.BottomNaviScreen
 import com.example.myfitnessapp.repository.LessonRepository
+import com.example.myfitnessapp.repository.ProfileRepository
 import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.screen.lession.MyLessonViewModel
 import com.example.myfitnessapp.ui.screen.lession.MyPlanScreen
-import com.example.myfitnessapp.ui.screen.login.LoginScreen
+import com.example.myfitnessapp.ui.screen.profile.ProfileScreen
+import com.example.myfitnessapp.ui.screen.profile.ProfileViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     lessonRepository: LessonRepository,
+    profileRepository: ProfileRepository,
     onLessonClick: (id: String) -> Unit = {}
 ) {
     val bottomNavController = rememberNavController()
@@ -88,7 +91,13 @@ fun MainScreen(
                 )
             }
             composable(BottomNaviScreen.Profile.route) {
-                LoginScreen(viewModel = viewModel())
+                ProfileScreen(
+                    viewModel = viewModel(
+                        initializer = {
+                            ProfileViewModel(profileRepository)
+                        }
+                    )
+                )
             }
         }
     }
