@@ -76,7 +76,7 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable(
-                        route = "/lesson/exercises"
+                        route = NaviScreen.LessonExercise.route
                     ) {
                         LessonExercisePage(
                             viewModel = viewModel(
