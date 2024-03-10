@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -14,11 +13,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.myfitnessapp.navigation.NaviScreen
 import com.example.myfitnessapp.repository.LessonExerciseRepository
+import com.example.myfitnessapp.repository.LessonRepository
 import com.example.myfitnessapp.ui.screen.lession.LessonContentScreen
 import com.example.myfitnessapp.ui.screen.lession.LessonContentViewModel
 import com.example.myfitnessapp.ui.screen.lession.LessonExercisePage
 import com.example.myfitnessapp.ui.screen.lession.LessonExerciseViewModel
-import com.example.myfitnessapp.ui.screen.login.LoginViewModel
 import com.example.myfitnessapp.ui.screen.main.MainScreen
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.tts.TextToSpeakUtil
@@ -26,6 +25,7 @@ import com.example.myfitnessapp.util.tts.TextToSpeakUtil
 class MainActivity : ComponentActivity() {
     private lateinit var textToSpeech: TextToSpeakUtil
     private val lessonExerciseRepository: LessonExerciseRepository by lazy { LessonExerciseRepository() }
+    private val lessonRepository: LessonRepository by lazy { LessonRepository() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +44,7 @@ class MainActivity : ComponentActivity() {
                         route = NaviScreen.Main.route
                     ) {
                         MainScreen(
+                            lessonRepository = lessonRepository,
                             onLessonClick = { id ->
                                 mainNavController.navigate(
                                     NaviScreen.Lesson.createNaviRoute(id)
@@ -64,6 +65,7 @@ class MainActivity : ComponentActivity() {
                                 initializer = {
                                     LessonContentViewModel(
                                         id = lessonId,
+                                        lessonRepository = lessonRepository,
                                         lessonExerciseRepository = lessonExerciseRepository
                                     )
                                 }
