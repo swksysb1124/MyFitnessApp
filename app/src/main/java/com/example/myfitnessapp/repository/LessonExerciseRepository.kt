@@ -5,8 +5,8 @@ import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.model.Rest
 
 class LessonExerciseRepository {
-    fun getActivities(id: String?): List<Activity<Exercise>> {
-        return when (id) {
+    fun getActivities(lessonId: String?): List<Activity<Exercise>> {
+        return when (lessonId) {
             "1" -> listOf(
                 Activity(Exercise.Crunch, 30),
                 Activity(Exercise.Swimming, 60),
