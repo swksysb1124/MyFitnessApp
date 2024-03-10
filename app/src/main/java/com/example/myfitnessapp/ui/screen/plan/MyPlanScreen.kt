@@ -18,25 +18,44 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.myfitnessapp.model.Lesson
+import com.example.myfitnessapp.model.WeekDay
 import com.example.myfitnessapp.ui.screen.ScreenTitleRow
 import com.example.myfitnessapp.ui.screen.backgroundColor
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
+import com.example.myfitnessapp.util.speakableDuration
 
 @Composable
 fun MyPlanScreen(
-    onLessonClick: () -> Unit = {}
+    onLessonClick: (id: String) -> Unit = {}
 ) {
     val lessons = listOf(
-        Lesson(name = "晨間運動", startTime = "07:00", duration = "一小時"),
-        Lesson(name = "夜間運動", startTime = " 18:00", duration = "30分鐘"),
-        Lesson(startTime = " 10:00", duration = "30分鐘")
+        Lesson(
+            name = "晨間運動",
+            id = "1",
+            startTime = "07:00",
+            duration = 165,
+            daysOfWeek = setOf(WeekDay.MON, WeekDay.THU, WeekDay.WED)
+        ),
+        Lesson(
+            name = "夜間運動",
+            id = "2",
+            startTime = "18:00",
+            duration = 150,
+            daysOfWeek = setOf(WeekDay.MON, WeekDay.THU, WeekDay.FRI, WeekDay.SAT)
+        ),
+        Lesson(
+            id = "3",
+            startTime = "10:00",
+            duration = 30 * 60,
+            daysOfWeek = setOf(WeekDay.SUN)
+        )
     )
     Column(
         Modifier
             .background(backgroundColor)
             .fillMaxSize()
     ) {
-        /** TODO **/
         ScreenTitleRow(
             title = "我的訓練",
             icon = {
@@ -58,21 +77,18 @@ fun MyPlanScreen(
         ) {
             items(lessons) { lesson ->
                 LessonRow(
-                    modifier = Modifier.clickable(onClick = onLessonClick),
+                    modifier = Modifier.clickable(
+                        onClick = { onLessonClick(lesson.id) }
+                    ),
                     name = lesson.name,
                     startTime = lesson.startTime,
-                    duration = lesson.duration
+                    duration = lesson.duration.speakableDuration(),
+                    daysOfWeek = lesson.daysOfWeek
                 )
             }
         }
     }
 }
-
-data class Lesson(
-    val name: String? = null,
-    val startTime: String,
-    val duration: String,
-)
 
 @Preview
 @Composable

@@ -28,8 +28,6 @@ import com.example.myfitnessapp.ui.screen.textColor
 import com.example.myfitnessapp.util.KeepScreenOn
 import com.example.myfitnessapp.util.formattedDuration
 
-const val LessonExerciseRoute = "LessonExercisePage"
-
 @Composable
 fun LessonExercisePage(
     viewModel: LessonExerciseViewModel,

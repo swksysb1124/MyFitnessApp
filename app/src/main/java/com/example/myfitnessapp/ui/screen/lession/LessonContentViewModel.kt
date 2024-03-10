@@ -8,6 +8,7 @@ import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.repository.LessonExerciseRepository
 
 class LessonContentViewModel(
+    id: String?,
     lessonExerciseRepository: LessonExerciseRepository = LessonExerciseRepository()
 ) : ViewModel() {
     private val _exercises = MutableLiveData<List<Activity<Exercise>>>()

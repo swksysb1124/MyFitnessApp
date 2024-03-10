@@ -30,8 +30,6 @@ import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.formattedDuration
 import kotlin.math.roundToInt
 
-const val LessonContentRoute = "lesson_content"
-
 @Composable
 fun LessonContentScreen(
     viewModel: LessonContentViewModel,
@@ -130,7 +128,7 @@ private fun StartButton(
 @Preview(showSystemUi = true)
 @Composable
 fun LessonScreenPreview() {
-    val viewModel = LessonContentViewModel()
+    val viewModel = LessonContentViewModel("1")
     MyFitnessAppTheme {
         LessonContentScreen(viewModel)
     }
