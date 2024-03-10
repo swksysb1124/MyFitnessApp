@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.Activity
 import com.example.myfitnessapp.model.Exercise
-import com.example.myfitnessapp.ui.screen.textColor
+import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.formattedDuration
 

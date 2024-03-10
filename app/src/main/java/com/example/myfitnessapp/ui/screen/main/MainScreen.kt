@@ -19,7 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.navigation.BottomNaviScreen
-import com.example.myfitnessapp.ui.screen.backgroundColor
+import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.screen.login.LoginScreen
 import com.example.myfitnessapp.ui.screen.login.LoginViewModel
 import com.example.myfitnessapp.ui.screen.plan.MyPlanScreen

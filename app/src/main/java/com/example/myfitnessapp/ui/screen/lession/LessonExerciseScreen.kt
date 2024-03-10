@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.model.Rest
 import com.example.myfitnessapp.ui.screen.ScreenTitleRow
-import com.example.myfitnessapp.ui.screen.backgroundColor
-import com.example.myfitnessapp.ui.screen.textColor
+import com.example.myfitnessapp.ui.color.backgroundColor
+import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.util.KeepScreenOn
 import com.example.myfitnessapp.util.formattedDuration
 

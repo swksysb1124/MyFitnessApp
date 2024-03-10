@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.model.WeekDay
 import com.example.myfitnessapp.ui.screen.ScreenTitleRow
-import com.example.myfitnessapp.ui.screen.backgroundColor
+import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.speakableDuration
 

@@ -12,6 +12,8 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.WeekDay
+import com.example.myfitnessapp.ui.color.backgroundColor
+import com.example.myfitnessapp.ui.color.textColor
 
 @Composable
 fun DaysOfWeekView(daysOfWeek: Set<WeekDay>) {

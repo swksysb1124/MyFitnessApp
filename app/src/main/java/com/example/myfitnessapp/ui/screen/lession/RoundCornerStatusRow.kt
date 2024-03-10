@@ -16,8 +16,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.myfitnessapp.ui.screen.rowBackgroundColor
-import com.example.myfitnessapp.ui.screen.textColor
+import com.example.myfitnessapp.ui.color.rowBackgroundColor
+import com.example.myfitnessapp.ui.color.textColor
 
 @Composable
 fun RoundCornerStatusRow(
