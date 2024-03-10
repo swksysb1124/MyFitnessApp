@@ -22,7 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.navigation.BottomNaviScreen
 import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.screen.login.LoginScreen
-import com.example.myfitnessapp.ui.screen.plan.MyPlanScreen
+import com.example.myfitnessapp.ui.screen.lession.MyPlanScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

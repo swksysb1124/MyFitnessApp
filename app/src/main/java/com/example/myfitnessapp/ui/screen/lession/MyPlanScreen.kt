@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.ui.screen.plan
+package com.example.myfitnessapp.ui.screen.lession
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
