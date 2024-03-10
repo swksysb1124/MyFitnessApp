@@ -59,6 +59,6 @@ private fun ExerciseEmptyView() {
 fun ExerciseListPreview() {
     val lessonViewModelFactory = LessonExerciseRepository()
     MyFitnessAppTheme {
-        ExerciseList(exercises = lessonViewModelFactory.getActivities())
+        ExerciseList(exercises = lessonViewModelFactory.getActivities("1"))
     }
 }

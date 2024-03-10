@@ -34,7 +34,7 @@ import kotlin.math.roundToInt
 fun LessonContentScreen(
     viewModel: LessonContentViewModel,
     onBackPressed: () -> Unit = {},
-    onStartButtonClick: () -> Unit = {}
+    onStartButtonClick: (id: String?) -> Unit = {}
 ) {
     val exercises by viewModel.exercises.observeAsState(emptyList())
     val buttonLabel by viewModel.buttonLabel.observeAsState("開始")
@@ -82,7 +82,9 @@ fun LessonContentScreen(
                     modifier = Modifier
                         .weight(1f)
                         .height(70.dp),
-                    onLessonStart = onStartButtonClick,
+                    onLessonStart = {
+                        onStartButtonClick(viewModel.id)
+                    },
                     buttonLabel
                 )
             }

@@ -7,6 +7,7 @@ import com.example.myfitnessapp.repository.LessonExerciseRepository
 import kotlinx.coroutines.delay
 
 class LessonManager(
+    private val id: String?,
     private val repository: LessonExerciseRepository,
     val onLessonStart: () -> Unit = {},
     val onLessonStop: () -> Unit = {},
@@ -14,7 +15,7 @@ class LessonManager(
     val onActivityChange: (index: Int, activity: Activity<*>) -> Unit = { _, _ -> },
     val onActivityTimeLeft: (timeLeftInSecond: Int, activity: Activity<*>) -> Unit = { _, _ -> }
 ) {
-    val activities: List<Activity<Exercise>> = repository.getActivities()
+    val activities: List<Activity<Exercise>> = repository.getActivities(id)
     private val internalExercises = mutableListOf<Activity<*>>()
     private var currentExerciseIndex = 0
 

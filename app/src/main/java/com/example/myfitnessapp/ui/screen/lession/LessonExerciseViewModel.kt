@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 private const val remindToNextTimeInSecond = 5
 
 class LessonExerciseViewModel(
+    private val id: String?,
     private val textToSpeech: TextToSpeechEngine,
     lessonExerciseRepository: LessonExerciseRepository = LessonExerciseRepository()
 ) : ViewModel() {
@@ -35,6 +36,7 @@ class LessonExerciseViewModel(
     val onExerciseClose: LiveData<ExerciseCloseReason> = _onExerciseClose
 
     private val lessonManager: LessonManager = LessonManager(
+        id = id,
         repository = lessonExerciseRepository,
         onActivityChange = ::onActivityChange,
         onActivityTimeLeft = ::onActivityTimeLeft,
@@ -93,15 +95,6 @@ class LessonExerciseViewModel(
 
     private fun speakLessonStopped() {
         textToSpeech.speak("停止訓練")
-    }
-}
-
-@Suppress("UNCHECKED_CAST")
-class LessonExerciseViewModelFactory(private val application: Application) :
-    ViewModelProvider.AndroidViewModelFactory(application) {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        val textToSpeech = TextToSpeakUtil.create(application)
-        return LessonExerciseViewModel(textToSpeech) as T
     }
 }
 

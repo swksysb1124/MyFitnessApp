@@ -14,8 +14,10 @@ sealed class NaviScreen(
     }
 
     data object LessonExercise : NaviScreen(
-        route = "/lesson/exercise"
-    )
+        route = "/lesson/exercise/{$LESSON_ID}"
+    ) {
+        fun createNaviRoute(lessonId: String) = "/lesson/exercise/$lessonId"
+    }
 
     companion object {
         const val LESSON_ID = "lesson-id"

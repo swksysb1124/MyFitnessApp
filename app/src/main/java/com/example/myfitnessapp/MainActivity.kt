@@ -59,16 +59,20 @@ class MainActivity : ComponentActivity() {
                             navArgument(NaviScreen.LESSON_ID) { type = NavType.StringType }
                         )
                     ) {
-                        val planId = it.arguments?.getString(NaviScreen.LESSON_ID)
+                        val lessonId = it.arguments?.getString(NaviScreen.LESSON_ID)
                         LessonContentScreen(
                             viewModel = viewModel(
-                                key = planId,
+                                key = lessonId,
                                 initializer = {
-                                    LessonContentViewModel(id = planId)
+                                    LessonContentViewModel(id = lessonId)
                                 }
                             ),
                             onStartButtonClick = {
-                                mainNavController.navigate(NaviScreen.LessonExercise.route)
+                                mainNavController.navigate(
+                                    NaviScreen.LessonExercise.createNaviRoute(
+                                        lessonId ?: ""
+                                    )
+                                )
                             },
                             onBackPressed = {
                                 mainNavController.popBackStack()
@@ -76,12 +80,20 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     composable(
-                        route = NaviScreen.LessonExercise.route
+                        route = NaviScreen.LessonExercise.route,
+                        arguments = listOf(
+                            navArgument(NaviScreen.LESSON_ID) { type = NavType.StringType }
+                        )
                     ) {
+                        val lessonId = it.arguments?.getString(NaviScreen.LESSON_ID)
                         LessonExercisePage(
                             viewModel = viewModel(
+                                key = lessonId,
                                 initializer = {
-                                    LessonExerciseViewModel(textToSpeech)
+                                    LessonExerciseViewModel(
+                                        id = lessonId,
+                                        textToSpeech = textToSpeech
+                                    )
                                 }
                             ),
                             onBackPressed = {
