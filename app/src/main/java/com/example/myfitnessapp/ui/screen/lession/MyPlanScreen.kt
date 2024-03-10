@@ -14,43 +14,25 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.myfitnessapp.model.Lesson
-import com.example.myfitnessapp.model.WeekDay
-import com.example.myfitnessapp.ui.component.ScreenTitleRow
+import com.example.myfitnessapp.repository.LessonRepository
 import com.example.myfitnessapp.ui.color.backgroundColor
+import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.speakableDuration
 
 @Composable
 fun MyPlanScreen(
+    viewModel: MyLessonViewModel,
     onLessonClick: (id: String) -> Unit = {}
 ) {
-    val lessons = listOf(
-        Lesson(
-            name = "晨間運動",
-            id = "1",
-            startTime = "07:00",
-            duration = 165,
-            daysOfWeek = setOf(WeekDay.MON, WeekDay.THU, WeekDay.WED)
-        ),
-        Lesson(
-            name = "夜間運動",
-            id = "2",
-            startTime = "18:00",
-            duration = 150,
-            daysOfWeek = setOf(WeekDay.MON, WeekDay.THU, WeekDay.FRI, WeekDay.SAT)
-        ),
-        Lesson(
-            id = "3",
-            startTime = "10:00",
-            duration = 30 * 60,
-            daysOfWeek = setOf(WeekDay.SUN)
-        )
-    )
+    val lessons by viewModel.lessons.observeAsState(emptyList())
+
     Column(
         Modifier
             .background(backgroundColor)
@@ -94,7 +76,8 @@ fun MyPlanScreen(
 @Preview
 @Composable
 fun MyPlanScreenPreview() {
+    val viewModel = MyLessonViewModel(lessonRepository = LessonRepository())
     MyFitnessAppTheme {
-        MyPlanScreen()
+        MyPlanScreen(viewModel)
     }
 }
