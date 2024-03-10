@@ -10,6 +10,7 @@ import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.repository.LessonExerciseRepository
 import com.example.myfitnessapp.repository.LessonRepository
+import com.example.myfitnessapp.repository.ProfileRepository
 import com.example.myfitnessapp.util.formattedDuration
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -18,6 +19,7 @@ class LessonContentViewModel(
     val id: String?,
     lessonRepository: LessonRepository = LessonRepository(),
     lessonExerciseRepository: LessonExerciseRepository = LessonExerciseRepository(),
+    profileRepository: ProfileRepository = ProfileRepository(),
     private val calculator: CaloriesBurnedCalculator = CaloriesBurnedCalculator()
 ) : ViewModel() {
     private val _exercises = MutableLiveData<List<Activity<Exercise>>>()
@@ -40,6 +42,8 @@ class LessonContentViewModel(
             _lesson.value = lessonRepository.getLesson(id)
 
             val fetchedExercises = lessonExerciseRepository.getActivities(id)
+            val fetchedProfile = profileRepository.getProfile()
+
             _exercises.value = fetchedExercises
 
             _sumOfExerciseDuration.value =
@@ -49,7 +53,7 @@ class LessonContentViewModel(
                 val exercise = it.content
                 calculator.calculate(
                     mets = exercise.mets,
-                    weightInKg = 80.0,
+                    weightInKg = fetchedProfile.weight,
                     mins = (it.durationInSecond.toDouble() / 60.0)
                 )
             }.roundToInt()

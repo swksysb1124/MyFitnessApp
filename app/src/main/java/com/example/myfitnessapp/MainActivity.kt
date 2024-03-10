@@ -69,7 +69,8 @@ class MainActivity : ComponentActivity() {
                                     LessonContentViewModel(
                                         id = lessonId,
                                         lessonRepository = lessonRepository,
-                                        lessonExerciseRepository = lessonExerciseRepository
+                                        lessonExerciseRepository = lessonExerciseRepository,
+                                        profileRepository = profileRepository
                                     )
                                 }
                             ),
