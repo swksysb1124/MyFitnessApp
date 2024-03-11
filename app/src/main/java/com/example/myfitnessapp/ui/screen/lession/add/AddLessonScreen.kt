@@ -54,16 +54,4 @@ fun AddLessonScreen(
             )
         }
     }
-
-
-}
-
-
-@Preview
-@Composable
-fun AddLessonScreenPreview() {
-    val viewModel = AddLessonViewModel()
-    MyFitnessAppTheme {
-        AddLessonScreen(viewModel) {}
-    }
 }

@@ -14,6 +14,7 @@ import com.example.myfitnessapp.ui.color.buttonBackgroundColor
 @Composable
 fun ActionButton(
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     actionName: String,
     onAction: () -> Unit
 ) {
@@ -21,6 +22,7 @@ fun ActionButton(
         colors = ButtonDefaults.buttonColors(
             containerColor = buttonBackgroundColor
         ),
+        enabled = enabled,
         shape = RoundedCornerShape(20.dp),
         modifier = modifier,
         onClick = { onAction() }
