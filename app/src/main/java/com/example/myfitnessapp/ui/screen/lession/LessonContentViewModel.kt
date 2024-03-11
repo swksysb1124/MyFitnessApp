@@ -53,7 +53,7 @@ class LessonContentViewModel(
                 val exercise = it.content
                 calculator.calculate(
                     mets = exercise.mets,
-                    weightInKg = fetchedProfile.weight,
+                    weightInKg = fetchedProfile.weight.toDouble(),
                     mins = (it.durationInSecond.toDouble() / 60.0)
                 )
             }.roundToInt()
