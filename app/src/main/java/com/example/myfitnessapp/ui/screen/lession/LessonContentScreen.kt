@@ -8,11 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -20,9 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.ui.color.backgroundColor
-import com.example.myfitnessapp.ui.color.buttonBackgroundColor
+import com.example.myfitnessapp.ui.component.ActionButton
 import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
@@ -82,40 +77,18 @@ fun LessonContentScreen(
                         bottom = 20.dp,
                     )
             )
-            StartButton(
+            ActionButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
                     .height(70.dp),
-                onLessonStart = {
+                actionName = buttonLabel,
+                onAction = {
                     onStartButtonClick(viewModel.id)
-                },
-                buttonLabel
+                }
             )
             Spacer(modifier = Modifier.height(20.dp))
         }
-    }
-}
-
-@Composable
-private fun StartButton(
-    modifier: Modifier = Modifier,
-    onLessonStart: () -> Unit,
-    buttonLabel: String
-) {
-    Button(
-        colors = ButtonDefaults.buttonColors(
-            containerColor = buttonBackgroundColor
-        ),
-        shape = RoundedCornerShape(20.dp),
-        modifier = modifier,
-        onClick = { onLessonStart() }
-    ) {
-        Text(
-            text = buttonLabel,
-            fontSize = 20.sp,
-            modifier = Modifier.padding(vertical = 10.dp)
-        )
     }
 }
 
