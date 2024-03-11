@@ -15,13 +15,14 @@ import com.example.myfitnessapp.ui.color.backgroundColor
 
 @Composable
 fun SettingWizardLayout(
+    modifier: Modifier = Modifier,
     title: String? = null,
     onBack: (() -> Unit)? = null,
     onNext: (() -> Unit)? = null,
     content: @Composable BoxScope.() -> Unit
 ) {
     Column(
-        Modifier
+        modifier
             .background(backgroundColor)
             .fillMaxSize()
     ) {

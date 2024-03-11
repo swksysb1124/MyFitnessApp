@@ -39,7 +39,6 @@ fun MyLessonScreen(
             .background(backgroundColor)
             .fillMaxSize()
     ) {
-        /** TODO **/
         ScreenTitleRow(
             title = "我的訓練",
             icon = {

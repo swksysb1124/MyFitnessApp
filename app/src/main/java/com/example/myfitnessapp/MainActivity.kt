@@ -3,10 +3,8 @@ package com.example.myfitnessapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.tween
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -21,6 +19,7 @@ import com.example.myfitnessapp.ui.screen.lession.LessonContentScreen
 import com.example.myfitnessapp.ui.screen.lession.LessonContentViewModel
 import com.example.myfitnessapp.ui.screen.lession.LessonExercisePage
 import com.example.myfitnessapp.ui.screen.lession.LessonExerciseViewModel
+import com.example.myfitnessapp.ui.screen.lession.add.AddLessonScreen
 import com.example.myfitnessapp.ui.screen.main.MainScreen
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.animation.leftSlideInNaviAnimation
@@ -51,16 +50,16 @@ class MainActivity : ComponentActivity() {
                     composable(
                         route = NaviScreen.Main.route,
                         enterTransition = {
-                            slideIntoContainer(
-                                AnimatedContentTransitionScope.SlideDirection.Right,
-                                animationSpec = tween(700)
-                            )
+                            when (initialState.destination.route) {
+                                NaviScreen.Lesson.route -> rightSlideInNaviAnimation()
+                                else -> null
+                            }
                         },
                         exitTransition = {
-                            slideOutOfContainer(
-                                AnimatedContentTransitionScope.SlideDirection.Left,
-                                animationSpec = tween(700)
-                            )
+                            when (targetState.destination.route) {
+                                NaviScreen.Lesson.route -> leftSlideOutNaviAnimation()
+                                else -> null
+                            }
                         }
                     ) {
                         MainScreen(
@@ -72,7 +71,7 @@ class MainActivity : ComponentActivity() {
                                 )
                             },
                             onAddLesson = {
-
+                                mainNavController.navigate("/add-lesson")
                             }
                         )
                     }
@@ -152,6 +151,15 @@ class MainActivity : ComponentActivity() {
                                 }
                             ),
                             onBackPressed = {
+                                mainNavController.popBackStack()
+                            }
+                        )
+                    }
+
+                    composable("/add-lesson") {
+                        AddLessonScreen(
+                            viewModel = viewModel(),
+                            onDismiss = {
                                 mainNavController.popBackStack()
                             }
                         )
