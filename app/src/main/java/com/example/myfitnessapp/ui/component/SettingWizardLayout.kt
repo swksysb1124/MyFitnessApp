@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,12 +20,14 @@ fun SettingWizardLayout(
     title: String? = null,
     onBack: (() -> Unit)? = null,
     onNext: (() -> Unit)? = null,
+    nextEnabled: Boolean = true,
     content: @Composable BoxScope.() -> Unit
 ) {
     Column(
         modifier
             .background(backgroundColor)
             .fillMaxSize()
+            .imePadding()
     ) {
         ScreenTitleRow(title = title ?: "", onBackPressed = onBack)
         Box(
@@ -36,6 +39,7 @@ fun SettingWizardLayout(
         }
         if (onNext != null) {
             ActionButton(
+                enabled = nextEnabled,
                 modifier = Modifier
                     .align(Alignment.End)
                     .padding(horizontal = 20.dp, vertical = 12.dp),

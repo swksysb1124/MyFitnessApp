@@ -41,7 +41,6 @@ fun SetLessonNamePage(
 @Preview
 @Composable
 fun AddLessonScreenPreview() {
-    val viewModel = AddLessonViewModel()
     MyFitnessAppTheme {
         SetLessonNamePage("",
             onNameChange = {},
