@@ -29,7 +29,8 @@ import com.example.myfitnessapp.util.speakableDuration
 @Composable
 fun MyLessonScreen(
     viewModel: MyLessonViewModel,
-    onLessonClick: (id: String) -> Unit = {}
+    onLessonClick: (id: String) -> Unit = {},
+    onAddLesson: () -> Unit = {}
 ) {
     val lessons by viewModel.lessons.observeAsState(emptyList())
 
@@ -43,7 +44,7 @@ fun MyLessonScreen(
             title = "我的訓練",
             icon = {
                 IconButton(
-                    onClick = { /** TODO **/ }
+                    onClick = onAddLesson
                 ) {
                     Icon(
                         modifier = Modifier.size(25.dp),

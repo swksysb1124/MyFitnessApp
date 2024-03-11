@@ -23,8 +23,8 @@ import com.example.myfitnessapp.navigation.BottomNaviScreen
 import com.example.myfitnessapp.repository.LessonRepository
 import com.example.myfitnessapp.repository.ProfileRepository
 import com.example.myfitnessapp.ui.color.backgroundColor
-import com.example.myfitnessapp.ui.screen.lession.MyLessonViewModel
 import com.example.myfitnessapp.ui.screen.lession.MyLessonScreen
+import com.example.myfitnessapp.ui.screen.lession.MyLessonViewModel
 import com.example.myfitnessapp.ui.screen.profile.ProfileScreen
 import com.example.myfitnessapp.ui.screen.profile.ProfileViewModel
 
@@ -33,7 +33,8 @@ import com.example.myfitnessapp.ui.screen.profile.ProfileViewModel
 fun MainScreen(
     lessonRepository: LessonRepository,
     profileRepository: ProfileRepository,
-    onLessonClick: (id: String) -> Unit = {}
+    onLessonClick: (id: String) -> Unit = {},
+    onAddLesson: () -> Unit = {}
 ) {
     val bottomNavController = rememberNavController()
     val bottomNaviScreen = listOf(
@@ -87,7 +88,8 @@ fun MainScreen(
                             MyLessonViewModel(lessonRepository)
                         }
                     ),
-                    onLessonClick = onLessonClick
+                    onLessonClick = onLessonClick,
+                    onAddLesson = onAddLesson
                 )
             }
             composable(BottomNaviScreen.Profile.route) {

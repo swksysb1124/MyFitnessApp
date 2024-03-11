@@ -70,6 +70,9 @@ class MainActivity : ComponentActivity() {
                                 mainNavController.navigate(
                                     NaviScreen.Lesson.createNaviRoute(id)
                                 )
+                            },
+                            onAddLesson = {
+
                             }
                         )
                     }
