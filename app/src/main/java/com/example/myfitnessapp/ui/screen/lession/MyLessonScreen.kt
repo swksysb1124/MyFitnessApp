@@ -27,7 +27,7 @@ import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.speakableDuration
 
 @Composable
-fun MyPlanScreen(
+fun MyLessonScreen(
     viewModel: MyLessonViewModel,
     onLessonClick: (id: String) -> Unit = {}
 ) {
@@ -78,6 +78,6 @@ fun MyPlanScreen(
 fun MyPlanScreenPreview() {
     val viewModel = MyLessonViewModel(lessonRepository = LessonRepository())
     MyFitnessAppTheme {
-        MyPlanScreen(viewModel)
+        MyLessonScreen(viewModel)
     }
 }

@@ -24,7 +24,7 @@ import com.example.myfitnessapp.repository.LessonRepository
 import com.example.myfitnessapp.repository.ProfileRepository
 import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.screen.lession.MyLessonViewModel
-import com.example.myfitnessapp.ui.screen.lession.MyPlanScreen
+import com.example.myfitnessapp.ui.screen.lession.MyLessonScreen
 import com.example.myfitnessapp.ui.screen.profile.ProfileScreen
 import com.example.myfitnessapp.ui.screen.profile.ProfileViewModel
 
@@ -81,7 +81,7 @@ fun MainScreen(
             exitTransition = { ExitTransition.None }
         ) {
             composable(BottomNaviScreen.MyLesson.route) {
-                MyPlanScreen(
+                MyLessonScreen(
                     viewModel = viewModel(
                         initializer = {
                             MyLessonViewModel(lessonRepository)
