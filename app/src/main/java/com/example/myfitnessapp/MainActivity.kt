@@ -3,8 +3,10 @@ package com.example.myfitnessapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -21,6 +23,10 @@ import com.example.myfitnessapp.ui.screen.lession.LessonExercisePage
 import com.example.myfitnessapp.ui.screen.lession.LessonExerciseViewModel
 import com.example.myfitnessapp.ui.screen.main.MainScreen
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
+import com.example.myfitnessapp.util.animation.leftSlideInNaviAnimation
+import com.example.myfitnessapp.util.animation.leftSlideOutNaviAnimation
+import com.example.myfitnessapp.util.animation.rightSlideInNaviAnimation
+import com.example.myfitnessapp.util.animation.rightSlideOutNaviAnimation
 import com.example.myfitnessapp.util.tts.TextToSpeakUtil
 
 class MainActivity : ComponentActivity() {
@@ -43,7 +49,19 @@ class MainActivity : ComponentActivity() {
                     exitTransition = { ExitTransition.None }
                 ) {
                     composable(
-                        route = NaviScreen.Main.route
+                        route = NaviScreen.Main.route,
+                        enterTransition = {
+                            slideIntoContainer(
+                                AnimatedContentTransitionScope.SlideDirection.Right,
+                                animationSpec = tween(700)
+                            )
+                        },
+                        exitTransition = {
+                            slideOutOfContainer(
+                                AnimatedContentTransitionScope.SlideDirection.Left,
+                                animationSpec = tween(700)
+                            )
+                        }
                     ) {
                         MainScreen(
                             lessonRepository = lessonRepository,
@@ -59,7 +77,21 @@ class MainActivity : ComponentActivity() {
                         route = NaviScreen.Lesson.route,
                         arguments = listOf(
                             navArgument(NaviScreen.LESSON_ID) { type = NavType.StringType }
-                        )
+                        ),
+                        enterTransition = {
+                            when (initialState.destination.route) {
+                                NaviScreen.Main.route -> leftSlideInNaviAnimation()
+                                NaviScreen.LessonExercise.route -> rightSlideInNaviAnimation()
+                                else -> null
+                            }
+                        },
+                        exitTransition = {
+                            when (targetState.destination.route) {
+                                NaviScreen.Main.route -> rightSlideOutNaviAnimation()
+                                NaviScreen.LessonExercise.route -> leftSlideOutNaviAnimation()
+                                else -> null
+                            }
+                        }
                     ) {
                         val lessonId = it.arguments?.getString(NaviScreen.LESSON_ID)
                         LessonContentScreen(
@@ -90,7 +122,19 @@ class MainActivity : ComponentActivity() {
                         route = NaviScreen.LessonExercise.route,
                         arguments = listOf(
                             navArgument(NaviScreen.LESSON_ID) { type = NavType.StringType }
-                        )
+                        ),
+                        enterTransition = {
+                            when (initialState.destination.route) {
+                                NaviScreen.Lesson.route -> leftSlideInNaviAnimation()
+                                else -> null
+                            }
+                        },
+                        exitTransition = {
+                            when (targetState.destination.route) {
+                                NaviScreen.Lesson.route -> rightSlideOutNaviAnimation()
+                                else -> null
+                            }
+                        }
                     ) {
                         val lessonId = it.arguments?.getString(NaviScreen.LESSON_ID)
                         LessonExercisePage(
