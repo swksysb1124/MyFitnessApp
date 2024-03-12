@@ -25,8 +25,9 @@ import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 @Composable
 fun SetStartTimePage(
     startTime: String,
+    weekDescription: String,
     onStartTimeChange: (time: String) -> Unit = {},
-    isDaySelected: (day: DayOfWeek) -> Boolean = { true },
+    isDaySelected: (day: DayOfWeek) -> Boolean = { false },
     onDaySelected: (selected: Boolean, day: DayOfWeek) -> Unit = { _, _ -> },
     onBack: () -> Unit = {},
     onNext: () -> Unit = {},
@@ -63,7 +64,11 @@ fun SetStartTimePage(
                         imageVector = Icons.Sharp.DateRange,
                         contentDescription = null
                     )
-                    Text("每天", color = textColor, fontSize = 18.sp)
+                    Text(
+                        weekDescription,
+                        color = textColor,
+                        fontSize = 18.sp
+                    )
                 }
                 DaysOfWeekView(
                     modifier = Modifier
@@ -87,6 +92,7 @@ fun SetStartTimePagePreview() {
     MyFitnessAppTheme {
         SetStartTimePage(
             startTime = "20:00",
+            weekDescription = "每天"
         )
     }
 }

@@ -17,6 +17,7 @@ fun AddLessonScreen(
 ) {
     val name by viewModel.name.observeAsState(AddLessonViewModel.DEFAULT_LESSON_NAME)
     val startTime by viewModel.startTime.observeAsState(AddLessonViewModel.DEFAULT_LESSON_START_TIME)
+    val weekDescription by viewModel.weekDescription.observeAsState("今天")
 
     val wizardNaviController = rememberNavController()
     NavHost(
@@ -39,6 +40,7 @@ fun AddLessonScreen(
                 startTime,
                 onStartTimeChange = viewModel::updateStartTime,
                 onBack = wizardNaviController::popBackStack,
+                weekDescription = weekDescription,
                 isDaySelected = viewModel::isDaySelected,
                 onDaySelected = viewModel::onDaySelected
             ) {

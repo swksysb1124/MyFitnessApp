@@ -4,8 +4,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.model.DayOfWeek
+import com.example.myfitnessapp.model.Exercise
 
 class AddLessonViewModel : ViewModel() {
     private val _name = MutableLiveData<String>()
@@ -13,6 +13,9 @@ class AddLessonViewModel : ViewModel() {
 
     private val _startTime = MutableLiveData<String>()
     val startTime: LiveData<String> = _startTime
+
+    private val _weekDescription = MutableLiveData<String>()
+    val weekDescription: LiveData<String> = _weekDescription
 
     private val selectedDaysOfWeek = mutableStateListOf<DayOfWeek>()
 
@@ -36,6 +39,8 @@ class AddLessonViewModel : ViewModel() {
         } else {
             selectedDaysOfWeek.remove(dayOfWeek)
         }
+        val description = DayOfWeek.generateWeekDescription(selectedDaysOfWeek.toList())
+        _weekDescription.value = description
     }
 
     fun isExerciseSelected(exercise: Exercise): Boolean {

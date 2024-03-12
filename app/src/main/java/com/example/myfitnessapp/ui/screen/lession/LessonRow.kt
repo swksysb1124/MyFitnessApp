@@ -29,7 +29,7 @@ fun LessonRow(
     name: String? = null,
     startTime: String,
     duration: String,
-    daysOfWeek: Set<DayOfWeek> = emptySet()
+    daysOfWeek: List<DayOfWeek> = emptyList()
 ) {
     Row(
         modifier = modifier
@@ -50,30 +50,10 @@ fun LessonRow(
             Text(duration, fontSize = 16.sp, color = textColor)
         }
         if (daysOfWeek.isNotEmpty()) {
-            val daysOfWeekDes = generateDaysDescription(daysOfWeek)
+            val daysOfWeekDes = DayOfWeek.generateWeekDescription(daysOfWeek)
             Text(daysOfWeekDes, color = textColor, fontSize = 20.sp)
         }
     }
-}
-
-private fun generateDaysDescription(daysOfWeek: Set<DayOfWeek>): String {
-    val size = daysOfWeek.size
-    if (size == 2 && daysOfWeek.containsAll(DayOfWeek.Weekend)) {
-        return "週末"
-    }
-    if (size == 5 && daysOfWeek.containsAll(DayOfWeek.Weekdays)) {
-        return "週間"
-    }
-    val daysOfWeekDes = daysOfWeek.toList()
-        .sortedBy { it.ordinal }
-        .joinToString("、") {
-            if (size < 4) {
-                "週${it.value}"
-            } else {
-                it.value
-            }
-        }
-    return daysOfWeekDes
 }
 
 @Preview(widthDp = 350)
@@ -84,7 +64,7 @@ fun LessonRowPreview() {
             name = "晨間運動",
             startTime = "18:00",
             duration = "一小時",
-            daysOfWeek = setOf(DayOfWeek.SAT, DayOfWeek.SUN, DayOfWeek.MON)
+            daysOfWeek = listOf(DayOfWeek.SAT, DayOfWeek.SUN, DayOfWeek.MON)
         )
     }
 }
