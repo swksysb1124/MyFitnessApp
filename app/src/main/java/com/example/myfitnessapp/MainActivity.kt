@@ -19,7 +19,7 @@ import com.example.myfitnessapp.ui.screen.lession.LessonContentScreen
 import com.example.myfitnessapp.ui.screen.lession.LessonContentViewModel
 import com.example.myfitnessapp.ui.screen.lession.LessonExercisePage
 import com.example.myfitnessapp.ui.screen.lession.LessonExerciseViewModel
-import com.example.myfitnessapp.ui.screen.lession.add.AddLessonScreen
+import com.example.myfitnessapp.ui.screen.wizard.AddLessonScreen
 import com.example.myfitnessapp.ui.screen.main.MainScreen
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.animation.leftSlideInNaviAnimation

@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.ui.screen.lession.add
+package com.example.myfitnessapp.ui.screen.wizard
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api

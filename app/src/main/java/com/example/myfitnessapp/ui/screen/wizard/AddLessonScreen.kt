@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.ui.screen.lession.add
+package com.example.myfitnessapp.ui.screen.wizard
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
