@@ -25,8 +25,11 @@ fun WizardTextField(
         maxLines = 1,
         modifier = modifier
             .fillMaxWidth()
-            .height(60.dp),
-        textStyle = TextStyle(fontSize = 20.sp),
+            .height(70.dp),
+        textStyle = TextStyle(
+            fontSize = 24.sp,
+            lineHeight = 25.sp
+        ),
         colors = TextFieldDefaults.textFieldColors(),
         value = value,
         onValueChange = onValueChange
