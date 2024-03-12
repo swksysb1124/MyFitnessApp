@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.myfitnessapp.navigation.NaviScreen
+import com.example.myfitnessapp.navigation.WizardNaviPage
 import com.example.myfitnessapp.repository.LessonExerciseRepository
 import com.example.myfitnessapp.repository.LessonRepository
 import com.example.myfitnessapp.repository.ProfileRepository
@@ -19,8 +20,8 @@ import com.example.myfitnessapp.ui.screen.lession.LessonContentScreen
 import com.example.myfitnessapp.ui.screen.lession.LessonContentViewModel
 import com.example.myfitnessapp.ui.screen.lession.LessonExercisePage
 import com.example.myfitnessapp.ui.screen.lession.LessonExerciseViewModel
-import com.example.myfitnessapp.ui.screen.wizard.AddLessonScreen
 import com.example.myfitnessapp.ui.screen.main.MainScreen
+import com.example.myfitnessapp.ui.screen.wizard.AddLessonScreen
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.animation.leftSlideInNaviAnimation
 import com.example.myfitnessapp.util.animation.leftSlideOutNaviAnimation
@@ -71,7 +72,7 @@ class MainActivity : ComponentActivity() {
                                 )
                             },
                             onAddLesson = {
-                                mainNavController.navigate("/add-lesson")
+                                mainNavController.navigate(WizardNaviPage.AddLessonMain.route)
                             }
                         )
                     }
@@ -152,7 +153,7 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    composable("/add-lesson") {
+                    composable(WizardNaviPage.AddLessonMain.route) {
                         AddLessonScreen(
                             viewModel = viewModel(),
                             onDismiss = mainNavController::popBackStack
