@@ -99,16 +99,15 @@ class MainActivity : ComponentActivity() {
                         val lessonId = it.arguments?.getString(NaviScreen.LESSON_ID)
                         LessonContentScreen(
                             viewModel = viewModel(
-                                key = lessonId,
-                                initializer = {
-                                    LessonContentViewModel(
-                                        id = lessonId,
-                                        lessonRepository = lessonRepository,
-                                        lessonExerciseRepository = lessonExerciseRepository,
-                                        profileRepository = profileRepository
-                                    )
-                                }
-                            ),
+                                key = lessonId
+                            ) {
+                                LessonContentViewModel(
+                                    id = lessonId,
+                                    lessonRepository = lessonRepository,
+                                    lessonExerciseRepository = lessonExerciseRepository,
+                                    profileRepository = profileRepository
+                                )
+                            },
                             onStartButtonClick = {
                                 mainNavController.navigate(
                                     NaviScreen.LessonExercise.createNaviRoute(
@@ -140,15 +139,14 @@ class MainActivity : ComponentActivity() {
                         val lessonId = it.arguments?.getString(NaviScreen.LESSON_ID)
                         LessonExercisePage(
                             viewModel = viewModel(
-                                key = lessonId,
-                                initializer = {
-                                    LessonExerciseViewModel(
-                                        id = lessonId,
-                                        textToSpeech = textToSpeech,
-                                        lessonExerciseRepository = lessonExerciseRepository
-                                    )
-                                }
-                            ),
+                                key = lessonId
+                            ) {
+                                LessonExerciseViewModel(
+                                    id = lessonId,
+                                    textToSpeech = textToSpeech,
+                                    lessonExerciseRepository = lessonExerciseRepository
+                                )
+                            },
                             onBackPressed = mainNavController::popBackStack
                         )
                     }
