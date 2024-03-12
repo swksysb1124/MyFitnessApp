@@ -17,8 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.myfitnessapp.model.WeekDay
-import com.example.myfitnessapp.ui.component.DaysOfWeekView
+import com.example.myfitnessapp.model.DayOfWeek
 import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.color.rowBackgroundColor
 import com.example.myfitnessapp.ui.color.textColor
@@ -30,7 +29,7 @@ fun LessonRow(
     name: String? = null,
     startTime: String,
     duration: String,
-    daysOfWeek: Set<WeekDay> = emptySet()
+    daysOfWeek: Set<DayOfWeek> = emptySet()
 ) {
     Row(
         modifier = modifier
@@ -51,9 +50,30 @@ fun LessonRow(
             Text(duration, fontSize = 16.sp, color = textColor)
         }
         if (daysOfWeek.isNotEmpty()) {
-            DaysOfWeekView(daysOfWeek)
+            val daysOfWeekDes = generateDaysDescription(daysOfWeek)
+            Text(daysOfWeekDes, color = textColor, fontSize = 20.sp)
         }
     }
+}
+
+private fun generateDaysDescription(daysOfWeek: Set<DayOfWeek>): String {
+    val size = daysOfWeek.size
+    if (size == 2 && daysOfWeek.containsAll(DayOfWeek.Weekend)) {
+        return "週末"
+    }
+    if (size == 5 && daysOfWeek.containsAll(DayOfWeek.Weekdays)) {
+        return "週間"
+    }
+    val daysOfWeekDes = daysOfWeek.toList()
+        .sortedBy { it.ordinal }
+        .joinToString("、") {
+            if (size < 4) {
+                "週${it.value}"
+            } else {
+                it.value
+            }
+        }
+    return daysOfWeekDes
 }
 
 @Preview(widthDp = 350)
@@ -64,7 +84,7 @@ fun LessonRowPreview() {
             name = "晨間運動",
             startTime = "18:00",
             duration = "一小時",
-            daysOfWeek = setOf(WeekDay.MON, WeekDay.TUE)
+            daysOfWeek = setOf(DayOfWeek.SAT, DayOfWeek.SUN, DayOfWeek.MON)
         )
     }
 }
