@@ -42,7 +42,7 @@ fun SetLessonNamePage(
 @Composable
 fun AddLessonScreenPreview() {
     MyFitnessAppTheme {
-        SetLessonNamePage("",
+        SetLessonNamePage("訓練內容",
             onNameChange = {},
             onBack = {},
             onNext = {}
