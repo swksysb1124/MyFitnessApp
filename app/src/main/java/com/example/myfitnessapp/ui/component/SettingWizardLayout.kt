@@ -42,7 +42,12 @@ fun SettingWizardLayout(
                 enabled = nextEnabled,
                 modifier = Modifier
                     .align(Alignment.End)
-                    .padding(horizontal = 20.dp, vertical = 12.dp),
+                    .padding(
+                        start = 20.dp,
+                        end = 20.dp,
+                        bottom = 36.dp,
+                        top = 8.dp
+                    ),
                 actionName = "下一步"
             ) {
                 onNext()
