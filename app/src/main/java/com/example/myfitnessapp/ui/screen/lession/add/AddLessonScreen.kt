@@ -30,38 +30,27 @@ fun AddLessonScreen(
                 isExerciseSelected = viewModel::isExerciseSelected,
                 onExerciseSelected = viewModel::updateExercises,
                 onBack = onDismiss,
-                onNext = {
-                    wizardNaviController.navigate(WizardNaviPage.SetStartTime.route)
-                },
-            )
+            ) {
+                wizardNaviController.navigate(WizardNaviPage.SetStartTime.route)
+            }
         }
         composable(WizardNaviPage.SetStartTime.route) {
             SetStartTimePage(
                 startTime,
-                onStartTimeChange = {
-                    viewModel.updateStartTime(it)
-                },
-                onBack = {
-                    wizardNaviController.popBackStack()
-                },
-                onNext = {
-                    wizardNaviController.navigate(WizardNaviPage.SetName.route)
-                }
-            )
+                onStartTimeChange = viewModel::updateStartTime,
+                onBack = wizardNaviController::popBackStack
+            ) {
+                wizardNaviController.navigate(WizardNaviPage.SetName.route)
+            }
         }
         composable(WizardNaviPage.SetName.route) {
             SetLessonNamePage(
                 name,
-                onNameChange = {
-                    viewModel.updateName(it)
-                },
-                onBack = {
-                    wizardNaviController.popBackStack()
-                },
-                onNext = {
-
-                }
-            )
+                onNameChange = viewModel::updateName,
+                onBack = wizardNaviController::popBackStack
+            ) {
+                // TODO show lesson information and confirm to save
+            }
         }
     }
 }
