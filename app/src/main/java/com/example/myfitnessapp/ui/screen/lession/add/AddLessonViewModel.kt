@@ -42,4 +42,9 @@ class AddLessonViewModel : ViewModel() {
             selectedExercises.remove(exercise)
         }
     }
+
+    companion object {
+        const val DEFAULT_LESSON_NAME = "訓練內容"
+        const val DEFAULT_LESSON_START_TIME = "18:00"
+    }
 }

@@ -15,26 +15,24 @@ fun AddLessonScreen(
     viewModel: AddLessonViewModel,
     onDismiss: () -> Unit
 ) {
-    val name by viewModel.name.observeAsState("")
-    val startTime by viewModel.startTime.observeAsState("00:00")
+    val name by viewModel.name.observeAsState(AddLessonViewModel.DEFAULT_LESSON_NAME)
+    val startTime by viewModel.startTime.observeAsState(AddLessonViewModel.DEFAULT_LESSON_START_TIME)
 
     val wizardNaviController = rememberNavController()
     NavHost(
         navController = wizardNaviController,
-        startDestination = WizardNaviPage.SetName.route,
+        startDestination = WizardNaviPage.SelectExercises.route,
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None }
     ) {
-        composable(WizardNaviPage.SetName.route) {
-            SetLessonNamePage(
-                name,
-                onNameChange = {
-                    viewModel.updateName(it)
-                },
+        composable(WizardNaviPage.SelectExercises.route) {
+            SelectExercisesPage(
+                isExerciseSelected = viewModel::isExerciseSelected,
+                onExerciseSelected = viewModel::updateExercises,
                 onBack = onDismiss,
                 onNext = {
                     wizardNaviController.navigate(WizardNaviPage.SetStartTime.route)
-                }
+                },
             )
         }
         composable(WizardNaviPage.SetStartTime.route) {
@@ -42,6 +40,20 @@ fun AddLessonScreen(
                 startTime,
                 onStartTimeChange = {
                     viewModel.updateStartTime(it)
+                },
+                onBack = {
+                    wizardNaviController.popBackStack()
+                },
+                onNext = {
+                    wizardNaviController.navigate(WizardNaviPage.SetName.route)
+                }
+            )
+        }
+        composable(WizardNaviPage.SetName.route) {
+            SetLessonNamePage(
+                name,
+                onNameChange = {
+                    viewModel.updateName(it)
                 },
                 onBack = {
                     wizardNaviController.popBackStack()
