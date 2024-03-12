@@ -115,9 +115,7 @@ class MainActivity : ComponentActivity() {
                                     )
                                 )
                             },
-                            onBackPressed = {
-                                mainNavController.popBackStack()
-                            }
+                            onBackPressed = mainNavController::popBackStack
                         )
                     }
                     composable(
@@ -150,18 +148,14 @@ class MainActivity : ComponentActivity() {
                                     )
                                 }
                             ),
-                            onBackPressed = {
-                                mainNavController.popBackStack()
-                            }
+                            onBackPressed = mainNavController::popBackStack
                         )
                     }
 
                     composable("/add-lesson") {
                         AddLessonScreen(
                             viewModel = viewModel(),
-                            onDismiss = {
-                                mainNavController.popBackStack()
-                            }
+                            onDismiss = mainNavController::popBackStack
                         )
                     }
                 }
