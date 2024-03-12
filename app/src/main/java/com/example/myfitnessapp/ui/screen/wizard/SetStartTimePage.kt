@@ -4,15 +4,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myfitnessapp.ui.component.SettingWizardLayout
+import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
 @Composable
 fun SetStartTimePage(
     startTime: String,
-    onStartTimeChange: (String) -> Unit,
-    onBack: () -> Unit,
-    onNext: () -> Unit,
+    onStartTimeChange: (String) -> Unit = {},
+    onBack: () -> Unit = {},
+    onNext: () -> Unit = {},
 ) {
     SettingWizardLayout(
         title = "設定訓練時間",
@@ -30,6 +32,16 @@ fun SetStartTimePage(
             label = "訓練時間 (小時:分鐘)",
             value = startTime,
             onValueChange = onStartTimeChange
+        )
+    }
+}
+
+@Preview
+@Composable
+fun SetStartTimePagePreview() {
+    MyFitnessAppTheme {
+        SetStartTimePage(
+            startTime = "20:00",
         )
     }
 }
