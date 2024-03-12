@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myfitnessapp.model.DayOfWeek
 import com.example.myfitnessapp.ui.color.buttonBackgroundColor
 import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.component.DaysOfWeekView
@@ -24,7 +25,9 @@ import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 @Composable
 fun SetStartTimePage(
     startTime: String,
-    onStartTimeChange: (String) -> Unit = {},
+    onStartTimeChange: (time: String) -> Unit = {},
+    isDaySelected: (day: DayOfWeek) -> Boolean = { true },
+    onDaySelected: (selected: Boolean, day: DayOfWeek) -> Unit = { _, _ -> },
     onBack: () -> Unit = {},
     onNext: () -> Unit = {},
 ) {
@@ -58,7 +61,8 @@ fun SetStartTimePage(
                     Icon(
                         tint = buttonBackgroundColor,
                         imageVector = Icons.Sharp.DateRange,
-                        contentDescription = null)
+                        contentDescription = null
+                    )
                     Text("每天", color = textColor, fontSize = 18.sp)
                 }
                 DaysOfWeekView(
@@ -69,7 +73,8 @@ fun SetStartTimePage(
                             horizontal = 20.dp,
                             vertical = 12.dp
                         ),
-                    daysOfWeek = setOf()
+                    isDaySelected = isDaySelected,
+                    onDaySelected = onDaySelected
                 )
             }
         }

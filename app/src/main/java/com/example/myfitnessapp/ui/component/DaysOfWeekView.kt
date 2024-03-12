@@ -1,5 +1,6 @@
 package com.example.myfitnessapp.ui.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -11,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.DayOfWeek
@@ -19,33 +21,40 @@ import com.example.myfitnessapp.ui.color.textColor
 
 @Composable
 fun DaysOfWeekView(
-    daysOfWeek: Set<DayOfWeek>,
+    isDaySelected: (DayOfWeek) -> Boolean,
+    onDaySelected: (selected: Boolean, day: DayOfWeek) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier.fillMaxWidth()
     ) {
-        val daysOfWeekArray = arrayOf(false, false, false, false, false, false, false)
-        daysOfWeek.forEach { day ->
-            daysOfWeekArray[day.ordinal] = true
-        }
+        val daysOfWeek = DayOfWeek.All
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            daysOfWeekArray.forEachIndexed { index, isDaySelected ->
+            daysOfWeek.forEach { day ->
+                val density = LocalDensity.current
+                val isSelected = isDaySelected(day)
+                val (color, circleStyle) = when (isSelected) {
+                    true -> backgroundColor to Fill
+                    false -> textColor to Stroke(width = with(density) { 1.dp.toPx() })
+                }
                 Text(
-                    DayOfWeek.entries[index].value,
+                    text = day.value,
                     fontSize = 10.sp,
-                    color = if (isDaySelected) backgroundColor else textColor,
+                    color = color,
                     modifier = Modifier
                         .padding(10.dp)
                         .drawBehind {
                             drawCircle(
-                                style = if (isDaySelected) Fill else Stroke(width = 1.dp.toPx()),
+                                style = circleStyle,
                                 color = textColor,
                                 radius = this.size.maxDimension
                             )
+                        }
+                        .clickable {
+                            onDaySelected(!isSelected, day)
                         }
                 )
             }

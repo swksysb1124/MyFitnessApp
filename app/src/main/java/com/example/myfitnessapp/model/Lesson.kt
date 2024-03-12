@@ -20,5 +20,6 @@ enum class DayOfWeek(val value: String) {
     companion object {
         val Weekdays = listOf(MON, TUE, WED, THU, FRI)
         val Weekend = listOf(SAT, SUN)
+        val All = listOf(SUN, MON, TUE, WED, THU, FRI, SAT)
     }
 }

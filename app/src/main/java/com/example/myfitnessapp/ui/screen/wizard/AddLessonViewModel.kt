@@ -14,8 +14,7 @@ class AddLessonViewModel : ViewModel() {
     private val _startTime = MutableLiveData<String>()
     val startTime: LiveData<String> = _startTime
 
-    private val _daysOfWeek = MutableLiveData<Set<DayOfWeek>>()
-    val daysOfWeek: LiveData<Set<DayOfWeek>> = _daysOfWeek
+    private val selectedDaysOfWeek = mutableStateListOf<DayOfWeek>()
 
     private val selectedExercises = mutableStateListOf<Exercise>()
 
@@ -27,8 +26,16 @@ class AddLessonViewModel : ViewModel() {
         _startTime.value = startTime
     }
 
-    fun updateDaysOfWeek(daysOfWeek: Set<DayOfWeek>) {
-        _daysOfWeek.value = daysOfWeek
+    fun isDaySelected(dayOfWeek: DayOfWeek): Boolean {
+        return selectedDaysOfWeek.contains(dayOfWeek)
+    }
+
+    fun onDaySelected(selected: Boolean, dayOfWeek: DayOfWeek) {
+        if (selected) {
+            selectedDaysOfWeek.add(dayOfWeek)
+        } else {
+            selectedDaysOfWeek.remove(dayOfWeek)
+        }
     }
 
     fun isExerciseSelected(exercise: Exercise): Boolean {

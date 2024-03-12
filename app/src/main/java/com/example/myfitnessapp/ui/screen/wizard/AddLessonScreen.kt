@@ -38,7 +38,9 @@ fun AddLessonScreen(
             SetStartTimePage(
                 startTime,
                 onStartTimeChange = viewModel::updateStartTime,
-                onBack = wizardNaviController::popBackStack
+                onBack = wizardNaviController::popBackStack,
+                isDaySelected = viewModel::isDaySelected,
+                onDaySelected = viewModel::onDaySelected
             ) {
                 wizardNaviController.navigate(WizardNaviPage.SetName.route)
             }
