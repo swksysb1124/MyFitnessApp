@@ -1,7 +1,7 @@
 package com.example.myfitnessapp.repository
 
 import com.example.myfitnessapp.model.Lesson
-import com.example.myfitnessapp.model.WeekDay
+import com.example.myfitnessapp.model.DayOfWeek
 
 class LessonRepository {
     fun getLessons(): List<Lesson> {
@@ -11,20 +11,20 @@ class LessonRepository {
                 id = "1",
                 startTime = "07:00",
                 duration = 165,
-                daysOfWeek = setOf(WeekDay.MON, WeekDay.THU, WeekDay.WED)
+                daysOfWeek = setOf(DayOfWeek.MON, DayOfWeek.THU, DayOfWeek.WED)
             ),
             Lesson(
                 name = "夜間運動",
                 id = "2",
                 startTime = "18:00",
                 duration = 150,
-                daysOfWeek = setOf(WeekDay.MON, WeekDay.THU, WeekDay.FRI, WeekDay.SAT)
+                daysOfWeek = setOf(DayOfWeek.MON, DayOfWeek.THU, DayOfWeek.FRI, DayOfWeek.SAT)
             ),
             Lesson(
                 id = "3",
                 startTime = "10:00",
                 duration = 30 * 60,
-                daysOfWeek = setOf(WeekDay.SUN)
+                daysOfWeek = setOf(DayOfWeek.SUN)
             )
         )
     }
@@ -36,7 +36,7 @@ class LessonRepository {
                 id = "1",
                 startTime = "07:00",
                 duration = 165,
-                daysOfWeek = setOf(WeekDay.MON, WeekDay.THU, WeekDay.WED)
+                daysOfWeek = setOf(DayOfWeek.MON, DayOfWeek.THU, DayOfWeek.WED)
             )
 
             "2" -> Lesson(
@@ -44,14 +44,14 @@ class LessonRepository {
                 id = "2",
                 startTime = "18:00",
                 duration = 150,
-                daysOfWeek = setOf(WeekDay.MON, WeekDay.THU, WeekDay.FRI, WeekDay.SAT)
+                daysOfWeek = setOf(DayOfWeek.MON, DayOfWeek.THU, DayOfWeek.FRI, DayOfWeek.SAT)
             )
 
             "3" -> Lesson(
                 id = "3",
                 startTime = "10:00",
                 duration = 30 * 60,
-                daysOfWeek = setOf(WeekDay.SUN)
+                daysOfWeek = setOf(DayOfWeek.SUN)
             )
 
             else -> null
