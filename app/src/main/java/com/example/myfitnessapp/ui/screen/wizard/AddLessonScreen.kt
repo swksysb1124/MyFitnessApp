@@ -8,6 +8,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.myfitnessapp.model.DayOfWeek
 import com.example.myfitnessapp.navigation.WizardNaviPage
 
 @Composable
@@ -17,7 +18,8 @@ fun AddLessonScreen(
 ) {
     val name by viewModel.name.observeAsState(AddLessonViewModel.DEFAULT_LESSON_NAME)
     val startTime by viewModel.startTime.observeAsState(AddLessonViewModel.DEFAULT_LESSON_START_TIME)
-    val weekDescription by viewModel.weekDescription.observeAsState("今天")
+    val hasExerciseSelected by viewModel.hasExerciseSelected.observeAsState(false)
+    val weekDescription by viewModel.weekDescription.observeAsState(DayOfWeek.Unspecified)
 
     val wizardNaviController = rememberNavController()
     NavHost(
@@ -31,6 +33,7 @@ fun AddLessonScreen(
                 isExerciseSelected = viewModel::isExerciseSelected,
                 onExerciseSelected = viewModel::updateExercises,
                 onBack = onDismiss,
+                nextEnabled = hasExerciseSelected
             ) {
                 wizardNaviController.navigate(WizardNaviPage.SetStartTime.route)
             }
@@ -53,7 +56,15 @@ fun AddLessonScreen(
                 onNameChange = viewModel::updateName,
                 onBack = wizardNaviController::popBackStack
             ) {
-                // TODO show lesson information and confirm to save
+                wizardNaviController.navigate(WizardNaviPage.ConfirmLessonContent.route)
+            }
+        }
+        composable(WizardNaviPage.ConfirmLessonContent.route) {
+            LessonContentConfirmPage(
+                viewModel = viewModel,
+                onBack = wizardNaviController::popBackStack
+            ) {
+                // TODO confirm and save lesson
             }
         }
     }

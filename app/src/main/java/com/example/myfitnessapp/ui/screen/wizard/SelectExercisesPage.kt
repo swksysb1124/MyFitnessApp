@@ -13,6 +13,7 @@ fun SelectExercisesPage(
     exercises: List<Exercise> = Exercise.getAllExercises(),
     isExerciseSelected: (Exercise) -> Boolean,
     onExerciseSelected: (selected: Boolean, exercise: Exercise) -> Unit,
+    nextEnabled: Boolean = true,
     onBack: () -> Unit,
     onNext: () -> Unit,
 ) {
@@ -20,7 +21,7 @@ fun SelectExercisesPage(
         title = "請選擇想要的運動",
         onBack = onBack,
         onNext = onNext,
-        nextEnabled = true
+        nextEnabled = nextEnabled
     ) {
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(exercises) { exercise ->

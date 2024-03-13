@@ -17,9 +17,12 @@ class AddLessonViewModel : ViewModel() {
     private val _weekDescription = MutableLiveData<String>()
     val weekDescription: LiveData<String> = _weekDescription
 
-    private val selectedDaysOfWeek = mutableStateListOf<DayOfWeek>()
+    private val _hasExerciseSelected = MutableLiveData<Boolean>()
+    val hasExerciseSelected: LiveData<Boolean> = _hasExerciseSelected
 
-    private val selectedExercises = mutableStateListOf<Exercise>()
+    val selectedDaysOfWeek = mutableStateListOf<DayOfWeek>()
+
+    val selectedExercises = mutableStateListOf<Exercise>()
 
     fun updateName(name: String) {
         _name.value = name
@@ -53,6 +56,7 @@ class AddLessonViewModel : ViewModel() {
         } else {
             selectedExercises.remove(exercise)
         }
+        _hasExerciseSelected.value = selectedExercises.isNotEmpty()
     }
 
     companion object {

@@ -17,9 +17,11 @@ import com.example.myfitnessapp.ui.color.backgroundColor
 @Composable
 fun SettingWizardLayout(
     modifier: Modifier = Modifier,
+    type: WizardType = WizardType.Setting,
     title: String? = null,
     onBack: (() -> Unit)? = null,
     onNext: (() -> Unit)? = null,
+    onConfirm: (() -> Unit)? = null,
     nextEnabled: Boolean = true,
     content: @Composable BoxScope.() -> Unit
 ) {
@@ -37,21 +39,72 @@ fun SettingWizardLayout(
         ) {
             content()
         }
-        if (onNext != null) {
-            ActionButton(
-                enabled = nextEnabled,
-                modifier = Modifier
-                    .align(Alignment.End)
-                    .padding(
-                        start = 20.dp,
-                        end = 20.dp,
-                        bottom = 36.dp,
-                        top = 8.dp
-                    ),
-                actionName = "下一步"
-            ) {
-                onNext()
-            }
+        if (type == WizardType.Setting &&
+            onNext != null
+        ) {
+            ActionNextButton(
+                modifier = Modifier.align(Alignment.End),
+                onNext = onNext,
+                enabled = nextEnabled
+            )
         }
+
+        if (type == WizardType.Confirm &&
+            onConfirm != null
+        ) {
+            ActionConfirmButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterHorizontally),
+                onConfirm = onConfirm,
+                enabled = nextEnabled
+            )
+        }
+    }
+}
+
+enum class WizardType {
+    Setting, Confirm
+}
+
+@Composable
+private fun ActionNextButton(
+    modifier: Modifier = Modifier,
+    onNext: () -> Unit,
+    enabled: Boolean = true
+) {
+    ActionButton(
+        enabled = enabled,
+        modifier = modifier
+            .padding(
+                start = 20.dp,
+                end = 20.dp,
+                bottom = 36.dp,
+                top = 8.dp
+            ),
+        actionName = "下一步"
+    ) {
+        onNext()
+    }
+}
+
+@Composable
+private fun ActionConfirmButton(
+    modifier: Modifier = Modifier,
+    onConfirm: () -> Unit,
+    enabled: Boolean = true
+) {
+    ActionButton(
+        enabled = enabled,
+        modifier = modifier
+            .padding(
+                start = 20.dp,
+                end = 20.dp,
+                bottom = 36.dp,
+                top = 8.dp
+            ),
+        actionName = "確認"
+    ) {
+        onConfirm()
     }
 }
