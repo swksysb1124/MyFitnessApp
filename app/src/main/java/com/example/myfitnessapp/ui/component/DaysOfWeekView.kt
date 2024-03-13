@@ -13,17 +13,19 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.DayOfWeek
 import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.color.textColor
+import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
 @Composable
 fun DaysOfWeekView(
-    isDaySelected: (DayOfWeek) -> Boolean,
-    onDaySelected: (selected: Boolean, day: DayOfWeek) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isDaySelected: (DayOfWeek) -> Boolean = { false },
+    onDaySelected: (selected: Boolean, day: DayOfWeek) -> Unit = { _, _ -> }
 ) {
     Box(
         modifier = modifier.fillMaxWidth()
@@ -42,15 +44,15 @@ fun DaysOfWeekView(
                 }
                 Text(
                     text = day.value,
-                    fontSize = 10.sp,
+                    fontSize = 16.sp,
                     color = color,
                     modifier = Modifier
-                        .padding(10.dp)
+                        .padding(8.dp)
                         .drawBehind {
                             drawCircle(
                                 style = circleStyle,
                                 color = textColor,
-                                radius = this.size.maxDimension
+                                radius = this.size.maxDimension * 0.8f
                             )
                         }
                         .clickable {
@@ -59,5 +61,13 @@ fun DaysOfWeekView(
                 )
             }
         }
+    }
+}
+
+@Preview(widthDp = 400)
+@Composable
+fun DaysOfWeekViewPreview() {
+    MyFitnessAppTheme {
+        DaysOfWeekView(Modifier.padding(8.dp))
     }
 }
