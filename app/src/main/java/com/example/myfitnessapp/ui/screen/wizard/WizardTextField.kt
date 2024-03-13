@@ -1,9 +1,10 @@
 package com.example.myfitnessapp.ui.screen.wizard
 
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -17,21 +18,27 @@ import androidx.compose.ui.unit.sp
 fun WizardTextField(
     label: String,
     value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onValueChange: (String) -> Unit = {},
+    readOnly: Boolean = false,
+    enabled: Boolean = true,
 ) {
-    TextField(
-        label = { Text(text = label) },
-        maxLines = 1,
-        modifier = modifier
-            .fillMaxWidth()
-            .height(70.dp),
-        textStyle = TextStyle(
-            fontSize = 24.sp,
-            lineHeight = 25.sp
-        ),
-        colors = TextFieldDefaults.textFieldColors(),
-        value = value,
-        onValueChange = onValueChange
-    )
+    Row(modifier = modifier) {
+        TextField(
+            enabled = enabled,
+            readOnly = readOnly,
+            label = { Text(text = label) },
+            maxLines = 1,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(70.dp),
+            textStyle = TextStyle(
+                fontSize = 24.sp,
+                lineHeight = 25.sp
+            ),
+            colors = TextFieldDefaults.textFieldColors(),
+            value = value,
+            onValueChange = onValueChange
+        )
+    }
 }

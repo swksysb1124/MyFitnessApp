@@ -6,13 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myfitnessapp.model.DayOfWeek
 import com.example.myfitnessapp.model.Exercise
+import com.example.myfitnessapp.model.Time
 
 class AddLessonViewModel : ViewModel() {
     private val _name = MutableLiveData<String>()
     val name: LiveData<String> = _name
 
-    private val _startTime = MutableLiveData<String>()
-    val startTime: LiveData<String> = _startTime
+    private val _startTime = MutableLiveData<Time>()
+    val startTime: LiveData<Time> = _startTime
 
     private val _weekDescription = MutableLiveData<String>()
     val weekDescription: LiveData<String> = _weekDescription
@@ -28,7 +29,7 @@ class AddLessonViewModel : ViewModel() {
         _name.value = name
     }
 
-    fun updateStartTime(startTime: String) {
+    fun updateStartTime(startTime: Time) {
         _startTime.value = startTime
     }
 

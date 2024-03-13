@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.model.DayOfWeek
+import com.example.myfitnessapp.model.Time
 import com.example.myfitnessapp.navigation.WizardNaviPage
 
 @Composable
@@ -17,7 +18,7 @@ fun AddLessonScreen(
     onDismiss: () -> Unit
 ) {
     val name by viewModel.name.observeAsState(AddLessonViewModel.DEFAULT_LESSON_NAME)
-    val startTime by viewModel.startTime.observeAsState(AddLessonViewModel.DEFAULT_LESSON_START_TIME)
+    val startTime by viewModel.startTime.observeAsState(Time(0, 0))
     val hasExerciseSelected by viewModel.hasExerciseSelected.observeAsState(false)
     val weekDescription by viewModel.weekDescription.observeAsState(DayOfWeek.Unspecified)
 
