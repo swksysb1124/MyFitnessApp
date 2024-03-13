@@ -13,11 +13,12 @@ enum class DayOfWeek(val value: String) {
         private val Weekdays = listOf(MON, TUE, WED, THU, FRI)
         private val Weekend = listOf(SAT, SUN)
         val All = listOf(SUN, MON, TUE, WED, THU, FRI, SAT)
+        const val Unspecified = "未指定"
 
         fun generateWeekDescription(daysOfWeek: List<DayOfWeek>): String {
             val size = daysOfWeek.size
             if (size == 0) {
-                return "今天"
+                return Unspecified
             }
             if (size == 2 && daysOfWeek.containsAll(DayOfWeek.Weekend)) {
                 return "週末"
