@@ -13,9 +13,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.room.Room
 import com.example.myfitnessapp.database.AppDatabase
+import com.example.myfitnessapp.database.ExerciseDao
 import com.example.myfitnessapp.database.LessonDao
+import com.example.myfitnessapp.datasource.DatabaseLessonDataSource
 import com.example.myfitnessapp.datasource.LocalLessonDataSource
-import com.example.myfitnessapp.datasource.MocKLessonDataSource
 import com.example.myfitnessapp.navigation.NaviScreen
 import com.example.myfitnessapp.navigation.WizardNaviPage
 import com.example.myfitnessapp.repository.LessonExerciseRepository
@@ -39,6 +40,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var textToSpeech: TextToSpeakUtil
     private lateinit var appDatabase: AppDatabase
     private lateinit var lessonDao: LessonDao
+    private lateinit var exerciseDao: ExerciseDao
     private lateinit var dataSource: LocalLessonDataSource
 
     // repository
@@ -181,6 +183,7 @@ class MainActivity : ComponentActivity() {
             name = "my-lesson-database"
         ).build()
         lessonDao = appDatabase.lessonDao()
-        dataSource = MocKLessonDataSource()
+        exerciseDao = appDatabase.exerciseDao()
+        dataSource = DatabaseLessonDataSource(lessonDao, exerciseDao)
     }
 }
