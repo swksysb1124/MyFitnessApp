@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.myfitnessapp.datasource.MocKLessonDataSource
 import com.example.myfitnessapp.repository.LessonRepository
 import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.component.ScreenTitleRow
@@ -61,10 +62,14 @@ fun MyLessonScreen(
             items(lessons) { lesson ->
                 LessonRow(
                     modifier = Modifier.clickable(
-                        onClick = { onLessonClick(lesson.id) }
+                        onClick = {
+                            if (lesson.id != null) {
+                                onLessonClick(lesson.id)
+                            }
+                        }
                     ),
                     name = lesson.name,
-                    startTime = lesson.startTime,
+                    startTime = lesson.startTime.toString(),
                     duration = lesson.duration.speakableDuration(),
                     daysOfWeek = lesson.daysOfWeek
                 )
@@ -76,7 +81,9 @@ fun MyLessonScreen(
 @Preview
 @Composable
 fun MyPlanScreenPreview() {
-    val viewModel = MyLessonViewModel(lessonRepository = LessonRepository())
+    val viewModel = MyLessonViewModel(
+        lessonRepository = LessonRepository(MocKLessonDataSource())
+    )
     MyFitnessAppTheme {
         MyLessonScreen(viewModel)
     }

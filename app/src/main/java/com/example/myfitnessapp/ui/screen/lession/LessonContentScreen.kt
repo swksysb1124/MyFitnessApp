@@ -16,6 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.myfitnessapp.datasource.MocKLessonDataSource
+import com.example.myfitnessapp.repository.LessonExerciseRepository
+import com.example.myfitnessapp.repository.LessonRepository
 import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.component.ActionButton
 import com.example.myfitnessapp.ui.component.ScreenTitleRow
@@ -58,7 +61,7 @@ fun LessonContentScreen(
                     statusList = mutableListOf<Status>().apply {
                         val startTime = lesson?.startTime
                         if (startTime != null) {
-                            add(Status("起始時間", startTime))
+                            add(Status("起始時間", startTime.toString()))
                         }
                         add(Status("總費時長", sumOfExerciseDuration))
                         add(Status("消耗熱量", "${sumOfBurnedCalories}kcal"))
@@ -95,7 +98,10 @@ fun LessonContentScreen(
 @Preview(showSystemUi = true)
 @Composable
 fun LessonScreenPreview() {
-    val viewModel = LessonContentViewModel("1")
+    val dataSource = MocKLessonDataSource()
+    val lessonRepository = LessonRepository(dataSource)
+    val lessonExerciseRepository = LessonExerciseRepository(dataSource)
+    val viewModel = LessonContentViewModel("1", lessonRepository, lessonExerciseRepository)
     MyFitnessAppTheme {
         LessonContentScreen(viewModel)
     }
