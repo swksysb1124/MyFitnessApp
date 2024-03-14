@@ -9,6 +9,7 @@ import com.example.myfitnessapp.model.ExerciseType
 import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.model.Time
 import com.example.myfitnessapp.serialization.deserializeDaysOfWeek
+import com.example.myfitnessapp.serialization.serializeDaysOfWeek
 
 class DatabaseLessonDataSource(
     private val lessonDao: LessonDao,
@@ -32,30 +33,40 @@ class DatabaseLessonDataSource(
             .mapNotNull { it.toExercise() }
     }
 
-    override fun createLesson(lesson: Lesson) {
+    override suspend fun createLesson(lesson: Lesson) {
+        lessonDao.insertLesson(lesson.toEntity())
+    }
+
+    override suspend fun deleteLessonById(lessonId: String) {
         TODO("Not yet implemented")
     }
 
-    override fun deleteLessonById(lessonId: String) {
+    override suspend fun createExercise(exercise: Exercise) {
         TODO("Not yet implemented")
     }
 
-    override fun createExercise(exercise: Exercise) {
+    override suspend fun deleteExerciseById(exerciseId: String) {
         TODO("Not yet implemented")
     }
 
-    override fun deleteExerciseById(exerciseId: String) {
-        TODO("Not yet implemented")
+    private fun Lesson.toEntity(): LessonEntity {
+        return LessonEntity(
+            id = id?.toIntOrNull(),
+            name = name ?: "",
+            startHour = startTime.hour,
+            startMinute = startTime.minute,
+            duration = duration,
+            daysOfWeek = daysOfWeek.serializeDaysOfWeek()
+        )
     }
 
     private fun LessonEntity.toLesson(): Lesson {
-        val daysOfWeek = daysOfWeek.deserializeDaysOfWeek()
         return Lesson(
             id = id.toString(),
             name = name,
             startTime = Time(startHour, startMinute),
             duration = duration,
-            daysOfWeek = daysOfWeek
+            daysOfWeek = daysOfWeek.deserializeDaysOfWeek()
         )
     }
 

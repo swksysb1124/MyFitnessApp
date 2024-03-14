@@ -1,7 +1,6 @@
 package com.example.myfitnessapp.datasource
 
 import com.example.myfitnessapp.model.Exercise
-import com.example.myfitnessapp.model.ExerciseType
 import com.example.myfitnessapp.model.Lesson
 
 interface LocalLessonDataSource {

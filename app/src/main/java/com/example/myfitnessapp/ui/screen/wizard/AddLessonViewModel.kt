@@ -4,11 +4,20 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.myfitnessapp.model.DayOfWeek
+import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.model.ExerciseType
+import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.model.Time
+import com.example.myfitnessapp.repository.LessonExerciseRepository
+import com.example.myfitnessapp.repository.LessonRepository
+import kotlinx.coroutines.launch
 
-class AddLessonViewModel : ViewModel() {
+class AddLessonViewModel(
+    private val lessonRepository: LessonRepository,
+    private val lessonExerciseRepository: LessonExerciseRepository
+) : ViewModel() {
     private val _name = MutableLiveData<String>()
     val name: LiveData<String> = _name
 
@@ -60,8 +69,21 @@ class AddLessonViewModel : ViewModel() {
         _hasExerciseSelected.value = selectedExercises.isNotEmpty()
     }
 
+    fun save() {
+        val exercises = selectedExercises.map {
+            Exercise.create(it, Exercise.DefaultDuration) }
+        val lesson = Lesson(
+            name = name.value,
+            startTime = startTime.value ?: Lesson.DefaultStartTime,
+            duration = exercises.fold(0) { acc, exercise -> acc + exercise.durationInSecond },
+            daysOfWeek = selectedDaysOfWeek
+        )
+        viewModelScope.launch {
+            lessonRepository.createLesson(lesson)
+        }
+    }
+
     companion object {
         const val DEFAULT_LESSON_NAME = "訓練內容"
-        const val DEFAULT_LESSON_START_TIME = "18:00"
     }
 }

@@ -3,7 +3,11 @@ package com.example.myfitnessapp.model
 data class Lesson(
     val id: String? = null,
     val name: String? = null,
-    val startTime: Time = Time(0, 0),
+    val startTime: Time = DefaultStartTime,
     val duration: Int = 0,
     val daysOfWeek: List<DayOfWeek> = emptyList()
-)
+) {
+    companion object {
+        val DefaultStartTime = Time(18, 0)
+    }
+}

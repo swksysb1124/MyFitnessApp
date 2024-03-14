@@ -28,6 +28,7 @@ import com.example.myfitnessapp.ui.screen.lession.LessonExercisePage
 import com.example.myfitnessapp.ui.screen.lession.LessonExerciseViewModel
 import com.example.myfitnessapp.ui.screen.main.MainScreen
 import com.example.myfitnessapp.ui.screen.wizard.AddLessonScreen
+import com.example.myfitnessapp.ui.screen.wizard.AddLessonViewModel
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.animation.leftSlideInNaviAnimation
 import com.example.myfitnessapp.util.animation.leftSlideOutNaviAnimation
@@ -166,7 +167,12 @@ class MainActivity : ComponentActivity() {
 
                     composable(WizardNaviPage.AddLessonMain.route) {
                         AddLessonScreen(
-                            viewModel = viewModel(),
+                            viewModel = viewModel {
+                                AddLessonViewModel(
+                                    lessonRepository = lessonRepository,
+                                    lessonExerciseRepository = lessonExerciseRepository
+                                )
+                            },
                             onDismiss = mainNavController::popBackStack
                         )
                     }

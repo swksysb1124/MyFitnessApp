@@ -63,10 +63,9 @@ fun AddLessonScreen(
         composable(WizardNaviPage.ConfirmLessonContent.route) {
             LessonContentConfirmPage(
                 viewModel = viewModel,
-                onBack = wizardNaviController::popBackStack
-            ) {
-                // TODO confirm and save lesson
-            }
+                onBack = wizardNaviController::popBackStack,
+                onConfirm = onDismiss
+            )
         }
     }
 }

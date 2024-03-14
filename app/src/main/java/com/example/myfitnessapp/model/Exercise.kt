@@ -6,6 +6,7 @@ data class Exercise(
     val type: ExerciseType
 ) : Activity {
     companion object {
+        const val DefaultDuration = 60
         fun create(type: ExerciseType, durationInSecond: Int): Exercise =
             Exercise(type.name, durationInSecond, type)
     }
