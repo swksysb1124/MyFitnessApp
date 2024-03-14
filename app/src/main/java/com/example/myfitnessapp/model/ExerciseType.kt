@@ -5,27 +5,27 @@ import com.example.myfitnessapp.R
 import com.example.myfitnessapp.domain.Mets
 
 sealed class ExerciseType(
-    val type: String,
+    val key: String,
     val name: String,
     @DrawableRes val icon: Int,
     val mets: Mets
 ) {
     data object LowStrengthRunning : ExerciseType(
-        type = "low_strength_running",
+        key = "low_strength_running",
         name = "低強度跑步",
         icon = R.drawable.run,
         mets = Mets(8.0f)
     )
 
     data object MediumStrengthRunning : ExerciseType(
-        type = "medium_strength_running",
+        key = "medium_strength_running",
         name = "中強度跑步",
         icon = R.drawable.run,
         mets = Mets(11.5f)
     )
 
     data object HighStrengthRunning : ExerciseType(
-        type = "high_strength_running",
+        key = "high_strength_running",
         name = "高強度跑步",
         icon = R.drawable.run,
         mets = Mets(16.0f)
@@ -60,7 +60,7 @@ sealed class ExerciseType(
         fun find(type: String): ExerciseType? =
             ExerciseType::class.sealedSubclasses
                 .map { it.objectInstance as ExerciseType }
-                .firstOrNull { it.type == type }
+                .firstOrNull { it.key == type }
                 .let { exercise ->
                     when (exercise) {
                         null -> null

@@ -28,7 +28,7 @@ fun ExerciseList(
         ExerciseEmptyView()
     } else {
         LazyColumn(modifier = modifier.fillMaxSize()) {
-            items(exercises, key = { it.type.type }) { exercise ->
+            items(exercises, key = { it.type.key }) { exercise ->
                 ExerciseRow(
                     exercise = exercise,
                     modifier = Modifier.animateItemPlacement(), // no working now...
