@@ -6,9 +6,9 @@ class ExerciseTest {
 
     @Test
     fun testFindExercise() {
-        val exerciseSubClasses = Exercise::class.sealedSubclasses
+        val exerciseSubClasses = ExerciseType::class.sealedSubclasses
         val allFound = exerciseSubClasses.all {
-            Exercise.find((it as Exercise).type) != null
+            ExerciseType.find((it as ExerciseType).type) != null
         }
         println(allFound)
     }

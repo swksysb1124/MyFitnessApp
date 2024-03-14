@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myfitnessapp.model.DayOfWeek
-import com.example.myfitnessapp.model.Exercise
+import com.example.myfitnessapp.model.ExerciseType
 import com.example.myfitnessapp.model.Time
 
 class AddLessonViewModel : ViewModel() {
@@ -23,7 +23,7 @@ class AddLessonViewModel : ViewModel() {
 
     val selectedDaysOfWeek = mutableStateListOf<DayOfWeek>()
 
-    val selectedExercises = mutableStateListOf<Exercise>()
+    val selectedExercises = mutableStateListOf<ExerciseType>()
 
     fun updateName(name: String) {
         _name.value = name
@@ -47,11 +47,11 @@ class AddLessonViewModel : ViewModel() {
         _weekDescription.value = description
     }
 
-    fun isExerciseSelected(exercise: Exercise): Boolean {
+    fun isExerciseSelected(exercise: ExerciseType): Boolean {
         return selectedExercises.contains(exercise)
     }
 
-    fun updateExercises(selected: Boolean, exercise: Exercise) {
+    fun updateExercises(selected: Boolean, exercise: ExerciseType) {
         if (selected) {
             selectedExercises.add(exercise)
         } else {

@@ -4,8 +4,8 @@ import com.example.myfitnessapp.database.ExerciseDao
 import com.example.myfitnessapp.database.ExerciseEntity
 import com.example.myfitnessapp.database.LessonDao
 import com.example.myfitnessapp.database.LessonEntity
-import com.example.myfitnessapp.model.Activity
 import com.example.myfitnessapp.model.Exercise
+import com.example.myfitnessapp.model.ExerciseType
 import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.model.Time
 import com.example.myfitnessapp.serialization.deserializeDaysOfWeek
@@ -26,10 +26,10 @@ class DatabaseLessonDataSource(
 
 
 
-    override suspend fun getActivities(lessonId: String?): List<Activity<Exercise>> {
+    override suspend fun getExercises(lessonId: String?): List<Exercise> {
         val id = lessonId?.toIntOrNull() ?: return emptyList()
         return exerciseDao.getExercisesByLessonId(id)
-            .mapNotNull { it.toExerciseActivity() }
+            .mapNotNull { it.toExercise() }
     }
 
     override fun createLesson(lesson: Lesson) {
@@ -59,11 +59,8 @@ class DatabaseLessonDataSource(
         )
     }
 
-    private fun ExerciseEntity.toExerciseActivity(): Activity<Exercise>? {
-        val exercise = Exercise.find(type) ?: return null
-        return Activity(
-            content = exercise,
-            durationInSecond = this.duration
-        )
+    private fun ExerciseEntity.toExercise(): Exercise? {
+        val type = ExerciseType.find(type) ?: return null
+        return Exercise.create(type, duration)
     }
 }

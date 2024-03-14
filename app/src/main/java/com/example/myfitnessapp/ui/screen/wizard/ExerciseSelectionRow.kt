@@ -14,12 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.myfitnessapp.model.Exercise
+import com.example.myfitnessapp.model.ExerciseType
 import com.example.myfitnessapp.ui.color.textColor
 
 @Composable
 fun ExerciseSelectionRow(
-    exercise: Exercise,
+    exercise: ExerciseType,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit
 ) {

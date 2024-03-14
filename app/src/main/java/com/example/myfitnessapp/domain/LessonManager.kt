@@ -3,20 +3,17 @@ package com.example.myfitnessapp.domain
 import com.example.myfitnessapp.model.Activity
 import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.model.Rest
-import com.example.myfitnessapp.repository.LessonExerciseRepository
 import kotlinx.coroutines.delay
 
 class LessonManager(
-    private val id: String?,
-    private val repository: LessonExerciseRepository,
+    activities: List<Exercise>,
     val onLessonStart: () -> Unit = {},
     val onLessonStop: () -> Unit = {},
     val onLessonFinished: () -> Unit = {},
-    val onActivityChange: (index: Int, activity: Activity<*>) -> Unit = { _, _ -> },
-    val onActivityTimeLeft: (timeLeftInSecond: Int, activity: Activity<*>) -> Unit = { _, _ -> }
+    val onActivityChange: (index: Int, activity: Activity) -> Unit = { _, _ -> },
+    val onActivityTimeLeft: (timeLeftInSecond: Int, activity: Activity) -> Unit = { _, _ -> }
 ) {
-    val activities: List<Activity<Exercise>> = repository.getActivities(id)
-    private val internalExercises = mutableListOf<Activity<*>>()
+    private val internalExercises = mutableListOf<Activity>()
     private var currentExerciseIndex = 0
 
     @Volatile
@@ -25,7 +22,7 @@ class LessonManager(
     init {
         initInternalExercises(
             activities = activities,
-            rest = Activity(Rest, 10)
+            rest = Rest
         )
     }
 
@@ -75,14 +72,14 @@ class LessonManager(
     }
 
     private fun initInternalExercises(
-        activities: List<Activity<*>>,
-        rest: Activity<Rest>
+        activities: List<Activity>,
+        rest: Rest
     ) {
         internalExercises.clear()
-        internalExercises.addAll(repository.createInternalExercises(activities, rest))
+        internalExercises.addAll(createInternalExercises(activities, rest))
     }
 
-    private fun getCurrentActivity(): Activity<*> = internalExercises[currentExerciseIndex]
+    private fun getCurrentActivity(): Activity = internalExercises[currentExerciseIndex]
 
     private fun hasNext(): Boolean =
         currentExerciseIndex < internalExercises.size - 1
@@ -95,5 +92,19 @@ class LessonManager(
 
     private fun reset() {
         currentExerciseIndex = 0
+    }
+
+    private fun createInternalExercises(
+        activities: List<Activity>,
+        rest: Rest
+    ): List<Activity> {
+        return mutableListOf<Activity>().apply {
+            activities.onEachIndexed { index, activity ->
+                add(activity)
+                if (index != activities.lastIndex) {
+                    add(rest)
+                }
+            }
+        }.toList()
     }
 }

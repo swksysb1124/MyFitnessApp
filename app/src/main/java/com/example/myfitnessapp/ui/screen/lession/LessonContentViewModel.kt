@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myfitnessapp.domain.CaloriesBurnedCalculator
-import com.example.myfitnessapp.model.Activity
 import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.repository.LessonExerciseRepository
@@ -17,13 +16,13 @@ import kotlin.math.roundToInt
 
 class LessonContentViewModel(
     val id: String?,
-    lessonRepository: LessonRepository = LessonRepository(),
-    lessonExerciseRepository: LessonExerciseRepository = LessonExerciseRepository(),
+    lessonRepository: LessonRepository,
+    lessonExerciseRepository: LessonExerciseRepository,
     profileRepository: ProfileRepository = ProfileRepository(),
     private val calculator: CaloriesBurnedCalculator = CaloriesBurnedCalculator()
 ) : ViewModel() {
-    private val _exercises = MutableLiveData<List<Activity<Exercise>>>()
-    val exercises: LiveData<List<Activity<Exercise>>> = _exercises
+    private val _exercises = MutableLiveData<List<Exercise>>()
+    val exercises: LiveData<List<Exercise>> = _exercises
 
     private val _sumOfExerciseDuration = MutableLiveData<String>()
     val sumOfExerciseDuration: LiveData<String> = _sumOfExerciseDuration
@@ -50,9 +49,8 @@ class LessonContentViewModel(
                 fetchedExercises.sumOf { it.durationInSecond }.formattedDuration()
 
             _sumOfBurnedCalories.value = fetchedExercises.sumOf {
-                val exercise = it.content
                 calculator.calculate(
-                    mets = exercise.mets,
+                    mets = it.type.mets,
                     weightInKg = fetchedProfile.weight.toDouble(),
                     mins = (it.durationInSecond.toDouble() / 60.0)
                 )

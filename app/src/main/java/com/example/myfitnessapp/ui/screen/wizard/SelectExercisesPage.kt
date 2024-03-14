@@ -5,14 +5,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.myfitnessapp.model.Exercise
+import com.example.myfitnessapp.model.ExerciseType
 import com.example.myfitnessapp.ui.component.SettingWizardLayout
 
 @Composable
 fun SelectExercisesPage(
-    exercises: List<Exercise> = Exercise.getAllExercises(),
-    isExerciseSelected: (Exercise) -> Boolean,
-    onExerciseSelected: (selected: Boolean, exercise: Exercise) -> Unit,
+    exercises: List<ExerciseType> = ExerciseType.getAllExercises(),
+    isExerciseSelected: (ExerciseType) -> Boolean,
+    onExerciseSelected: (selected: Boolean, exercise: ExerciseType) -> Unit,
     nextEnabled: Boolean = true,
     onBack: () -> Unit,
     onNext: () -> Unit,
