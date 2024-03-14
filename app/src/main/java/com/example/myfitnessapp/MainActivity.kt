@@ -155,7 +155,7 @@ class MainActivity : ComponentActivity() {
                                 key = lessonId
                             ) {
                                 LessonExerciseViewModel(
-                                    id = lessonId,
+                                    lessonId = lessonId,
                                     textToSpeech = textToSpeech,
                                     lessonExerciseRepository = lessonExerciseRepository
                                 )
