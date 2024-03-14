@@ -1,23 +1,26 @@
 package com.example.myfitnessapp.database
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
+import com.example.myfitnessapp.model.Exercise
 
 @Dao
 interface LessonDao {
+    @Insert
+    suspend fun insertLesson(lesson: LessonEntity)
+
     @Query("SELECT * FROM lesson")
     suspend fun getAllLessons(): List<LessonEntity>
 
     @Query("SELECT * FROM lesson WHERE id = :lessonId")
     suspend fun getLessonById(lessonId: Int): LessonEntity
 
-    @Query("SELECT * FROM exercise WHERE id IN (SELECT exerciseId FROM lesson_exercise WHERE lessonId = :lessonId)")
-    suspend fun getExercisesByLessonId(lessonId: Int): List<ExerciseEntity>
+    @Update
+    suspend fun updateLesson(lesson: LessonEntity)
 
-    @Insert
-    suspend fun insertLesson(lesson: LessonEntity)
-
-    @Insert
-    suspend fun insertLessonExercise(lessonExercise: LessonExerciseEntity)
+    @Delete
+    suspend fun deleteLesson(lesson: LessonEntity)
 }
