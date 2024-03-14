@@ -25,5 +25,5 @@ class ExerciseEntity(
     @ColumnInfo(name = "type") val type: String,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "duration") val duration: Int,
-    @ColumnInfo(name = "lesson_id") val lessonId: Int,
+    @ColumnInfo(name = "lesson_id") val lessonId: Int? = null,
 )

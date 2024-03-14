@@ -9,7 +9,7 @@ import androidx.room.Update
 @Dao
 interface LessonDao {
     @Insert
-    suspend fun insertLesson(lesson: LessonEntity)
+    suspend fun insertLesson(lesson: LessonEntity): Long
 
     @Query("SELECT * FROM lesson")
     suspend fun getAllLessons(): List<LessonEntity>

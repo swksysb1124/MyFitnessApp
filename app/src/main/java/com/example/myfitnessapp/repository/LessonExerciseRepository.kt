@@ -8,4 +8,8 @@ class LessonExerciseRepository(
 ) {
     suspend fun getActivities(lessonId: String?): List<Exercise> =
         dataSource.getExercises(lessonId)
+
+    suspend fun createLessonExercises(exercises: List<Exercise>) {
+        dataSource.createExercise(exercises)
+    }
 }

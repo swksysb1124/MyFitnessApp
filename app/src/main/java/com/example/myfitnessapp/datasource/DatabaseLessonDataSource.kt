@@ -33,16 +33,17 @@ class DatabaseLessonDataSource(
             .mapNotNull { it.toExercise() }
     }
 
-    override suspend fun createLesson(lesson: Lesson) {
-        lessonDao.insertLesson(lesson.toEntity())
+    override suspend fun createLesson(lesson: Lesson): Long {
+        return lessonDao.insertLesson(lesson.toEntity())
     }
 
     override suspend fun deleteLessonById(lessonId: String) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun createExercise(exercise: Exercise) {
-        TODO("Not yet implemented")
+    override suspend fun createExercise(exercises: List<Exercise>) {
+        val data = exercises.map { it.toEntity() }.toTypedArray()
+        exerciseDao.insertExercises(*data)
     }
 
     override suspend fun deleteExerciseById(exerciseId: String) {
@@ -67,6 +68,15 @@ class DatabaseLessonDataSource(
             startTime = Time(startHour, startMinute),
             duration = duration,
             daysOfWeek = daysOfWeek.deserializeDaysOfWeek()
+        )
+    }
+
+    private fun Exercise.toEntity(): ExerciseEntity {
+        return ExerciseEntity(
+            type = type.key,
+            name = type.name,
+            duration = durationInSecond,
+            lessonId = lessonId?.toInt()
         )
     }
 

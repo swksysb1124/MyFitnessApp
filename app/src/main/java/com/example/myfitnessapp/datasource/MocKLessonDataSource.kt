@@ -84,7 +84,7 @@ class MocKLessonDataSource: LocalLessonDataSource {
         }
     }
 
-    override suspend fun createLesson(lesson: Lesson) {
+    override suspend fun createLesson(lesson: Lesson): Long {
         TODO("Not yet implemented")
     }
 
@@ -92,7 +92,7 @@ class MocKLessonDataSource: LocalLessonDataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun createExercise(exercise: Exercise) {
+    override suspend fun createExercise(exercises: List<Exercise>) {
         TODO("Not yet implemented")
     }
 

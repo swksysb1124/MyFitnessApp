@@ -71,7 +71,8 @@ class AddLessonViewModel(
 
     fun save() {
         val exercises = selectedExercises.map {
-            Exercise.create(it, Exercise.DefaultDuration) }
+            Exercise.create(it, Exercise.DefaultDuration)
+        }
         val lesson = Lesson(
             name = name.value,
             startTime = startTime.value ?: Lesson.DefaultStartTime,
@@ -79,7 +80,11 @@ class AddLessonViewModel(
             daysOfWeek = selectedDaysOfWeek
         )
         viewModelScope.launch {
-            lessonRepository.createLesson(lesson)
+            val lessonId = lessonRepository.createLesson(lesson)
+            val updated = exercises.map {
+                Exercise.create(it.type, it.durationInSecond, lessonId = lessonId)
+            }
+            lessonExerciseRepository.createLessonExercises(updated)
         }
     }
 
