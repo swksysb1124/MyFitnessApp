@@ -11,6 +11,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.room.Room
+import com.example.myfitnessapp.database.AppDatabase
+import com.example.myfitnessapp.database.LessonDao
+import com.example.myfitnessapp.datasource.LocalLessonDataSource
+import com.example.myfitnessapp.datasource.MocKLessonDataSource
 import com.example.myfitnessapp.navigation.NaviScreen
 import com.example.myfitnessapp.navigation.WizardNaviPage
 import com.example.myfitnessapp.repository.LessonExerciseRepository
@@ -30,14 +35,20 @@ import com.example.myfitnessapp.util.animation.rightSlideOutNaviAnimation
 import com.example.myfitnessapp.util.tts.TextToSpeakUtil
 
 class MainActivity : ComponentActivity() {
+    // data source
     private lateinit var textToSpeech: TextToSpeakUtil
-    private val lessonExerciseRepository: LessonExerciseRepository by lazy { LessonExerciseRepository() }
-    private val lessonRepository: LessonRepository by lazy { LessonRepository() }
+    private lateinit var appDatabase: AppDatabase
+    private lateinit var lessonDao: LessonDao
+    private lateinit var dataSource: LocalLessonDataSource
+
+    // repository
+    private val lessonExerciseRepository: LessonExerciseRepository by lazy { LessonExerciseRepository(dataSource) }
+    private val lessonRepository: LessonRepository by lazy { LessonRepository(dataSource) }
     private val profileRepository: ProfileRepository by lazy { ProfileRepository() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        textToSpeech = TextToSpeakUtil.create(application)
+        initializeDataSource()
 
         setContent {
             MyFitnessAppTheme {
@@ -160,5 +171,16 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun initializeDataSource() {
+        textToSpeech = TextToSpeakUtil.create(application)
+        appDatabase = Room.databaseBuilder(
+            context = applicationContext,
+            klass = AppDatabase::class.java,
+            name = "my-lesson-database"
+        ).build()
+        lessonDao = appDatabase.lessonDao()
+        dataSource = MocKLessonDataSource()
     }
 }
