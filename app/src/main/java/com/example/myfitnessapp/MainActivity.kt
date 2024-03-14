@@ -173,7 +173,11 @@ class MainActivity : ComponentActivity() {
                                     lessonExerciseRepository = lessonExerciseRepository
                                 )
                             },
-                            onDismiss = mainNavController::popBackStack
+                            onDismiss = mainNavController::popBackStack,
+                            onWizardSettingComplete = {
+                                mainNavController.popBackStack()
+                                // TODO notify main screen to refresh data
+                            }
                         )
                     }
                 }

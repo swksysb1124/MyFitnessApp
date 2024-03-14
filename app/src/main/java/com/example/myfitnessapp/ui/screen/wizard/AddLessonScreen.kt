@@ -15,7 +15,8 @@ import com.example.myfitnessapp.navigation.WizardNaviPage
 @Composable
 fun AddLessonScreen(
     viewModel: AddLessonViewModel,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onWizardSettingComplete: () -> Unit
 ) {
     val name by viewModel.name.observeAsState(AddLessonViewModel.DEFAULT_LESSON_NAME)
     val startTime by viewModel.startTime.observeAsState(Time(0, 0))
@@ -64,7 +65,7 @@ fun AddLessonScreen(
             LessonContentConfirmPage(
                 viewModel = viewModel,
                 onBack = wizardNaviController::popBackStack,
-                onConfirm = onDismiss
+                onConfirm = onWizardSettingComplete
             )
         }
     }
