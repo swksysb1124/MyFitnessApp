@@ -83,4 +83,20 @@ class MocKLessonDataSource: LocalLessonDataSource {
             else -> emptyList()
         }
     }
+
+    override fun createLesson(lesson: Lesson) {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteLessonById(lessonId: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun createExercise(exercise: Exercise) {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteExerciseById(exerciseId: String) {
+        TODO("Not yet implemented")
+    }
 }

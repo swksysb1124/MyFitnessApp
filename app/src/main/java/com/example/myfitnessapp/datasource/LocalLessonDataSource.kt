@@ -8,4 +8,8 @@ interface LocalLessonDataSource {
     suspend fun getAllLessons(): List<Lesson>
     suspend fun getLesson(lessonId: String?): Lesson?
     suspend fun getActivities(lessonId: String?): List<Activity<Exercise>>
+    fun createLesson(lesson: Lesson)
+    fun deleteLessonById(lessonId: String)
+    fun createExercise(exercise: Exercise)
+    fun deleteExerciseById(exerciseId: String)
 }
