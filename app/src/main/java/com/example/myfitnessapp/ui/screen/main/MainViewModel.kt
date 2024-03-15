@@ -18,7 +18,7 @@ class MainViewModel : ViewModel() {
             //  don't sure why need to add a delay
             //  or MainScreen would not receive the flow change
             //  TODO find out why this happens
-            delay(1000)
+            delay(500)
             _eventFlow.emit(event)
         }
     }
