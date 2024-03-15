@@ -1,7 +1,14 @@
 package com.example.myfitnessapp.ui.screen.main
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
@@ -11,8 +18,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -25,6 +38,7 @@ import com.example.myfitnessapp.navigation.BottomNaviScreen
 import com.example.myfitnessapp.repository.LessonRepository
 import com.example.myfitnessapp.repository.ProfileRepository
 import com.example.myfitnessapp.ui.color.backgroundColor
+import com.example.myfitnessapp.ui.screen.lession.LessonScreenMode
 import com.example.myfitnessapp.ui.screen.lession.MyLessonScreen
 import com.example.myfitnessapp.ui.screen.lession.MyLessonViewModel
 import com.example.myfitnessapp.ui.screen.profile.ProfileScreen
@@ -43,13 +57,21 @@ fun MainScreen(
         BottomNaviScreen.MyLesson,
         BottomNaviScreen.Profile
     )
-
+    var shouldBottomNaviShown by remember { mutableStateOf(true) }
+    val density = LocalDensity.current
     Scaffold(
         bottomBar = {
-            MainScreenBottomBar(
-                bottomNavController = bottomNavController,
-                bottomNaviScreen = bottomNaviScreen
-            )
+            AnimatedVisibility(visible = shouldBottomNaviShown,
+                enter = slideInVertically { with(density) { -40.dp.roundToPx() } }
+                        + expandVertically(expandFrom = Alignment.Top)
+                        + fadeIn(initialAlpha = 0.3f),
+                exit = slideOutVertically() + shrinkVertically() + fadeOut()
+            ) {
+                MainScreenBottomBar(
+                    bottomNavController = bottomNavController,
+                    bottomNaviScreen = bottomNaviScreen
+                )
+            }
         }
     ) { innerPadding ->
         NavHost(
@@ -66,7 +88,10 @@ fun MainScreen(
                         MyLessonViewModel(lessonRepository)
                     },
                     onLessonClick = onLessonClick,
-                    onAddLesson = onAddLesson
+                    onAddLesson = onAddLesson,
+                    onModeChange = {
+                        shouldBottomNaviShown = (it == LessonScreenMode.Normal)
+                    }
                 )
             }
             composable(BottomNaviScreen.Profile.route) {
