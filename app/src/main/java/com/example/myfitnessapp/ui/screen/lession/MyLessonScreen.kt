@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -24,16 +25,27 @@ import com.example.myfitnessapp.datasource.MocKLessonDataSource
 import com.example.myfitnessapp.repository.LessonRepository
 import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.component.ScreenTitleRow
+import com.example.myfitnessapp.ui.screen.main.MainViewModel
+import com.example.myfitnessapp.event.RefreshLessonListEvent
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.speakableDuration
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun MyLessonScreen(
+    mainViewModel: MainViewModel,
     viewModel: MyLessonViewModel,
     onLessonClick: (id: String) -> Unit = {},
     onAddLesson: () -> Unit = {}
 ) {
     val lessons by viewModel.lessons.observeAsState(emptyList())
+    LaunchedEffect(Unit) {
+        mainViewModel.eventFlow.collectLatest { event ->
+            when(event) {
+                is RefreshLessonListEvent -> viewModel.fetchLessonList()
+            }
+        }
+    }
 
     Column(
         Modifier
@@ -85,6 +97,9 @@ fun MyPlanScreenPreview() {
         lessonRepository = LessonRepository(MocKLessonDataSource())
     )
     MyFitnessAppTheme {
-        MyLessonScreen(viewModel)
+        MyLessonScreen(
+            MainViewModel(),
+            viewModel
+        )
     }
 }

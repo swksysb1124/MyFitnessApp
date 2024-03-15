@@ -15,6 +15,10 @@ class MyLessonViewModel(
     val lessons: LiveData<List<Lesson>> = _lessons
 
     init {
+        fetchLessonList()
+    }
+
+    fun fetchLessonList() {
         viewModelScope.launch {
             _lessons.value = lessonRepository.getLessons()
         }

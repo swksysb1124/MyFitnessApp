@@ -5,7 +5,6 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -28,9 +27,9 @@ import com.example.myfitnessapp.ui.screen.lession.MyLessonViewModel
 import com.example.myfitnessapp.ui.screen.profile.ProfileScreen
 import com.example.myfitnessapp.ui.screen.profile.ProfileViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
+    mainViewModel: MainViewModel,
     lessonRepository: LessonRepository,
     profileRepository: ProfileRepository,
     onLessonClick: (id: String) -> Unit = {},
@@ -83,6 +82,7 @@ fun MainScreen(
         ) {
             composable(BottomNaviScreen.MyLesson.route) {
                 MyLessonScreen(
+                    mainViewModel = mainViewModel,
                     viewModel = viewModel {
                         MyLessonViewModel(lessonRepository)
                     },

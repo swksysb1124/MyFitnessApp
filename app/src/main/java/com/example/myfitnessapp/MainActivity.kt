@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -27,6 +28,8 @@ import com.example.myfitnessapp.ui.screen.lession.LessonContentViewModel
 import com.example.myfitnessapp.ui.screen.lession.LessonExercisePage
 import com.example.myfitnessapp.ui.screen.lession.LessonExerciseViewModel
 import com.example.myfitnessapp.ui.screen.main.MainScreen
+import com.example.myfitnessapp.ui.screen.main.MainViewModel
+import com.example.myfitnessapp.event.RefreshLessonListEvent
 import com.example.myfitnessapp.ui.screen.wizard.AddLessonScreen
 import com.example.myfitnessapp.ui.screen.wizard.AddLessonViewModel
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
@@ -49,9 +52,13 @@ class MainActivity : ComponentActivity() {
     private val lessonRepository: LessonRepository by lazy { LessonRepository(dataSource) }
     private val profileRepository: ProfileRepository by lazy { ProfileRepository() }
 
+    // main view model for sharing state between screen
+    private lateinit var mainViewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initializeDataSource()
+        mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         setContent {
             MyFitnessAppTheme {
@@ -78,6 +85,7 @@ class MainActivity : ComponentActivity() {
                         }
                     ) {
                         MainScreen(
+                            mainViewModel = mainViewModel,
                             lessonRepository = lessonRepository,
                             profileRepository = profileRepository,
                             onLessonClick = { id ->
@@ -176,7 +184,7 @@ class MainActivity : ComponentActivity() {
                             onDismiss = mainNavController::popBackStack,
                             onWizardSettingComplete = {
                                 mainNavController.popBackStack()
-                                // TODO notify main screen to refresh data
+                                mainViewModel.sentEvent(RefreshLessonListEvent)
                             }
                         )
                     }
