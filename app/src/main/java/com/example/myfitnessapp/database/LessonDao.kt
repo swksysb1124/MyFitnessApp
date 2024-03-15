@@ -25,4 +25,7 @@ interface LessonDao {
 
     @Query("DELETE FROM lesson WHERE id = :lessonId")
     suspend fun deleteLessonById(lessonId: Int)
+
+    @Query("DELETE FROM lesson WHERE id in (:lessonIds)")
+    suspend fun deleteLessonsByIds(lessonIds: List<Int>)
 }
