@@ -42,10 +42,13 @@ fun MyLessonScreen(
     mainViewModel: MainViewModel,
     viewModel: MyLessonViewModel,
     onLessonClick: (id: String) -> Unit = {},
-    onAddLesson: () -> Unit = {}
+    onAddLesson: () -> Unit = {},
+    onModeChange: (LessonScreenMode) -> Unit = {}
 ) {
     val lessons by viewModel.lessons.observeAsState(emptyList())
-    var mode by remember { mutableStateOf(LessonRowMode.Normal) }
+
+    var screenMode by remember { mutableStateOf(LessonScreenMode.Normal) }
+    LaunchedEffect(screenMode) { onModeChange(screenMode) }
 
     LaunchedEffect(Unit) {
         mainViewModel.eventFlow.collectLatest { event ->
@@ -61,31 +64,14 @@ fun MyLessonScreen(
             .fillMaxSize()
     ) {
         ScreenTitleRow(
-            title = if (mode == LessonRowMode.Normal) "我的訓練" else "選擇訓練",
+            title = if (screenMode == LessonScreenMode.Normal) "我的訓練" else "選擇訓練",
             icons = {
-                Row {
-                    when (mode) {
-                        LessonRowMode.Edit -> {
-                            IconButton(
-                                onClick = {
-                                    mode = LessonRowMode.Normal
-                                }
-                            ) {
-                                Icon(
-                                    modifier = Modifier.size(25.dp),
-                                    imageVector = Icons.Outlined.Close,
-                                    contentDescription = null,
-                                    tint = textColor
-                                )
-                            }
-                        }
-                        else -> {
-                            AddLessonButton(onAddLesson)
-                            EditLessonButton { mode = LessonRowMode.Edit }
-                        }
-                    }
-                }
-
+                TitleIcons(
+                    screenMode = screenMode,
+                    onAddLesson = onAddLesson,
+                    onEditEnter = { screenMode = LessonScreenMode.Edit },
+                    onEditExit = { screenMode = LessonScreenMode.Normal }
+                )
             }
         )
         LazyColumn(
@@ -94,18 +80,53 @@ fun MyLessonScreen(
         ) {
             items(lessons) { lesson ->
                 val lessonId = lesson.id ?: return@items
+                val modifier = when (screenMode) {
+                    LessonScreenMode.Normal -> Modifier.clickable(onClick = { onLessonClick(lessonId) })
+                    LessonScreenMode.Edit -> Modifier
+                }
                 LessonRow(
-                    mode = mode,
-                    modifier = Modifier.clickable(
-                        onClick = {
-                            onLessonClick(lessonId)
-                        }
-                    ),
+                    screenMode = screenMode,
+                    modifier = modifier,
                     name = lesson.name,
                     startTime = lesson.startTime.toString(),
                     duration = lesson.duration.speakableDuration(),
                     daysOfWeek = lesson.daysOfWeek
                 )
+            }
+        }
+    }
+}
+
+enum class LessonScreenMode {
+    Normal,
+    Edit
+}
+
+@Composable
+private fun TitleIcons(
+    screenMode: LessonScreenMode,
+    onAddLesson: () -> Unit,
+    onEditEnter: () -> Unit,
+    onEditExit: () -> Unit
+) {
+    Row {
+        when (screenMode) {
+            LessonScreenMode.Edit -> {
+                IconButton(
+                    onClick = onEditExit
+                ) {
+                    Icon(
+                        modifier = Modifier.size(25.dp),
+                        imageVector = Icons.Outlined.Close,
+                        contentDescription = null,
+                        tint = textColor
+                    )
+                }
+            }
+
+            else -> {
+                AddLessonButton(onAddLesson)
+                EditLessonButton(onEditEnter)
             }
         }
     }

@@ -28,7 +28,7 @@ import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 fun LessonRow(
     modifier: Modifier = Modifier,
     name: String? = null,
-    mode: LessonRowMode = LessonRowMode.Normal,
+    screenMode: LessonScreenMode = LessonScreenMode.Normal,
     startTime: String,
     duration: String,
     daysOfWeek: List<DayOfWeek> = emptyList(),
@@ -45,7 +45,7 @@ fun LessonRow(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            if (mode == LessonRowMode.Edit) {
+            if (screenMode == LessonScreenMode.Edit) {
                 Checkbox(
                     checked = checked,
                     onCheckedChange = onCheckedChange
@@ -67,17 +67,12 @@ fun LessonRow(
     }
 }
 
-enum class LessonRowMode {
-    Normal,
-    Edit
-}
-
 @Preview(widthDp = 350, apiLevel = 33)
 @Composable
 fun LessonRowPreview() {
     MyFitnessAppTheme {
         LessonRow(
-            mode = LessonRowMode.Edit,
+            screenMode = LessonScreenMode.Edit,
             name = "晨間運動",
             startTime = "18:00",
             duration = "一小時",
