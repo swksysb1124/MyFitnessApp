@@ -39,6 +39,10 @@ class DatabaseLessonDataSource(
         lessonDao.deleteLessonById(lessonId.toInt())
     }
 
+    override suspend fun deleteLessonsByIds(lessonIds: List<String>) {
+        lessonDao.deleteLessonsByIds(lessonIds.map { it.toInt() })
+    }
+
     override suspend fun createExercise(exercises: List<Exercise>) {
         val data = exercises.map { it.toEntity() }.toTypedArray()
         exerciseDao.insertExercises(*data)

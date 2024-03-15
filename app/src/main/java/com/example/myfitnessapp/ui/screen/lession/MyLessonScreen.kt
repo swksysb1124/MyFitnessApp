@@ -109,13 +109,20 @@ fun MyLessonScreen(
             }
         )
         AnimatedVisibility(isEditMode) {
-            BottomEditButtons()
+            BottomEditButtons(
+                onDelete = {
+                    val ids = selectedLessons.mapNotNull { it.id }
+                    viewModel.deleteLessonsAndRefresh(ids)
+                }
+            )
         }
     }
 }
 
 @Composable
-private fun BottomEditButtons() {
+private fun BottomEditButtons(
+    onDelete: () -> Unit
+) {
     Row(
         Modifier
             .fillMaxWidth()
@@ -123,7 +130,7 @@ private fun BottomEditButtons() {
     ) {
         TextButton(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { /*TODO*/ }
+            onClick = onDelete
         ) {
             Text(
                 text = "刪除",

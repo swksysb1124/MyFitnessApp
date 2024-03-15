@@ -20,9 +20,9 @@ class MyLessonViewModel(
 
     fun refreshLessonList() = fetchLessonList()
 
-    fun deleteLessonAndRefresh(lessonId: String) {
+    fun deleteLessonsAndRefresh(lessonIds: List<String>) {
         viewModelScope.launch {
-            lessonRepository.deleteLessonById(lessonId)
+            lessonRepository.deleteLessonsByIds(lessonIds)
             refreshLessonList()
         }
     }

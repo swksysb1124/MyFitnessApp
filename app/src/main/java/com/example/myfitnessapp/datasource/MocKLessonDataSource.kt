@@ -92,6 +92,10 @@ class MocKLessonDataSource: LocalLessonDataSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun deleteLessonsByIds(lessonIds: List<String>) {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun createExercise(exercises: List<Exercise>) {
         TODO("Not yet implemented")
     }

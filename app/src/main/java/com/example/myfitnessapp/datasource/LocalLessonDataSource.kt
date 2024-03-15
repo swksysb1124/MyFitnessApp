@@ -9,6 +9,7 @@ interface LocalLessonDataSource {
     suspend fun getExercises(lessonId: String?): List<Exercise>
     suspend fun createLesson(lesson: Lesson): Long
     suspend fun deleteLessonById(lessonId: String)
+    suspend fun deleteLessonsByIds(lessonIds: List<String>)
     suspend fun createExercise(exercises: List<Exercise>)
     suspend fun deleteExerciseById(exerciseId: String)
 }
