@@ -2,6 +2,7 @@ package com.example.myfitnessapp.ui.screen.main
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -13,7 +14,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -43,34 +46,10 @@ fun MainScreen(
 
     Scaffold(
         bottomBar = {
-            BottomNavigation(
-                backgroundColor = backgroundColor
-            ) {
-                val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
-                bottomNaviScreen.forEach { screen ->
-                    BottomNavigationItem(
-                        icon = {
-                            Icon(
-                                screen.icon,
-                                tint = Color.White,
-                                contentDescription = null
-                            )
-                        },
-                        label = { Text(screen.name, color = Color.White) },
-                        selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                        onClick = {
-                            bottomNavController.navigate(screen.route) {
-                                popUpTo(bottomNavController.graph.startDestinationId) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        }
-                    )
-                }
-            }
+            MainScreenBottomBar(
+                bottomNavController = bottomNavController,
+                bottomNaviScreen = bottomNaviScreen
+            )
         }
     ) { innerPadding ->
         NavHost(
@@ -99,4 +78,48 @@ fun MainScreen(
             }
         }
     }
+}
+
+@Composable
+private fun MainScreenBottomBar(
+    bottomNavController: NavHostController,
+    bottomNaviScreen: List<BottomNaviScreen>
+) {
+    BottomNavigation(
+        backgroundColor = backgroundColor
+    ) {
+        val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.destination
+        bottomNaviScreen.forEach { screen ->
+            MainScreenBottomNaviationItem(screen, currentDestination, bottomNavController)
+        }
+    }
+}
+
+@Composable
+private fun RowScope.MainScreenBottomNaviationItem(
+    screen: BottomNaviScreen,
+    currentDestination: NavDestination?,
+    bottomNavController: NavHostController
+) {
+    BottomNavigationItem(
+        icon = {
+            Icon(
+                screen.icon,
+                tint = Color.White,
+                contentDescription = null
+            )
+        },
+        label = { Text(screen.name, color = Color.White) },
+        selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+        onClick = {
+            bottomNavController.navigate(screen.route) {
+                popUpTo(bottomNavController.graph.startDestinationId) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
+        }
+    )
 }
