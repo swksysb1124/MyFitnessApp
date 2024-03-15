@@ -91,13 +91,13 @@ private fun MainScreenBottomBar(
         val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
         bottomNaviScreen.forEach { screen ->
-            MainScreenBottomNaviationItem(screen, currentDestination, bottomNavController)
+            MainScreenBottomNavigationItem(screen, currentDestination, bottomNavController)
         }
     }
 }
 
 @Composable
-private fun RowScope.MainScreenBottomNaviationItem(
+private fun RowScope.MainScreenBottomNavigationItem(
     screen: BottomNaviScreen,
     currentDestination: NavDestination?,
     bottomNavController: NavHostController

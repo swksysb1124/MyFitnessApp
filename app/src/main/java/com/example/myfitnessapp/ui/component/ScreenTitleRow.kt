@@ -25,7 +25,7 @@ import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 @Composable
 fun ScreenTitleRow(
     title: String,
-    icon: @Composable () -> Unit = {},
+    icons: @Composable () -> Unit = {},
     onBackPressed: (() -> Unit)? = null
 ) {
     Row(
@@ -51,7 +51,7 @@ fun ScreenTitleRow(
             }
             Text(title, fontSize = 25.sp, color = textColor)
         }
-        icon()
+        icons()
     }
 }
 
@@ -63,7 +63,7 @@ fun ScreenTitleRowPreview() {
         ScreenTitleRow(
             title = "訓練內容",
             onBackPressed = {},
-            icon = {
+            icons = {
                 IconButton(
                     onClick = { /** TODO **/ }
                 ) {

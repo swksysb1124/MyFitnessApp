@@ -9,15 +9,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,10 +28,12 @@ import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 fun LessonRow(
     modifier: Modifier = Modifier,
     name: String? = null,
+    mode: LessonRowMode = LessonRowMode.Normal,
     startTime: String,
     duration: String,
     daysOfWeek: List<DayOfWeek> = emptyList(),
-    onDelete: () -> Unit = {}
+    checked: Boolean = false,
+    onCheckedChange: (Boolean) -> Unit = {}
 ) {
     Row(
         modifier = modifier
@@ -46,23 +44,32 @@ fun LessonRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Column {
-            if (name != null) {
-                Text(text = name, fontSize = 16.sp, color = backgroundColor)
-            }
-            Spacer(modifier = Modifier.height(5.dp))
-            Text(startTime, fontSize = 30.sp, color = textColor, textAlign = TextAlign.Center)
-            Spacer(modifier = Modifier.height(5.dp))
-            Text(duration, fontSize = 16.sp, color = textColor)
-        }
         Row(verticalAlignment = Alignment.CenterVertically) {
-            val daysOfWeekDes = DayOfWeek.generateWeekDescription(daysOfWeek)
-            Text(daysOfWeekDes, color = textColor, fontSize = 18.sp)
-            IconButton(onClick = onDelete) {
-                Icon(Icons.Filled.Delete, null, tint = Color.Red)
+            if (mode == LessonRowMode.Edit) {
+                Checkbox(
+                    checked = checked,
+                    onCheckedChange = onCheckedChange
+                )
+            }
+            Column {
+                if (name != null) {
+                    Text(text = name, fontSize = 16.sp, color = backgroundColor)
+                }
+                Spacer(modifier = Modifier.height(5.dp))
+                Text(startTime, fontSize = 30.sp, color = textColor, textAlign = TextAlign.Center)
+                Spacer(modifier = Modifier.height(5.dp))
+                Text(duration, fontSize = 16.sp, color = textColor)
             }
         }
+
+        val daysOfWeekDes = DayOfWeek.generateWeekDescription(daysOfWeek)
+        Text(daysOfWeekDes, color = textColor, fontSize = 18.sp)
     }
+}
+
+enum class LessonRowMode {
+    Normal,
+    Edit
 }
 
 @Preview(widthDp = 350, apiLevel = 33)
@@ -70,6 +77,7 @@ fun LessonRow(
 fun LessonRowPreview() {
     MyFitnessAppTheme {
         LessonRow(
+            mode = LessonRowMode.Edit,
             name = "晨間運動",
             startTime = "18:00",
             duration = "一小時",
