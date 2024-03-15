@@ -30,6 +30,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,7 +57,9 @@ fun MyLessonScreen(
     val lessons by viewModel.lessons.observeAsState(emptyList())
     val selectedLessons = remember { mutableStateListOf<Lesson>() }
     var screenMode by remember { mutableStateOf(LessonScreenMode.Normal) }
+    var hasSelectedLesson by remember { mutableStateOf(false) }
     val isEditMode = (screenMode == LessonScreenMode.Edit)
+
 
     LaunchedEffect(screenMode) {
         // clear selected lessons when switching to Normal mode
@@ -74,6 +77,10 @@ fun MyLessonScreen(
                 is RefreshLessonListEvent -> viewModel.refreshLessonList()
             }
         }
+    }
+
+    LaunchedEffect(selectedLessons.size) {
+        hasSelectedLesson = selectedLessons.size > 0
     }
 
     Column(
@@ -110,6 +117,7 @@ fun MyLessonScreen(
         )
         AnimatedVisibility(isEditMode) {
             BottomEditButtons(
+                enabled = hasSelectedLesson,
                 onDelete = {
                     val ids = selectedLessons.mapNotNull { it.id }
                     viewModel.deleteLessonsAndRefresh(ids)
@@ -121,6 +129,7 @@ fun MyLessonScreen(
 
 @Composable
 private fun BottomEditButtons(
+    enabled: Boolean = true,
     onDelete: () -> Unit
 ) {
     Row(
@@ -129,12 +138,13 @@ private fun BottomEditButtons(
             .height(56.dp)
     ) {
         TextButton(
+            enabled = enabled,
             modifier = Modifier.fillMaxWidth(),
             onClick = onDelete
         ) {
             Text(
                 text = "刪除",
-                color = textColor,
+                color = if (enabled) textColor else Color.LightGray,
                 fontSize = 20.sp
             )
         }
