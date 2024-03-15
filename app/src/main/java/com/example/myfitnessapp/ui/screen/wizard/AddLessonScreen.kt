@@ -18,7 +18,7 @@ fun AddLessonScreen(
     onDismiss: () -> Unit,
     onWizardSettingComplete: () -> Unit
 ) {
-    val name by viewModel.name.observeAsState(AddLessonViewModel.DEFAULT_LESSON_NAME)
+    val name by viewModel.name.observeAsState("")
     val startTime by viewModel.startTime.observeAsState(Lesson.DefaultStartTime)
     val hasExerciseSelected by viewModel.hasExerciseSelected.observeAsState(false)
     val weekDescription by viewModel.weekDescription.observeAsState(DayOfWeek.Unspecified)
