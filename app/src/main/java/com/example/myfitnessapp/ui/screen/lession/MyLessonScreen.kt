@@ -1,11 +1,14 @@
 package com.example.myfitnessapp.ui.screen.lession
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,18 +19,23 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.datasource.MocKLessonDataSource
 import com.example.myfitnessapp.event.RefreshLessonListEvent
+import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.repository.LessonRepository
 import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.color.textColor
@@ -46,9 +54,19 @@ fun MyLessonScreen(
     onModeChange: (LessonScreenMode) -> Unit = {}
 ) {
     val lessons by viewModel.lessons.observeAsState(emptyList())
-
+    val selectedLessons = remember { mutableStateListOf<Lesson>() }
     var screenMode by remember { mutableStateOf(LessonScreenMode.Normal) }
-    LaunchedEffect(screenMode) { onModeChange(screenMode) }
+    val isEditMode = (screenMode == LessonScreenMode.Edit)
+
+    LaunchedEffect(screenMode) {
+        // clear selected lessons when switching to Normal mode
+        if (screenMode == LessonScreenMode.Normal &&
+            selectedLessons.isNotEmpty()
+        ) {
+            selectedLessons.clear()
+        }
+        onModeChange(screenMode)
+    }
 
     LaunchedEffect(Unit) {
         mainViewModel.eventFlow.collectLatest { event ->
@@ -64,7 +82,7 @@ fun MyLessonScreen(
             .fillMaxSize()
     ) {
         ScreenTitleRow(
-            title = if (screenMode == LessonScreenMode.Normal) "我的訓練" else "選擇訓練",
+            title = if (isEditMode) "選擇訓練" else "我的訓練",
             icons = {
                 TitleIcons(
                     screenMode = screenMode,
@@ -74,25 +92,79 @@ fun MyLessonScreen(
                 )
             }
         )
-        LazyColumn(
-            Modifier.padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            items(lessons) { lesson ->
-                val lessonId = lesson.id ?: return@items
-                val modifier = when (screenMode) {
-                    LessonScreenMode.Normal -> Modifier.clickable(onClick = { onLessonClick(lessonId) })
-                    LessonScreenMode.Edit -> Modifier
+        LessonList(
+            modifier = Modifier.weight(1f),
+            lessons = lessons,
+            screenMode = screenMode,
+            onLessonClick = onLessonClick,
+            isSelected = { lesson ->
+                selectedLessons.contains(lesson)
+            },
+            onSelectedChange = { selected, lesson ->
+                if (selected) {
+                    selectedLessons.add(lesson)
+                } else {
+                    selectedLessons.remove(lesson)
                 }
-                LessonRow(
-                    screenMode = screenMode,
-                    modifier = modifier,
-                    name = lesson.name,
-                    startTime = lesson.startTime.toString(),
-                    duration = lesson.duration.speakableDuration(),
-                    daysOfWeek = lesson.daysOfWeek
-                )
             }
+        )
+        AnimatedVisibility(isEditMode) {
+            BottomEditButtons()
+        }
+    }
+}
+
+@Composable
+private fun BottomEditButtons() {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .height(56.dp)
+    ) {
+        TextButton(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { /*TODO*/ }
+        ) {
+            Text(
+                text = "刪除",
+                color = textColor,
+                fontSize = 20.sp
+            )
+        }
+    }
+}
+
+@Composable
+private fun LessonList(
+    lessons: List<Lesson>,
+    screenMode: LessonScreenMode,
+    onLessonClick: (id: String) -> Unit,
+    isSelected: (Lesson) -> Boolean,
+    onSelectedChange: (Boolean, Lesson) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        modifier = modifier.padding(horizontal = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        items(lessons) { lesson ->
+            val lessonId = lesson.id ?: return@items
+            val rowModifier = when (screenMode) {
+                LessonScreenMode.Normal -> Modifier.clickable(onClick = { onLessonClick(lessonId) })
+                LessonScreenMode.Edit -> Modifier
+            }
+            LessonRow(
+                screenMode = screenMode,
+                modifier = rowModifier,
+                name = lesson.name,
+                startTime = lesson.startTime.toString(),
+                duration = lesson.duration.speakableDuration(),
+                daysOfWeek = lesson.daysOfWeek,
+                checked = isSelected(lesson),
+                onCheckedChange = { selected ->
+                    onSelectedChange(selected, lesson)
+                }
+            )
         }
     }
 }
