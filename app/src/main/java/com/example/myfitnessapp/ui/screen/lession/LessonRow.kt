@@ -9,10 +9,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,7 +34,8 @@ fun LessonRow(
     name: String? = null,
     startTime: String,
     duration: String,
-    daysOfWeek: List<DayOfWeek> = emptyList()
+    daysOfWeek: List<DayOfWeek> = emptyList(),
+    onDelete: () -> Unit = {}
 ) {
     Row(
         modifier = modifier
@@ -49,14 +55,17 @@ fun LessonRow(
             Spacer(modifier = Modifier.height(5.dp))
             Text(duration, fontSize = 16.sp, color = textColor)
         }
-        if (daysOfWeek.isNotEmpty()) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             val daysOfWeekDes = DayOfWeek.generateWeekDescription(daysOfWeek)
-            Text(daysOfWeekDes, color = textColor, fontSize = 20.sp)
+            Text(daysOfWeekDes, color = textColor, fontSize = 18.sp)
+            IconButton(onClick = onDelete) {
+                Icon(Icons.Filled.Delete, null, tint = Color.Red)
+            }
         }
     }
 }
 
-@Preview(widthDp = 350)
+@Preview(widthDp = 350, apiLevel = 33)
 @Composable
 fun LessonRowPreview() {
     MyFitnessAppTheme {

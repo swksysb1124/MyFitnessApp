@@ -25,8 +25,6 @@ class DatabaseLessonDataSource(
         return lessonDao.getLessonById(id).toLesson()
     }
 
-
-
     override suspend fun getExercises(lessonId: String?): List<Exercise> {
         val id = lessonId?.toIntOrNull() ?: return emptyList()
         return exerciseDao.getExercisesByLessonId(id)
@@ -38,7 +36,7 @@ class DatabaseLessonDataSource(
     }
 
     override suspend fun deleteLessonById(lessonId: String) {
-        TODO("Not yet implemented")
+        lessonDao.deleteLessonById(lessonId.toInt())
     }
 
     override suspend fun createExercise(exercises: List<Exercise>) {

@@ -11,4 +11,6 @@ class LessonRepository(
     suspend fun getLesson(lessonId: String?): Lesson? = dataSource.getLesson(lessonId)
 
     suspend fun createLesson(lesson: Lesson) = dataSource.createLesson(lesson)
+
+    suspend fun deleteLessonById(lessonId: String) = dataSource.deleteLessonById(lessonId)
 }
