@@ -21,11 +21,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.Exercise
-import com.example.myfitnessapp.model.ExerciseMetaData
 import com.example.myfitnessapp.model.Rest
-import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.color.textColor
+import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.util.KeepScreenOn
 import com.example.myfitnessapp.util.formattedDuration
 
@@ -41,16 +40,12 @@ fun LessonExercisePage(
 
     LaunchedEffect(onExerciseClose) {
         when (onExerciseClose) {
-            ExerciseCloseReason.Finished -> {
-                onBackPressed()
-            }
-
+            ExerciseCloseReason.NotYetClose -> Unit
+            ExerciseCloseReason.Finished -> onBackPressed()
             ExerciseCloseReason.Stopped -> {
                 viewModel.stopLesson()
                 onBackPressed()
             }
-
-            ExerciseCloseReason.NotYetClose -> Unit
         }
     }
 
@@ -76,7 +71,7 @@ fun LessonExercisePage(
                     )
                 }
                 val activityName = when (currentExercise) {
-                    is ExerciseMetaData -> (currentExercise as ExerciseMetaData).name
+                    is Exercise -> (currentExercise as Exercise).name
                     is Rest -> (currentExercise as Rest).name
                     else -> ""
                 }
