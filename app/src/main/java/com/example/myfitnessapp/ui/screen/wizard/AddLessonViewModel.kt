@@ -69,7 +69,7 @@ class AddLessonViewModel(
         _hasExerciseSelected.value = selectedExercises.isNotEmpty()
     }
 
-    fun save() {
+    fun save(onComplete: () -> Unit) {
         val exercises = selectedExercises.map {
             Exercise.create(it, Exercise.DefaultDuration)
         }
@@ -85,6 +85,7 @@ class AddLessonViewModel(
                 Exercise.create(it.metaData, it.durationInSecond, lessonId = lessonId)
             }
             lessonExerciseRepository.createLessonExercises(updated)
+            onComplete()
         }
     }
 

@@ -41,8 +41,9 @@ fun LessonContentConfirmPage(
         type = WizardType.Confirm,
         onBack = onBack,
         onConfirm = {
-            viewModel.save()
-            onConfirm()
+            viewModel.save {
+                onConfirm()
+            }
         }
     ) {
         Column(
