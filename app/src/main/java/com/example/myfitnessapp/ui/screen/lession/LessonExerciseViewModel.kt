@@ -13,6 +13,7 @@ import com.example.myfitnessapp.repository.LessonExerciseRepository
 import com.example.myfitnessapp.util.spokenDuration
 import com.example.myfitnessapp.util.tts.TextToSpeechEngine
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -50,10 +51,11 @@ class LessonExerciseViewModel(
                     _onExerciseClose.value = ExerciseCloseReason.Finished
                 }
             )
+            startLesson()
         }
     }
 
-    fun startLesson() {
+    private fun startLesson() {
         viewModelScope.launch {
             lessonManager.startLesson()
         }

@@ -39,10 +39,6 @@ fun LessonExercisePage(
     val timeLeftInSecond by viewModel.timeLeft.collectAsState(0)
     val onExerciseClose by viewModel.onExerciseClose.observeAsState(ExerciseCloseReason.NotYetClose)
 
-    LaunchedEffect(Unit) {
-        viewModel.startLesson()
-    }
-
     LaunchedEffect(onExerciseClose) {
         when (onExerciseClose) {
             ExerciseCloseReason.Finished -> {
