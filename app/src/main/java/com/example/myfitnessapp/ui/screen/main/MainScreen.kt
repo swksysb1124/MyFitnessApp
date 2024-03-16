@@ -8,33 +8,33 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.navigation.BottomNaviScreen
 import com.example.myfitnessapp.repository.LessonRepository
 import com.example.myfitnessapp.repository.ProfileRepository
 import com.example.myfitnessapp.ui.color.backgroundColor
+import com.example.myfitnessapp.ui.color.containerBackgroundColor
 import com.example.myfitnessapp.ui.screen.lession.MyLessonScreen
 import com.example.myfitnessapp.ui.screen.lession.MyLessonViewModel
 import com.example.myfitnessapp.ui.screen.profile.ProfileScreen
@@ -107,41 +107,31 @@ private fun MainScreenBottomBar(
     bottomNavController: NavHostController,
     bottomNaviScreen: List<BottomNaviScreen>
 ) {
-    BottomNavigation(
-        backgroundColor = Color(0xFF222831)
+    var selectedItem by remember { mutableIntStateOf(0) }
+    NavigationBar(
+        containerColor = Color(0xFF222831),
     ) {
-        val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
-        val currentDestination = navBackStackEntry?.destination
-        bottomNaviScreen.forEach { screen ->
-            MainScreenBottomNavigationItem(screen, currentDestination, bottomNavController)
+        bottomNaviScreen.forEachIndexed { index, screen ->
+            NavigationBarItem(
+                icon = {
+                    Icon(
+                        screen.icon,
+                        contentDescription = screen.name
+                    )
+                },
+                label = { Text(screen.name, color = containerBackgroundColor) },
+                selected = selectedItem == index,
+                onClick = {
+                    selectedItem = index
+                    bottomNavController.navigate(screen.route) {
+                        popUpTo(bottomNavController.graph.startDestinationId) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+            )
         }
     }
-}
-
-@Composable
-private fun RowScope.MainScreenBottomNavigationItem(
-    screen: BottomNaviScreen,
-    currentDestination: NavDestination?,
-    bottomNavController: NavHostController
-) {
-    BottomNavigationItem(
-        icon = {
-            Icon(
-                screen.icon,
-                tint = Color.White,
-                contentDescription = null
-            )
-        },
-        label = { Text(screen.name, color = Color.White) },
-        selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-        onClick = {
-            bottomNavController.navigate(screen.route) {
-                popUpTo(bottomNavController.graph.startDestinationId) {
-                    saveState = true
-                }
-                launchSingleTop = true
-                restoreState = true
-            }
-        }
-    )
 }
