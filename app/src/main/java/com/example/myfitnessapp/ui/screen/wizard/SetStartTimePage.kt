@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.DayOfWeek
 import com.example.myfitnessapp.model.Time
+import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.color.buttonBackgroundColor
 import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.component.DaysOfWeekView
@@ -81,13 +82,13 @@ fun SetStartTimePage(
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     Icon(
-                        tint = buttonBackgroundColor,
+                        tint = backgroundColor,
                         imageVector = Icons.Sharp.DateRange,
                         contentDescription = null
                     )
                     Text(
                         weekDescription,
-                        color = textColor,
+                        color = backgroundColor,
                         fontSize = 18.sp
                     )
                 }

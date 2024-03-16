@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.ExerciseMetaData
@@ -43,12 +44,14 @@ fun ExerciseSelectionRow(
         )
         Column {
             Text(
-                metaData.name,
+                text = metaData.name,
+                fontWeight = FontWeight.Bold,
                 color = backgroundColor,
                 fontSize = 20.sp
             )
             Text(
-                metaData.suggestedDurationInSecond.speakableDuration(),
+                text = metaData.suggestedDurationInSecond.speakableDuration(),
+                fontWeight = FontWeight.Bold,
                 color = backgroundColor
             )
         }

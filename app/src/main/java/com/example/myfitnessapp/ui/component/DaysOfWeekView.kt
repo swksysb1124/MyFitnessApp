@@ -13,6 +13,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,20 +39,21 @@ fun DaysOfWeekView(
             daysOfWeek.forEach { day ->
                 val density = LocalDensity.current
                 val isSelected = isDaySelected(day)
-                val (color, circleStyle) = when (isSelected) {
-                    true -> backgroundColor to Fill
-                    false -> textColor to Stroke(width = with(density) { 1.dp.toPx() })
+                val (textColor, circleStyle) = when (isSelected) {
+                    true -> textColor to Fill
+                    false -> backgroundColor to Stroke(width = with(density) { 1.dp.toPx() })
                 }
                 Text(
                     text = day.value,
                     fontSize = 16.sp,
-                    color = color,
+                    fontWeight = FontWeight.Bold,
+                    color = textColor,
                     modifier = Modifier
                         .padding(8.dp)
                         .drawBehind {
                             drawCircle(
                                 style = circleStyle,
-                                color = textColor,
+                                color = backgroundColor,
                                 radius = this.size.maxDimension * 0.8f
                             )
                         }
@@ -64,7 +66,10 @@ fun DaysOfWeekView(
     }
 }
 
-@Preview(widthDp = 400)
+@Preview(
+    widthDp = 400,
+    apiLevel = 33
+)
 @Composable
 fun DaysOfWeekViewPreview() {
     MyFitnessAppTheme {
