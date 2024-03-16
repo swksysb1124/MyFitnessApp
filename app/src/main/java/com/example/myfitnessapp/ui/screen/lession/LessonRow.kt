@@ -1,5 +1,6 @@
 package com.example.myfitnessapp.ui.screen.lession
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,8 +13,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -26,6 +30,7 @@ import com.example.myfitnessapp.ui.color.rowBackgroundColor
 import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LessonRow(
     modifier: Modifier = Modifier,
@@ -50,11 +55,14 @@ fun LessonRow(
             modifier = Modifier.weight(1f),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (screenMode == LessonScreenMode.Edit) {
-                Checkbox(
-                    checked = checked,
-                    onCheckedChange = onCheckedChange
-                )
+            AnimatedVisibility(screenMode == LessonScreenMode.Edit) {
+                CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
+                    Checkbox(
+                        modifier = Modifier.padding(end = 12.dp),
+                        checked = checked,
+                        onCheckedChange = onCheckedChange
+                    )
+                }
             }
             Column(Modifier.fillMaxHeight(), verticalArrangement = Arrangement.SpaceBetween) {
                 if (name != null) {
