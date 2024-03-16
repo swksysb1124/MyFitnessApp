@@ -58,12 +58,14 @@ fun MainScreen(
     val shouldBottomNaviShown by mainViewModel.shouldBottomNaviShown.collectAsState(true)
     val density = LocalDensity.current
     Scaffold(
+        containerColor = backgroundColor,
         bottomBar = {
-            AnimatedVisibility(visible = shouldBottomNaviShown,
+            AnimatedVisibility(
+                visible = shouldBottomNaviShown,
                 enter = slideInVertically { with(density) { -40.dp.roundToPx() } }
                         + expandVertically(expandFrom = Alignment.Top)
                         + fadeIn(initialAlpha = 0.3f),
-                exit = slideOutVertically() + shrinkVertically() + fadeOut()
+                exit = shrinkVertically() + fadeOut()
             ) {
                 MainScreenBottomBar(
                     bottomNavController = bottomNavController,
