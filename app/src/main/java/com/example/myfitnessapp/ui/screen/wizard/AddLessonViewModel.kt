@@ -70,8 +70,8 @@ class AddLessonViewModel(
     }
 
     fun save(onComplete: () -> Unit) {
-        val exercises = selectedExercises.map {
-            Exercise.create(it, Exercise.DefaultDuration)
+        val exercises = selectedExercises.map { metaData ->
+            Exercise.create(metaData, metaData.suggestedDurationInSecond)
         }
         val lesson = Lesson(
             name = name.value,
