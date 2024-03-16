@@ -10,7 +10,7 @@ import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.repository.LessonExerciseRepository
 import com.example.myfitnessapp.repository.LessonRepository
 import com.example.myfitnessapp.repository.ProfileRepository
-import com.example.myfitnessapp.util.formattedDuration
+import com.example.myfitnessapp.util.spokenDuration
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -27,8 +27,8 @@ class LessonContentViewModel(
     private val _sumOfExerciseDuration = MutableLiveData<String>()
     val sumOfExerciseDuration: LiveData<String> = _sumOfExerciseDuration
 
-    private val _sumOfBurnedCalories = MutableLiveData<Int>()
-    val sumOfBurnedCalories: LiveData<Int> = _sumOfBurnedCalories
+    private val _sumOfBurnedCalories = MutableLiveData<String>()
+    val sumOfBurnedCalories: LiveData<String> = _sumOfBurnedCalories
 
     private val _lesson = MutableLiveData<Lesson>()
     val lesson: LiveData<Lesson> = _lesson
@@ -46,7 +46,7 @@ class LessonContentViewModel(
             _exercises.value = fetchedExercises
 
             _sumOfExerciseDuration.value =
-                fetchedExercises.sumOf { it.durationInSecond }.formattedDuration()
+                fetchedExercises.sumOf { it.durationInSecond }.spokenDuration()
 
             _sumOfBurnedCalories.value = fetchedExercises.sumOf {
                 calculator.calculate(
@@ -54,7 +54,7 @@ class LessonContentViewModel(
                     weightInKg = fetchedProfile.weight.toDouble(),
                     mins = (it.durationInSecond.toDouble() / 60.0)
                 )
-            }.roundToInt()
+            }.roundToInt().let { "${it}千卡" }
         }
     }
 }

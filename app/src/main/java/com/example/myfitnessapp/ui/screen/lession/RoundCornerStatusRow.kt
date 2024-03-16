@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -34,7 +35,7 @@ fun RoundCornerStatusRow(
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .height(70.dp)
+                    .fillMaxHeight()
                     .background(color = backgroundColor, shape = shape)
                     .padding(10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
