@@ -29,7 +29,8 @@ fun SetLessonNamePage(
                     horizontal = 20.dp,
                     vertical = 12.dp
                 ),
-            label = "名稱 (最長20個字)",
+            label = "名稱 (最長10個字)",
+            isValueValid = { text -> text.length <= 10 },
             value = name,
             onValueChange = onNameChange
         )
