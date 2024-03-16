@@ -21,7 +21,7 @@ import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.model.ExerciseMetaData
 import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
-import com.example.myfitnessapp.util.formattedDuration
+import com.example.myfitnessapp.util.spokenDuration
 
 @Composable
 fun ExerciseRow(
@@ -29,6 +29,9 @@ fun ExerciseRow(
     modifier: Modifier = Modifier,
     onItemClick: () -> Unit = {},
 ) {
+    val name = exercise.name
+    val duration = exercise.durationInSecond.spokenDuration()
+    val headIcon = exercise.metaData.icon
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -38,11 +41,11 @@ fun ExerciseRow(
     ) {
         Image(
             modifier = Modifier.size(70.dp).padding(5.dp),
-            painter = painterResource(id = exercise.metaData.icon),
+            painter = painterResource(id = headIcon),
             contentDescription = null
         )
         Text(
-            text = exercise.name,
+            text = name,
             fontSize = 20.sp,
             color = Color.White,
             maxLines = 1,
@@ -51,7 +54,7 @@ fun ExerciseRow(
                 .padding(vertical = 8.dp, horizontal = 16.dp)
         )
         Text(
-            text = exercise.durationInSecond.formattedDuration(),
+            text = duration,
             fontSize = 20.sp,
             color = textColor,
             maxLines = 1,
