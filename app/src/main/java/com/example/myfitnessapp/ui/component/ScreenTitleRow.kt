@@ -1,5 +1,6 @@
 package com.example.myfitnessapp.ui.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
@@ -26,10 +28,12 @@ import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 fun ScreenTitleRow(
     title: String,
     icons: @Composable () -> Unit = {},
-    onBackPressed: (() -> Unit)? = null
+    onBackPressed: (() -> Unit)? = null,
+    background: Color = backgroundColor
 ) {
     Row(
         Modifier
+            .background(background)
             .fillMaxWidth()
             .height(100.dp)
             .padding(horizontal = 25.dp, vertical = 20.dp),
@@ -55,7 +59,11 @@ fun ScreenTitleRow(
     }
 }
 
-@Preview(backgroundColor = 0xFF35374B, showBackground = true)
+@Preview(
+    backgroundColor = 0xFF35374B,
+    showBackground = true,
+    apiLevel = 33
+)
 @Composable
 fun ScreenTitleRowPreview() {
     MyFitnessAppTheme {

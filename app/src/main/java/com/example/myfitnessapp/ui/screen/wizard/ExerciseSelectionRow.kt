@@ -15,7 +15,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.ExerciseMetaData
-import com.example.myfitnessapp.ui.color.textColor
+import com.example.myfitnessapp.ui.color.backgroundColor
+import com.example.myfitnessapp.util.speakableDuration
 
 @Composable
 fun ExerciseSelectionRow(
@@ -43,10 +44,13 @@ fun ExerciseSelectionRow(
         Column {
             Text(
                 metaData.name,
-                color = textColor,
+                color = backgroundColor,
                 fontSize = 20.sp
             )
-            Text("30分鐘", color = textColor)
+            Text(
+                metaData.suggestedDurationInSecond.speakableDuration(),
+                color = backgroundColor
+            )
         }
     }
 }
