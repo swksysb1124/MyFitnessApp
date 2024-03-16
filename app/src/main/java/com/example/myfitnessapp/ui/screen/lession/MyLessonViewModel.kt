@@ -36,6 +36,10 @@ class MyLessonViewModel(
 
     init {
         fetchLessonList()
+        collectDataChange()
+    }
+
+    private fun collectDataChange() {
         viewModelScope.launch {
             collectScreenModeChange()
             collectEventChange()
@@ -62,6 +66,9 @@ class MyLessonViewModel(
                 ) {
                     selectedLessons.clear()
                 }
+                mainViewModel.showOrHideBottomNavigationBar(
+                    mode == LessonScreenMode.Normal
+                )
             }
         }
     }

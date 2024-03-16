@@ -46,17 +46,12 @@ fun MyLessonScreen(
     viewModel: MyLessonViewModel,
     onLessonClick: (id: String) -> Unit = {},
     onAddLesson: () -> Unit = {},
-    onModeChange: (LessonScreenMode) -> Unit = {}
 ) {
     val lessons by viewModel.lessons.observeAsState(emptyList())
     val selectedLessons = remember { viewModel.selectedLessons }
     val screenMode by viewModel.screenMode.collectAsState(LessonScreenMode.Normal)
     val hasSelectedLesson by viewModel.hasLessonsSelected.collectAsState(false)
     val isEditMode = (screenMode == LessonScreenMode.Edit)
-
-    LaunchedEffect(screenMode) {
-        onModeChange(screenMode)
-    }
 
     Column(
         Modifier
