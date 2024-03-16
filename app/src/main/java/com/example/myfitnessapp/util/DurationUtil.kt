@@ -23,7 +23,7 @@ fun Int.formattedDuration(): String {
 }
 
 /**
- * Covert duration in second to a speakable sentence in Chinese
+ * Covert duration in second to a spoken sentence in Chinese
  *
  * For example:
  *   - 10s -> 10秒
@@ -32,7 +32,7 @@ fun Int.formattedDuration(): String {
  *   - 3,600s -> 1小時
  *   - 3,670s -> 1小時1分鐘10秒
  */
-fun Int.speakableDuration(): String {
+fun Int.spokenDuration(): String {
     if (this == 0) return ""
     val seconds = this
     val hour = seconds / 3600

@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.ExerciseMetaData
 import com.example.myfitnessapp.ui.color.backgroundColor
-import com.example.myfitnessapp.util.speakableDuration
+import com.example.myfitnessapp.util.spokenDuration
 
 @Composable
 fun ExerciseSelectionRow(
@@ -50,7 +50,7 @@ fun ExerciseSelectionRow(
                 fontSize = 20.sp
             )
             Text(
-                text = metaData.suggestedDurationInSecond.speakableDuration(),
+                text = metaData.suggestedDurationInSecond.spokenDuration(),
                 fontWeight = FontWeight.Bold,
                 color = backgroundColor
             )

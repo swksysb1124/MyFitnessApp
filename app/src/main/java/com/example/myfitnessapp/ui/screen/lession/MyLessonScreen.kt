@@ -39,7 +39,7 @@ import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.ui.screen.main.MainViewModel
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
-import com.example.myfitnessapp.util.speakableDuration
+import com.example.myfitnessapp.util.spokenDuration
 
 @Composable
 fun MyLessonScreen(
@@ -136,7 +136,7 @@ private fun LessonList(
                 modifier = rowModifier,
                 name = lesson.name,
                 startTime = lesson.startTime.toString(),
-                duration = lesson.duration.speakableDuration(),
+                duration = lesson.duration.spokenDuration(),
                 daysOfWeek = lesson.daysOfWeek,
                 checked = isSelected(lesson),
                 onCheckedChange = { selected ->

@@ -10,7 +10,7 @@ import com.example.myfitnessapp.model.Activity
 import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.model.Rest
 import com.example.myfitnessapp.repository.LessonExerciseRepository
-import com.example.myfitnessapp.util.speakableDuration
+import com.example.myfitnessapp.util.spokenDuration
 import com.example.myfitnessapp.util.tts.TextToSpeechEngine
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -80,8 +80,8 @@ class LessonExerciseViewModel(
 
     private fun speakExerciseStarted(activity: Activity) {
         val wording = when (activity) {
-            is Exercise -> "開始${activity.name}，${activity.durationInSecond.speakableDuration()}"
-            is Rest -> "進入${activity.name}，${activity.durationInSecond.speakableDuration()}"
+            is Exercise -> "開始${activity.name}，${activity.durationInSecond.spokenDuration()}"
+            is Rest -> "進入${activity.name}，${activity.durationInSecond.spokenDuration()}"
             else -> return
         }
         textToSpeech.speak(wording)
