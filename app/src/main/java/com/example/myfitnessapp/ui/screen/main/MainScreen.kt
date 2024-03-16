@@ -8,7 +8,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
@@ -36,7 +35,6 @@ import com.example.myfitnessapp.navigation.BottomNaviScreen
 import com.example.myfitnessapp.repository.LessonRepository
 import com.example.myfitnessapp.repository.ProfileRepository
 import com.example.myfitnessapp.ui.color.backgroundColor
-import com.example.myfitnessapp.ui.screen.lession.LessonScreenMode
 import com.example.myfitnessapp.ui.screen.lession.MyLessonScreen
 import com.example.myfitnessapp.ui.screen.lession.MyLessonViewModel
 import com.example.myfitnessapp.ui.screen.profile.ProfileScreen
@@ -110,7 +108,7 @@ private fun MainScreenBottomBar(
     bottomNaviScreen: List<BottomNaviScreen>
 ) {
     BottomNavigation(
-        backgroundColor = backgroundColor
+        backgroundColor = Color(0xFF222831)
     ) {
         val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
