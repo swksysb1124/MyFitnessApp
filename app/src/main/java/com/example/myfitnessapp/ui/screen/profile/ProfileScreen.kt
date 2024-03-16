@@ -10,17 +10,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.ui.color.backgroundColor
-import com.example.myfitnessapp.ui.color.buttonBackgroundColor
+import com.example.myfitnessapp.ui.color.containerBackgroundColor
 import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.component.ScreenTitleRow
 
@@ -60,7 +61,7 @@ fun ProfileScreen(
                     vertical = 12.dp
                 )
         )
-        Divider(Modifier.padding(horizontal = 20.dp))
+        RowDivider()
         ProfileInfoRow(
             label = "體重",
             value = "${weight}kg",
@@ -77,7 +78,7 @@ fun ProfileScreen(
                     vertical = 12.dp
                 )
         )
-        Divider(Modifier.padding(horizontal = 20.dp))
+        RowDivider()
     }
 
     if (editDialogConfig.isDialogOpen) {
@@ -92,6 +93,14 @@ fun ProfileScreen(
             viewModel.closeDialog(editDialogConfig.type)
         }
     }
+}
+
+@Composable
+private fun RowDivider() {
+    HorizontalDivider(
+        color = containerBackgroundColor,
+        modifier = Modifier.padding(horizontal = 20.dp)
+    )
 }
 
 enum class ProfileEditType(val title: String) {
@@ -111,11 +120,11 @@ private fun ProfileInfoRow(
     ) {
         Text(label, color = textColor, fontSize = 20.sp)
         Row {
-            Text(value, color = buttonBackgroundColor, fontSize = 20.sp)
+            Text(value, color = Color.White, fontSize = 20.sp)
             Icon(
                 imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
                 contentDescription = null,
-                tint = buttonBackgroundColor
+                tint = containerBackgroundColor
             )
         }
     }
