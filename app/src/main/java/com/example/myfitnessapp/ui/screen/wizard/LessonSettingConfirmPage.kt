@@ -21,6 +21,7 @@ import com.example.myfitnessapp.model.DayOfWeek
 import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.repository.LessonExerciseRepository
 import com.example.myfitnessapp.repository.LessonRepository
+import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.component.SettingWizardLayout
 import com.example.myfitnessapp.ui.component.WizardType
@@ -76,8 +77,8 @@ private fun LessonContentRow(
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(
             label,
-            color = textColor,
-            fontSize = 20.sp,
+            color = backgroundColor,
+            fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             style = TextStyle(
                 textDecoration = TextDecoration.Underline
@@ -85,8 +86,8 @@ private fun LessonContentRow(
         )
         Text(
             name,
-            color = textColor,
-            fontSize = 16.sp
+            color = backgroundColor,
+            fontSize = 20.sp
         )
     }
 }
