@@ -22,20 +22,16 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.datasource.MocKLessonDataSource
-import com.example.myfitnessapp.event.RefreshLessonListEvent
 import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.repository.LessonRepository
 import com.example.myfitnessapp.ui.color.backgroundColor
@@ -44,43 +40,22 @@ import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.ui.screen.main.MainViewModel
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.speakableDuration
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun MyLessonScreen(
-    mainViewModel: MainViewModel,
     viewModel: MyLessonViewModel,
     onLessonClick: (id: String) -> Unit = {},
     onAddLesson: () -> Unit = {},
     onModeChange: (LessonScreenMode) -> Unit = {}
 ) {
     val lessons by viewModel.lessons.observeAsState(emptyList())
-    val selectedLessons = remember { mutableStateListOf<Lesson>() }
-    var screenMode by remember { mutableStateOf(LessonScreenMode.Normal) }
-    var hasSelectedLesson by remember { mutableStateOf(false) }
+    val selectedLessons = remember { viewModel.selectedLessons }
+    val screenMode by viewModel.screenMode.collectAsState(LessonScreenMode.Normal)
+    val hasSelectedLesson by viewModel.hasLessonsSelected.collectAsState(false)
     val isEditMode = (screenMode == LessonScreenMode.Edit)
 
-
     LaunchedEffect(screenMode) {
-        // clear selected lessons when switching to Normal mode
-        if (screenMode == LessonScreenMode.Normal &&
-            selectedLessons.isNotEmpty()
-        ) {
-            selectedLessons.clear()
-        }
         onModeChange(screenMode)
-    }
-
-    LaunchedEffect(Unit) {
-        mainViewModel.eventFlow.collectLatest { event ->
-            when (event) {
-                is RefreshLessonListEvent -> viewModel.refreshLessonList()
-            }
-        }
-    }
-
-    LaunchedEffect(selectedLessons.size) {
-        hasSelectedLesson = selectedLessons.size > 0
     }
 
     Column(
@@ -94,8 +69,8 @@ fun MyLessonScreen(
                 TitleIcons(
                     screenMode = screenMode,
                     onAddLesson = onAddLesson,
-                    onEditEnter = { screenMode = LessonScreenMode.Edit },
-                    onEditExit = { screenMode = LessonScreenMode.Normal }
+                    onEditEnter = { viewModel.onScreenModeChange(LessonScreenMode.Edit) },
+                    onEditExit = { viewModel.onScreenModeChange(LessonScreenMode.Normal) }
                 )
             }
         )
@@ -104,24 +79,15 @@ fun MyLessonScreen(
             lessons = lessons,
             screenMode = screenMode,
             onLessonClick = onLessonClick,
-            isSelected = { lesson ->
-                selectedLessons.contains(lesson)
-            },
+            isSelected = selectedLessons::contains,
             onSelectedChange = { selected, lesson ->
-                if (selected) {
-                    selectedLessons.add(lesson)
-                } else {
-                    selectedLessons.remove(lesson)
-                }
+                viewModel.onLessonSelectedChange(selectedLessons, selected, lesson)
             }
         )
         AnimatedVisibility(isEditMode) {
             BottomEditButtons(
                 enabled = hasSelectedLesson,
-                onDelete = {
-                    val ids = selectedLessons.mapNotNull { it.id }
-                    viewModel.deleteLessonsAndRefresh(ids)
-                }
+                onDelete = viewModel::deleteSelectedLessons
             )
         }
     }
@@ -253,12 +219,10 @@ private fun AddLessonButton(onAddLesson: () -> Unit) {
 @Composable
 fun MyPlanScreenPreview() {
     val viewModel = MyLessonViewModel(
+        mainViewModel = MainViewModel(),
         lessonRepository = LessonRepository(MocKLessonDataSource())
     )
     MyFitnessAppTheme {
-        MyLessonScreen(
-            MainViewModel(),
-            viewModel
-        )
+        MyLessonScreen(viewModel)
     }
 }

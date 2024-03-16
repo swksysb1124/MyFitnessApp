@@ -83,9 +83,11 @@ fun MainScreen(
         ) {
             composable(BottomNaviScreen.MyLesson.route) {
                 MyLessonScreen(
-                    mainViewModel = mainViewModel,
                     viewModel = viewModel {
-                        MyLessonViewModel(lessonRepository)
+                        MyLessonViewModel(
+                            mainViewModel = mainViewModel,
+                            lessonRepository = lessonRepository
+                        )
                     },
                     onLessonClick = onLessonClick,
                     onAddLesson = onAddLesson,
