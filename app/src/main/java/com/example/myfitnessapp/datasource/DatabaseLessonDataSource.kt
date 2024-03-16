@@ -5,7 +5,7 @@ import com.example.myfitnessapp.database.ExerciseEntity
 import com.example.myfitnessapp.database.LessonDao
 import com.example.myfitnessapp.database.LessonEntity
 import com.example.myfitnessapp.model.Exercise
-import com.example.myfitnessapp.model.ExerciseType
+import com.example.myfitnessapp.model.ExerciseMetaData
 import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.model.Time
 import com.example.myfitnessapp.serialization.deserializeDaysOfWeek
@@ -75,15 +75,15 @@ class DatabaseLessonDataSource(
 
     private fun Exercise.toEntity(): ExerciseEntity {
         return ExerciseEntity(
-            type = type.key,
-            name = type.name,
+            type = metaData.key,
+            name = metaData.name,
             duration = durationInSecond,
             lessonId = lessonId?.toInt()
         )
     }
 
     private fun ExerciseEntity.toExercise(): Exercise? {
-        val type = ExerciseType.find(type) ?: return null
-        return Exercise.create(type, duration)
+        val meta = ExerciseMetaData.find(type) ?: return null
+        return Exercise.create(meta, duration)
     }
 }

@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.Exercise
-import com.example.myfitnessapp.model.ExerciseType
+import com.example.myfitnessapp.model.ExerciseMetaData
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -28,7 +28,7 @@ fun ExerciseList(
         ExerciseEmptyView()
     } else {
         LazyColumn(modifier = modifier.fillMaxSize()) {
-            items(exercises, key = { it.type.key }) { exercise ->
+            items(exercises, key = { it.metaData.key }) { exercise ->
                 ExerciseRow(
                     exercise = exercise,
                     modifier = Modifier.animateItemPlacement(), // no working now...
@@ -58,8 +58,8 @@ fun ExerciseListPreview() {
     MyFitnessAppTheme {
         ExerciseList(
             exercises = listOf(
-                Exercise.create(ExerciseType.Squat, 30),
-                Exercise.create(ExerciseType.Bridge, 30)
+                Exercise.create(ExerciseMetaData.Squat, 30),
+                Exercise.create(ExerciseMetaData.Bridge, 30)
             )
         )
     }

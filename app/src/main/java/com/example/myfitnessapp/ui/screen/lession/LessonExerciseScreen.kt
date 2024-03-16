@@ -21,7 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.Exercise
-import com.example.myfitnessapp.model.ExerciseType
+import com.example.myfitnessapp.model.ExerciseMetaData
 import com.example.myfitnessapp.model.Rest
 import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.ui.color.backgroundColor
@@ -75,12 +75,12 @@ fun LessonExercisePage(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(300.dp),
-                        painter = painterResource(id = (currentExercise as Exercise).type.icon),
+                        painter = painterResource(id = (currentExercise as Exercise).metaData.icon),
                         contentDescription = null
                     )
                 }
                 val activityName = when (currentExercise) {
-                    is ExerciseType -> (currentExercise as ExerciseType).name
+                    is ExerciseMetaData -> (currentExercise as ExerciseMetaData).name
                     is Rest -> (currentExercise as Rest).name
                     else -> ""
                 }

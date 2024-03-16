@@ -14,12 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.myfitnessapp.model.ExerciseType
+import com.example.myfitnessapp.model.ExerciseMetaData
 import com.example.myfitnessapp.ui.color.textColor
 
 @Composable
 fun ExerciseSelectionRow(
-    exercise: ExerciseType,
+    metaData: ExerciseMetaData,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit
 ) {
@@ -37,12 +37,12 @@ fun ExerciseSelectionRow(
             modifier = Modifier
                 .size(60.dp)
                 .padding(5.dp),
-            painter = painterResource(id = exercise.icon),
+            painter = painterResource(id = metaData.icon),
             contentDescription = null
         )
         Column {
             Text(
-                exercise.name,
+                metaData.name,
                 color = textColor,
                 fontSize = 20.sp
             )

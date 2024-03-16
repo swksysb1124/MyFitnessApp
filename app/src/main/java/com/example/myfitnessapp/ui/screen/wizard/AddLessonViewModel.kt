@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myfitnessapp.model.DayOfWeek
 import com.example.myfitnessapp.model.Exercise
-import com.example.myfitnessapp.model.ExerciseType
+import com.example.myfitnessapp.model.ExerciseMetaData
 import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.model.Time
 import com.example.myfitnessapp.repository.LessonExerciseRepository
@@ -32,7 +32,7 @@ class AddLessonViewModel(
 
     val selectedDaysOfWeek = mutableStateListOf<DayOfWeek>()
 
-    val selectedExercises = mutableStateListOf<ExerciseType>()
+    val selectedExercises = mutableStateListOf<ExerciseMetaData>()
 
     fun updateName(name: String) {
         _name.value = name
@@ -56,11 +56,11 @@ class AddLessonViewModel(
         _weekDescription.value = description
     }
 
-    fun isExerciseSelected(exercise: ExerciseType): Boolean {
+    fun isExerciseSelected(exercise: ExerciseMetaData): Boolean {
         return selectedExercises.contains(exercise)
     }
 
-    fun updateExercises(selected: Boolean, exercise: ExerciseType) {
+    fun updateExercises(selected: Boolean, exercise: ExerciseMetaData) {
         if (selected) {
             selectedExercises.add(exercise)
         } else {
@@ -82,7 +82,7 @@ class AddLessonViewModel(
         viewModelScope.launch {
             val lessonId = lessonRepository.createLesson(lesson)
             val updated = exercises.map {
-                Exercise.create(it.type, it.durationInSecond, lessonId = lessonId)
+                Exercise.create(it.metaData, it.durationInSecond, lessonId = lessonId)
             }
             lessonExerciseRepository.createLessonExercises(updated)
         }

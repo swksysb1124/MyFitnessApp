@@ -50,7 +50,7 @@ class LessonContentViewModel(
 
             _sumOfBurnedCalories.value = fetchedExercises.sumOf {
                 calculator.calculate(
-                    mets = it.type.mets,
+                    mets = it.metaData.mets,
                     weightInKg = fetchedProfile.weight.toDouble(),
                     mins = (it.durationInSecond.toDouble() / 60.0)
                 )

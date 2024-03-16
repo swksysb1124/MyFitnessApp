@@ -2,7 +2,7 @@ package com.example.myfitnessapp.datasource
 
 import com.example.myfitnessapp.model.DayOfWeek
 import com.example.myfitnessapp.model.Exercise
-import com.example.myfitnessapp.model.ExerciseType
+import com.example.myfitnessapp.model.ExerciseMetaData
 import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.model.Time
 
@@ -64,20 +64,20 @@ class MocKLessonDataSource: LocalLessonDataSource {
     override suspend fun getExercises(lessonId: String?): List<Exercise> {
         return when (lessonId) {
             "1" -> listOf(
-                Exercise.create(ExerciseType.Crunch, 30),
-                Exercise.create(ExerciseType.Swimming, 60),
-                Exercise.create(ExerciseType.Plank, 45),
-                Exercise.create(ExerciseType.Squat, 30),
+                Exercise.create(ExerciseMetaData.Crunch, 30),
+                Exercise.create(ExerciseMetaData.Swimming, 60),
+                Exercise.create(ExerciseMetaData.Plank, 45),
+                Exercise.create(ExerciseMetaData.Squat, 30),
             )
 
             "2" -> listOf(
-                Exercise.create(ExerciseType.PushUp, 30),
-                Exercise.create(ExerciseType.PullUp, 60),
-                Exercise.create(ExerciseType.Bridge, 60),
+                Exercise.create(ExerciseMetaData.PushUp, 30),
+                Exercise.create(ExerciseMetaData.PullUp, 60),
+                Exercise.create(ExerciseMetaData.Bridge, 60),
             )
 
             "3" -> listOf(
-                Exercise.create(ExerciseType.MediumStrengthRunning, 30 * 60),
+                Exercise.create(ExerciseMetaData.MediumStrengthRunning, 30 * 60),
             )
 
             else -> emptyList()

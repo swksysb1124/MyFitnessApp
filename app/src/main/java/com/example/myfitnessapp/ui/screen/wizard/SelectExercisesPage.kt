@@ -5,14 +5,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.myfitnessapp.model.ExerciseType
+import com.example.myfitnessapp.model.ExerciseMetaData
 import com.example.myfitnessapp.ui.component.SettingWizardLayout
 
 @Composable
 fun SelectExercisesPage(
-    exercises: List<ExerciseType> = ExerciseType.getAllExercises(),
-    isExerciseSelected: (ExerciseType) -> Boolean,
-    onExerciseSelected: (selected: Boolean, exercise: ExerciseType) -> Unit,
+    exerciseMetaData: List<ExerciseMetaData> = ExerciseMetaData.All,
+    isExerciseSelected: (ExerciseMetaData) -> Boolean,
+    onExerciseSelected: (selected: Boolean, exercise: ExerciseMetaData) -> Unit,
     nextEnabled: Boolean = true,
     onBack: () -> Unit,
     onNext: () -> Unit,
@@ -24,12 +24,12 @@ fun SelectExercisesPage(
         nextEnabled = nextEnabled
     ) {
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            items(exercises) { exercise ->
+            items(exerciseMetaData) { metaData ->
                 ExerciseSelectionRow(
-                    exercise,
-                    checked = isExerciseSelected(exercise),
+                    metaData = metaData,
+                    checked = isExerciseSelected(metaData),
                     onCheckedChange = { checked ->
-                        onExerciseSelected(checked, exercise)
+                        onExerciseSelected(checked, metaData)
                     }
                 )
             }

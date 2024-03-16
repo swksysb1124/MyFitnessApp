@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.Exercise
-import com.example.myfitnessapp.model.ExerciseType
+import com.example.myfitnessapp.model.ExerciseMetaData
 import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.formattedDuration
@@ -38,7 +38,7 @@ fun ExerciseRow(
     ) {
         Image(
             modifier = Modifier.size(70.dp).padding(5.dp),
-            painter = painterResource(id = exercise.type.icon),
+            painter = painterResource(id = exercise.metaData.icon),
             contentDescription = null
         )
         Text(
@@ -67,7 +67,7 @@ fun ExerciseRow(
 fun ExerciseRowPreview() {
     MyFitnessAppTheme {
         ExerciseRow(
-            exercise = Exercise.create(ExerciseType.Squat, 30),
+            exercise = Exercise.create(ExerciseMetaData.Squat, 30),
             onItemClick = {}
         )
     }

@@ -4,19 +4,19 @@ data class Exercise(
     override val name: String,
     override val durationInSecond: Int,
     val lessonId: Long? = null,
-    val type: ExerciseType
+    val metaData: ExerciseMetaData
 ) : Activity {
     companion object {
         const val DefaultDuration = 60
         fun create(
-            type: ExerciseType,
+            metaData: ExerciseMetaData,
             durationInSecond: Int,
             lessonId: Long? = null
         ): Exercise = Exercise(
-            name = type.name,
+            name = metaData.name,
             durationInSecond = durationInSecond,
             lessonId = lessonId,
-            type = type
+            metaData = metaData
         )
     }
 }
