@@ -10,6 +10,7 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -22,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -33,8 +33,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myfitnessapp.navigation.BottomNaviScreen
 import com.example.myfitnessapp.repository.LessonRepository
 import com.example.myfitnessapp.repository.ProfileRepository
-import com.example.myfitnessapp.ui.color.backgroundColor
-import com.example.myfitnessapp.ui.color.containerBackgroundColor
 import com.example.myfitnessapp.ui.screen.lession.MyLessonScreen
 import com.example.myfitnessapp.ui.screen.lession.MyLessonViewModel
 import com.example.myfitnessapp.ui.screen.profile.ProfileScreen
@@ -56,7 +54,7 @@ fun MainScreen(
     val shouldBottomNaviShown by mainViewModel.shouldBottomNaviShown.collectAsState(true)
     val density = LocalDensity.current
     Scaffold(
-        containerColor = backgroundColor,
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
         bottomBar = {
             AnimatedVisibility(
                 visible = shouldBottomNaviShown,
@@ -109,17 +107,18 @@ private fun MainScreenBottomBar(
 ) {
     var selectedItem by remember { mutableIntStateOf(0) }
     NavigationBar(
-        containerColor = Color(0xFF222831),
+        containerColor = MaterialTheme.colorScheme.primary
     ) {
         bottomNaviScreen.forEachIndexed { index, screen ->
             NavigationBarItem(
                 icon = {
                     Icon(
                         screen.icon,
-                        contentDescription = screen.name
+                        contentDescription = screen.name,
+                        tint = MaterialTheme.colorScheme.onPrimary
                     )
                 },
-                label = { Text(screen.name, color = containerBackgroundColor) },
+                label = { Text(screen.name, color = MaterialTheme.colorScheme.onPrimary) },
                 selected = selectedItem == index,
                 onClick = {
                     selectedItem = index
