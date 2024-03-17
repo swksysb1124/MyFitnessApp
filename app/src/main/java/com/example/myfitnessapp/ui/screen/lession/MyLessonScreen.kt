@@ -10,15 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -37,6 +30,9 @@ import com.example.myfitnessapp.repository.LessonRepository
 import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.component.ScreenTitleRow
+import com.example.myfitnessapp.ui.icon.AddIconButton
+import com.example.myfitnessapp.ui.icon.CloseIconButton
+import com.example.myfitnessapp.ui.icon.EditIconButton
 import com.example.myfitnessapp.ui.screen.main.MainViewModel
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.spokenDuration
@@ -162,51 +158,14 @@ private fun TitleIcons(
     Row {
         when (screenMode) {
             LessonScreenMode.Edit -> {
-                IconButton(
-                    onClick = onEditExit
-                ) {
-                    Icon(
-                        modifier = Modifier.size(25.dp),
-                        imageVector = Icons.Outlined.Close,
-                        contentDescription = null,
-                        tint = textColor
-                    )
-                }
+                CloseIconButton(onEditExit)
             }
 
             else -> {
-                AddLessonButton(onAddLesson)
-                EditLessonButton(onEditEnter)
+                AddIconButton(onAddLesson)
+                EditIconButton(onEditEnter)
             }
         }
-    }
-}
-
-@Composable
-private fun EditLessonButton(onClick: () -> Unit) {
-    IconButton(
-        onClick = onClick
-    ) {
-        Icon(
-            modifier = Modifier.size(25.dp),
-            imageVector = Icons.Filled.Edit,
-            contentDescription = null,
-            tint = textColor
-        )
-    }
-}
-
-@Composable
-private fun AddLessonButton(onAddLesson: () -> Unit) {
-    IconButton(
-        onClick = onAddLesson
-    ) {
-        Icon(
-            modifier = Modifier.size(25.dp),
-            imageVector = Icons.Filled.Add,
-            contentDescription = null,
-            tint = textColor
-        )
     }
 }
 

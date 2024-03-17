@@ -6,11 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.sharp.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberTimePickerState
@@ -27,11 +24,10 @@ import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.DayOfWeek
 import com.example.myfitnessapp.model.Time
 import com.example.myfitnessapp.ui.color.backgroundColor
-import com.example.myfitnessapp.ui.color.buttonBackgroundColor
-import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.component.DaysOfWeekView
 import com.example.myfitnessapp.ui.component.SettingWizardLayout
 import com.example.myfitnessapp.ui.dialog.TimePickerDialog
+import com.example.myfitnessapp.ui.icon.DaysOfWeekIcon
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -81,11 +77,7 @@ fun SetStartTimePage(
                         ),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Icon(
-                        tint = backgroundColor,
-                        imageVector = Icons.Sharp.DateRange,
-                        contentDescription = null
-                    )
+                    DaysOfWeekIcon()
                     Text(
                         weekDescription,
                         color = backgroundColor,

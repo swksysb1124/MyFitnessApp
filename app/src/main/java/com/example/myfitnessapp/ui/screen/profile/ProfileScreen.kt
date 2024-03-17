@@ -8,10 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,6 +21,7 @@ import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.color.containerBackgroundColor
 import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.component.ScreenTitleRow
+import com.example.myfitnessapp.ui.icon.NavigationIndicatorIcon
 
 @Composable
 fun ProfileScreen(
@@ -121,11 +119,7 @@ private fun ProfileInfoRow(
         Text(label, color = textColor, fontSize = 20.sp)
         Row {
             Text(value, color = Color.White, fontSize = 20.sp)
-            Icon(
-                imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
-                contentDescription = null,
-                tint = containerBackgroundColor
-            )
+            NavigationIndicatorIcon()
         }
     }
 }
