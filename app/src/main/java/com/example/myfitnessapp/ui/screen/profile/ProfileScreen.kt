@@ -1,5 +1,6 @@
 package com.example.myfitnessapp.ui.screen.profile
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,19 +10,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.myfitnessapp.ui.color.backgroundColor
-import com.example.myfitnessapp.ui.color.containerBackgroundColor
-import com.example.myfitnessapp.ui.color.textColor
+import com.example.myfitnessapp.repository.ProfileRepository
 import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.ui.icon.NavigationIndicatorIcon
+import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
 @Composable
 fun ProfileScreen(
@@ -36,7 +37,7 @@ fun ProfileScreen(
             isDialogOpen = false
         )
     )
-
+    val backgroundColor = MaterialTheme.colorScheme.primaryContainer
     Column(
         modifier = modifier
             .background(backgroundColor)
@@ -96,7 +97,7 @@ fun ProfileScreen(
 @Composable
 private fun RowDivider() {
     HorizontalDivider(
-        color = containerBackgroundColor,
+        color = MaterialTheme.colorScheme.onPrimaryContainer,
         modifier = Modifier.padding(horizontal = 20.dp)
     )
 }
@@ -112,14 +113,36 @@ private fun ProfileInfoRow(
     value: String,
     modifier: Modifier = Modifier
 ) {
+    val textColor = MaterialTheme.colorScheme.onPrimaryContainer
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(label, color = textColor, fontSize = 20.sp)
         Row {
-            Text(value, color = Color.White, fontSize = 20.sp)
-            NavigationIndicatorIcon()
+            Text(value, color = textColor, fontSize = 20.sp)
+            NavigationIndicatorIcon(
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         }
+    }
+}
+
+@Preview(
+    apiLevel = 33,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    name = "DefaultPreviewDark"
+)
+@Preview(
+    apiLevel = 33,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    name = "DefaultPreviewLight"
+)
+@Composable
+fun ProfileScreenPreview() {
+    val repository = ProfileRepository()
+    val viewModel = ProfileViewModel(repository)
+    MyFitnessAppTheme {
+        ProfileScreen(viewModel)
     }
 }
