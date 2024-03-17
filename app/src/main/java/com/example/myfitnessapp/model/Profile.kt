@@ -6,7 +6,7 @@ data class Profile(
     val weight: Int
 ) {
     companion object {
-        private const val PRIMARY_PROFILE_ID = 1
+        const val PRIMARY_PROFILE_ID = 1
         fun createPrimaryProfile(height: Int, weight: Int) =
             Profile(PRIMARY_PROFILE_ID, height, weight)
     }

@@ -10,7 +10,7 @@ interface ProfileDao {
     @Insert
     suspend fun insertProfile(profileEntity: ProfileEntity)
     @Query("SELECT * From profile WHERE id = :profileId")
-    suspend fun getProfileById(profileId: Int): ProfileEntity
+    suspend fun getProfileById(profileId: Int): ProfileEntity?
     @Update
     suspend fun updateProfile(profileEntity: ProfileEntity)
 }

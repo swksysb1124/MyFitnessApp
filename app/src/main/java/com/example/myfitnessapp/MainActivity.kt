@@ -16,6 +16,7 @@ import androidx.room.Room
 import com.example.myfitnessapp.database.AppDatabase
 import com.example.myfitnessapp.database.exercise.ExerciseDao
 import com.example.myfitnessapp.database.lesson.LessonDao
+import com.example.myfitnessapp.database.profile.ProfileDao
 import com.example.myfitnessapp.datasource.DatabaseLessonDataSource
 import com.example.myfitnessapp.datasource.LocalLessonDataSource
 import com.example.myfitnessapp.event.RefreshLessonListEvent
@@ -23,7 +24,7 @@ import com.example.myfitnessapp.navigation.NaviScreen
 import com.example.myfitnessapp.navigation.WizardNaviPage
 import com.example.myfitnessapp.repository.LessonExerciseRepository
 import com.example.myfitnessapp.repository.LessonRepository
-import com.example.myfitnessapp.repository.MockProfileRepository
+import com.example.myfitnessapp.repository.PersistProfileRepository
 import com.example.myfitnessapp.repository.ProfileRepository
 import com.example.myfitnessapp.ui.screen.lession.LessonContentScreen
 import com.example.myfitnessapp.ui.screen.lession.LessonContentViewModel
@@ -48,12 +49,13 @@ class MainActivity : ComponentActivity() {
     private lateinit var appDatabase: AppDatabase
     private lateinit var lessonDao: LessonDao
     private lateinit var exerciseDao: ExerciseDao
+    private lateinit var profileDao: ProfileDao
     private lateinit var dataSource: LocalLessonDataSource
 
     // repository
     private val lessonExerciseRepository: LessonExerciseRepository by lazy { LessonExerciseRepository(dataSource) }
     private val lessonRepository: LessonRepository by lazy { LessonRepository(dataSource) }
-    private val profileRepository: ProfileRepository by lazy { MockProfileRepository() }
+    private lateinit var profileRepository: ProfileRepository
 
     // main view model for sharing state between screen
     private lateinit var mainViewModel: MainViewModel
@@ -61,6 +63,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initializeDataSource()
+        profileRepository = PersistProfileRepository(profileDao)
+
         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         setContent {
@@ -217,6 +221,7 @@ class MainActivity : ComponentActivity() {
         ).build()
         lessonDao = appDatabase.lessonDao()
         exerciseDao = appDatabase.exerciseDao()
+        profileDao = appDatabase.profileDao()
         dataSource = DatabaseLessonDataSource(lessonDao, exerciseDao)
     }
 }
