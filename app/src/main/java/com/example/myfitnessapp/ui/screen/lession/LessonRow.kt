@@ -13,13 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -28,9 +24,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.DayOfWeek
+import com.example.myfitnessapp.ui.component.SelectCheckBox
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LessonRow(
     modifier: Modifier = Modifier,
@@ -58,13 +54,11 @@ fun LessonRow(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AnimatedVisibility(screenMode == LessonScreenMode.Edit) {
-                CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {
-                    Checkbox(
-                        modifier = Modifier.padding(end = 12.dp),
-                        checked = checked,
-                        onCheckedChange = onCheckedChange
-                    )
-                }
+                SelectCheckBox(
+                    modifier = Modifier.padding(end = 12.dp),
+                    checked = checked,
+                    onCheckedChange = onCheckedChange
+                )
             }
             Column(Modifier.fillMaxHeight(), verticalArrangement = Arrangement.SpaceBetween) {
                 if (name != null) {
