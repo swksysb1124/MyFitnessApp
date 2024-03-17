@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.ui.screen.wizard
+package com.example.myfitnessapp.ui.screen.wizard.add.lesson
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement

@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.ui.screen.wizard
+package com.example.myfitnessapp.ui.screen.wizard.add.lesson
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
@@ -29,6 +29,7 @@ import com.example.myfitnessapp.ui.component.DaysOfWeekView
 import com.example.myfitnessapp.ui.component.SettingWizardLayout
 import com.example.myfitnessapp.ui.dialog.TimePickerDialog
 import com.example.myfitnessapp.ui.icon.DaysOfWeekIcon
+import com.example.myfitnessapp.ui.screen.wizard.WizardTextField
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

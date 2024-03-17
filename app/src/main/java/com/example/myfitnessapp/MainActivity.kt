@@ -31,8 +31,8 @@ import com.example.myfitnessapp.ui.screen.main.MainScreen
 import com.example.myfitnessapp.ui.screen.main.MainViewModel
 import com.example.myfitnessapp.event.RefreshLessonListEvent
 import com.example.myfitnessapp.repository.MockProfileRepository
-import com.example.myfitnessapp.ui.screen.wizard.AddLessonScreen
-import com.example.myfitnessapp.ui.screen.wizard.AddLessonViewModel
+import com.example.myfitnessapp.ui.screen.wizard.add.lesson.AddLessonScreen
+import com.example.myfitnessapp.ui.screen.wizard.add.lesson.AddLessonViewModel
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.animation.leftSlideInNaviAnimation
 import com.example.myfitnessapp.util.animation.leftSlideOutNaviAnimation

@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.ui.screen.wizard
+package com.example.myfitnessapp.ui.screen.wizard.add.lesson
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.LiveData

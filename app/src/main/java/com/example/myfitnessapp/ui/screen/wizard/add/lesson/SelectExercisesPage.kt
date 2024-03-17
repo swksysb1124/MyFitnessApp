@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.ui.screen.wizard
+package com.example.myfitnessapp.ui.screen.wizard.add.lesson
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn

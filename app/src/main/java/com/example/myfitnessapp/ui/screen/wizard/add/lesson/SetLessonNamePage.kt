@@ -1,4 +1,4 @@
-package com.example.myfitnessapp.ui.screen.wizard
+package com.example.myfitnessapp.ui.screen.wizard.add.lesson
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding
@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myfitnessapp.ui.component.SettingWizardLayout
+import com.example.myfitnessapp.ui.screen.wizard.WizardTextField
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
 @Composable
