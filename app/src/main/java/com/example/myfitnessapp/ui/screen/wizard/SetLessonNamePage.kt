@@ -1,5 +1,6 @@
 package com.example.myfitnessapp.ui.screen.wizard
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,7 +38,16 @@ fun SetLessonNamePage(
     }
 }
 
-@Preview
+@Preview(
+    apiLevel = 33,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    name = "DefaultPreviewDark"
+)
+@Preview(
+    apiLevel = 33,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    name = "DefaultPreviewLight"
+)
 @Composable
 fun AddLessonScreenPreview() {
     MyFitnessAppTheme {
