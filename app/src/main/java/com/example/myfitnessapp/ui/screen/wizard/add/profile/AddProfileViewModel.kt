@@ -1,12 +1,17 @@
 package com.example.myfitnessapp.ui.screen.wizard.add.profile
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.myfitnessapp.model.Profile
+import com.example.myfitnessapp.repository.ProfileRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
 
-class ProfileViewModel : ViewModel() {
+class AddProfileViewModel(
+    private val profileRepository: ProfileRepository
+) : ViewModel() {
 
     private val _height = MutableStateFlow("")
     val height: StateFlow<String> = _height
@@ -28,7 +33,13 @@ class ProfileViewModel : ViewModel() {
     }
 
     fun save(onComplete: () -> Unit) {
-        Log.d("ProfileViewModel", "save: height=${height.value}, weight=${weight.value}")
-        // TODO insert profile in database
+        val height = height.value.toIntOrNull() ?: return
+        val weight = weight.value.toIntOrNull() ?: return
+        viewModelScope.launch {
+            profileRepository.saveProfile(
+                Profile.createPrimaryProfile(height, weight)
+            )
+            onComplete()
+        }
     }
 }
