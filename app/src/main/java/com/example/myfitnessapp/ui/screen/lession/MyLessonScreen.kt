@@ -1,5 +1,6 @@
 package com.example.myfitnessapp.ui.screen.lession
 
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -27,7 +29,6 @@ import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.datasource.MocKLessonDataSource
 import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.repository.LessonRepository
-import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.ui.icon.AddIconButton
@@ -51,7 +52,7 @@ fun MyLessonScreen(
 
     Column(
         Modifier
-            .background(backgroundColor)
+            .background(MaterialTheme.colorScheme.primaryContainer)
             .fillMaxSize()
     ) {
         ScreenTitleRow(
@@ -155,21 +156,31 @@ private fun TitleIcons(
     onEditEnter: () -> Unit,
     onEditExit: () -> Unit
 ) {
+    val iconTintColor = MaterialTheme.colorScheme.onPrimaryContainer
     Row {
         when (screenMode) {
             LessonScreenMode.Edit -> {
-                CloseIconButton(onEditExit)
+                CloseIconButton(iconTintColor, onEditExit)
             }
 
             else -> {
-                AddIconButton(onAddLesson)
-                EditIconButton(onEditEnter)
+                AddIconButton(iconTintColor, onAddLesson)
+                EditIconButton(iconTintColor, onEditEnter)
             }
         }
     }
 }
 
-@Preview(apiLevel = 33)
+@Preview(
+    apiLevel = 33,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    name = "DefaultPreviewDark"
+)
+@Preview(
+    apiLevel = 33,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    name = "DefaultPreviewLight"
+)
 @Composable
 fun MyPlanScreenPreview() {
     val viewModel = MyLessonViewModel(

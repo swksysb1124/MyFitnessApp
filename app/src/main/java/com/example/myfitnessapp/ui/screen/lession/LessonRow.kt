@@ -1,5 +1,6 @@
 package com.example.myfitnessapp.ui.screen.lession
 
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,20 +16,18 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.DayOfWeek
-import com.example.myfitnessapp.ui.color.rowBackgroundColor
-import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,10 +42,12 @@ fun LessonRow(
     checked: Boolean = false,
     onCheckedChange: (Boolean) -> Unit = {}
 ) {
+    val backgroundColor = MaterialTheme.colorScheme.primary
+    val textColor = MaterialTheme.colorScheme.onPrimary
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(rowBackgroundColor, shape = RoundedCornerShape(20.dp))
+            .background(backgroundColor, shape = RoundedCornerShape(20.dp))
             .height(120.dp)
             .padding(horizontal = 20.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -70,7 +71,7 @@ fun LessonRow(
                     Text(
                         text = name,
                         fontSize = 24.sp,
-                        color = Color.White,
+                        color = textColor,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -98,7 +99,16 @@ fun LessonRow(
     }
 }
 
-@Preview(widthDp = 350, apiLevel = 33)
+@Preview(
+    apiLevel = 33,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    name = "DefaultPreviewDark"
+)
+@Preview(
+    apiLevel = 33,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    name = "DefaultPreviewLight"
+)
 @Composable
 fun LessonRowPreview() {
     MyFitnessAppTheme {
