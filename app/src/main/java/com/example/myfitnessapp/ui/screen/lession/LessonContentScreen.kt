@@ -20,7 +20,7 @@ import com.example.myfitnessapp.datasource.MocKLessonDataSource
 import com.example.myfitnessapp.model.DayOfWeek
 import com.example.myfitnessapp.repository.LessonExerciseRepository
 import com.example.myfitnessapp.repository.LessonRepository
-import com.example.myfitnessapp.ui.color.textColor
+import com.example.myfitnessapp.repository.MockProfileRepository
 import com.example.myfitnessapp.ui.component.ActionButton
 import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
@@ -120,7 +120,8 @@ fun LessonScreenPreview() {
     val dataSource = MocKLessonDataSource()
     val lessonRepository = LessonRepository(dataSource)
     val lessonExerciseRepository = LessonExerciseRepository(dataSource)
-    val viewModel = LessonContentViewModel("1", lessonRepository, lessonExerciseRepository)
+    val profileRepository = MockProfileRepository()
+    val viewModel = LessonContentViewModel("1", lessonRepository, lessonExerciseRepository, profileRepository)
     MyFitnessAppTheme {
         LessonContentScreen(viewModel)
     }

@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.myfitnessapp.repository.ProfileRepository
+import com.example.myfitnessapp.repository.MockProfileRepository
 import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.ui.icon.NavigationIndicatorIcon
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
@@ -140,7 +140,7 @@ private fun ProfileInfoRow(
 )
 @Composable
 fun ProfileScreenPreview() {
-    val repository = ProfileRepository()
+    val repository = MockProfileRepository()
     val viewModel = ProfileViewModel(repository)
     MyFitnessAppTheme {
         ProfileScreen(viewModel)

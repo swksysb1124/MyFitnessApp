@@ -18,7 +18,7 @@ class LessonContentViewModel(
     val id: String?,
     lessonRepository: LessonRepository,
     lessonExerciseRepository: LessonExerciseRepository,
-    profileRepository: ProfileRepository = ProfileRepository(),
+    profileRepository: ProfileRepository,
     private val calculator: CaloriesBurnedCalculator = CaloriesBurnedCalculator()
 ) : ViewModel() {
     private val _exercises = MutableLiveData<List<Exercise>>()

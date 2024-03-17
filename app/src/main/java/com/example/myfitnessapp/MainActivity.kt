@@ -30,6 +30,7 @@ import com.example.myfitnessapp.ui.screen.lession.LessonExerciseViewModel
 import com.example.myfitnessapp.ui.screen.main.MainScreen
 import com.example.myfitnessapp.ui.screen.main.MainViewModel
 import com.example.myfitnessapp.event.RefreshLessonListEvent
+import com.example.myfitnessapp.repository.MockProfileRepository
 import com.example.myfitnessapp.ui.screen.wizard.AddLessonScreen
 import com.example.myfitnessapp.ui.screen.wizard.AddLessonViewModel
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
@@ -50,7 +51,7 @@ class MainActivity : ComponentActivity() {
     // repository
     private val lessonExerciseRepository: LessonExerciseRepository by lazy { LessonExerciseRepository(dataSource) }
     private val lessonRepository: LessonRepository by lazy { LessonRepository(dataSource) }
-    private val profileRepository: ProfileRepository by lazy { ProfileRepository() }
+    private val profileRepository: ProfileRepository by lazy { MockProfileRepository() }
 
     // main view model for sharing state between screen
     private lateinit var mainViewModel: MainViewModel
