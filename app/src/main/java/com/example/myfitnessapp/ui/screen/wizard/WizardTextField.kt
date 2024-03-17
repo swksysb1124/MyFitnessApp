@@ -3,6 +3,7 @@ package com.example.myfitnessapp.ui.screen.wizard
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -21,6 +22,7 @@ fun WizardTextField(
     isValueValid: (String) -> Boolean = { true },
     readOnly: Boolean = false,
     enabled: Boolean = true,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
 ) {
     Row(modifier = modifier) {
         TextField(
@@ -42,7 +44,8 @@ fun WizardTextField(
                 if (isValueValid(it)) {
                     onValueChange(it)
                 }
-            }
+            },
+            keyboardOptions = keyboardOptions
         )
     }
 }
