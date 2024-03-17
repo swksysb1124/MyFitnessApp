@@ -1,9 +1,11 @@
 package com.example.myfitnessapp.ui.screen.wizard
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,10 +23,9 @@ import com.example.myfitnessapp.model.DayOfWeek
 import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.repository.LessonExerciseRepository
 import com.example.myfitnessapp.repository.LessonRepository
-import com.example.myfitnessapp.ui.color.backgroundColor
-import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.component.SettingWizardLayout
 import com.example.myfitnessapp.ui.component.WizardType
+import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
 @Composable
 fun LessonContentConfirmPage(
@@ -77,8 +78,8 @@ private fun LessonContentRow(
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(
             label,
-            color = backgroundColor,
-            fontSize = 24.sp,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
             style = TextStyle(
                 textDecoration = TextDecoration.Underline
@@ -86,22 +87,33 @@ private fun LessonContentRow(
         )
         Text(
             name,
-            color = backgroundColor,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
             fontSize = 20.sp
         )
     }
 }
 
-@Preview
+@Preview(
+    apiLevel = 33,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    name = "DefaultPreviewDark"
+)
+@Preview(
+    apiLevel = 33,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    name = "DefaultPreviewLight"
+)
 @Composable
 fun LessonSettingConfirmPagePreview() {
     val dataSource = MocKLessonDataSource()
     val lessonRepository = LessonRepository(dataSource)
     val lessonExerciseRepository = LessonExerciseRepository(dataSource)
     val viewModel = AddLessonViewModel(lessonRepository, lessonExerciseRepository)
-    LessonContentConfirmPage(
-        viewModel = viewModel,
-        onConfirm = {},
-        onBack = {}
-    )
+    MyFitnessAppTheme {
+        LessonContentConfirmPage(
+            viewModel = viewModel,
+            onConfirm = {},
+            onBack = {}
+        )
+    }
 }
