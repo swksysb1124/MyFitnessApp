@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myfitnessapp.model.Profile
 import com.example.myfitnessapp.repository.ProfileRepository
 import kotlinx.coroutines.launch
 
@@ -21,7 +22,7 @@ class ProfileViewModel(
 
     init {
         viewModelScope.launch {
-            val profile = profileRepository.getProfile()
+            val profile = profileRepository.getProfile() ?: Profile(1, 170, 70)
             _heightInCm.value = profile.height
             _weightInKg.value = profile.weight
         }
@@ -46,21 +47,21 @@ class ProfileViewModel(
         type: ProfileEditType,
         value: String
     ) {
-        val updateValue = value.toIntOrNull() ?: 0
+        val updateValue = value.toIntOrNull() ?: return
         viewModelScope.launch {
-            // TODO: may ignore this step by caching
-            val profile = profileRepository.getProfile()
             when (type) {
                 ProfileEditType.Height -> {
-                    profileRepository.saveProfile(
-                        profile.copy(height = updateValue)
+                    val weight = _weightInKg.value?.takeIf { it > 0 } ?: return@launch
+                    profileRepository.updateProfile(
+                        Profile.createPrimaryProfile(updateValue, weight)
                     )
                     _heightInCm.value = updateValue
                 }
 
                 ProfileEditType.Weight -> {
-                    profileRepository.saveProfile(
-                        profile.copy(weight = updateValue)
+                    val height = _heightInCm.value?.takeIf { it > 0 } ?: return@launch
+                    profileRepository.updateProfile(
+                        Profile.createPrimaryProfile(height, updateValue)
                     )
                     _weightInKg.value = updateValue
                 }
