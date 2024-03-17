@@ -5,13 +5,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun BackIconButton(onBackPressed: () -> Unit) {
+fun BackIconButton(
+    tint: Color = LocalContentColor.current,
+    onBackPressed: () -> Unit
+) {
     IconButton(
         onClick = { onBackPressed() }
     ) {
@@ -19,7 +23,7 @@ fun BackIconButton(onBackPressed: () -> Unit) {
             modifier = Modifier.size(25.dp),
             imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
             contentDescription = null,
-            tint = Color.White
+            tint = tint
         )
     }
 }

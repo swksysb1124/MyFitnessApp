@@ -3,14 +3,17 @@ package com.example.myfitnessapp.ui.icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
-import com.example.myfitnessapp.ui.color.containerBackgroundColor
+import androidx.compose.ui.graphics.Color
 
 @Composable
-fun NavigationIndicatorIcon() {
+fun NavigationIndicatorIcon(
+    tint: Color = LocalContentColor.current,
+) {
     Icon(
         imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
         contentDescription = null,
-        tint = containerBackgroundColor
+        tint = tint
     )
 }
