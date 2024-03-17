@@ -1,5 +1,6 @@
 package com.example.myfitnessapp.ui.screen.wizard
 
+import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberTimePickerState
@@ -23,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.DayOfWeek
 import com.example.myfitnessapp.model.Time
-import com.example.myfitnessapp.ui.color.backgroundColor
 import com.example.myfitnessapp.ui.component.DaysOfWeekView
 import com.example.myfitnessapp.ui.component.SettingWizardLayout
 import com.example.myfitnessapp.ui.dialog.TimePickerDialog
@@ -77,10 +78,12 @@ fun SetStartTimePage(
                         ),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    DaysOfWeekIcon()
+                    DaysOfWeekIcon(
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
                     Text(
                         weekDescription,
-                        color = backgroundColor,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                         fontSize = 18.sp
                     )
                 }
@@ -122,7 +125,16 @@ fun SetStartTimePage(
     }
 }
 
-@Preview(apiLevel = 33)
+@Preview(
+    apiLevel = 33,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    name = "DefaultPreviewDark"
+)
+@Preview(
+    apiLevel = 33,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    name = "DefaultPreviewLight"
+)
 @Composable
 fun SetStartTimePagePreview() {
     MyFitnessAppTheme {

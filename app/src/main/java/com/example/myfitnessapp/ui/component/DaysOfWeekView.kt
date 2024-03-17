@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -32,6 +33,9 @@ fun DaysOfWeekView(
         modifier = modifier.fillMaxWidth()
     ) {
         val daysOfWeek = DayOfWeek.All
+        val backgroundColor = MaterialTheme.colorScheme.primary
+        val selectedTextColor = MaterialTheme.colorScheme.onPrimary
+        val unselectedTextColor = backgroundColor
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
@@ -39,15 +43,15 @@ fun DaysOfWeekView(
             daysOfWeek.forEach { day ->
                 val density = LocalDensity.current
                 val isSelected = isDaySelected(day)
-                val (textColor, circleStyle) = when (isSelected) {
-                    true -> textColor to Fill
-                    false -> backgroundColor to Stroke(width = with(density) { 1.dp.toPx() })
+                val (color, circleStyle) = when (isSelected) {
+                    true -> selectedTextColor to Fill
+                    false -> unselectedTextColor to Stroke(width = with(density) { 1.dp.toPx() })
                 }
                 Text(
                     text = day.value,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = textColor,
+                    color = color,
                     modifier = Modifier
                         .padding(8.dp)
                         .drawBehind {
