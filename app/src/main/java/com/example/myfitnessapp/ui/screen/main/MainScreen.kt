@@ -16,6 +16,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -44,7 +45,8 @@ fun MainScreen(
     lessonRepository: LessonRepository,
     profileRepository: ProfileRepository,
     onLessonClick: (id: String) -> Unit = {},
-    onAddLesson: () -> Unit = {}
+    onAddLesson: () -> Unit = {},
+    onAddProfile: () -> Unit = {}
 ) {
     val bottomNavController = rememberNavController()
     val bottomNaviScreen = listOf(
@@ -52,6 +54,13 @@ fun MainScreen(
         BottomNaviScreen.Profile
     )
     val shouldBottomNaviShown by mainViewModel.shouldBottomNaviShown.collectAsState(true)
+    val needAddProfile by mainViewModel.needAddProfile.collectAsState(true)
+    LaunchedEffect(needAddProfile) {
+        if (needAddProfile) {
+            onAddProfile()
+        }
+    }
+
     val density = LocalDensity.current
     Scaffold(
         containerColor = MaterialTheme.colorScheme.primaryContainer,

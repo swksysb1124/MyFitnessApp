@@ -33,6 +33,7 @@ import com.example.myfitnessapp.event.RefreshLessonListEvent
 import com.example.myfitnessapp.repository.MockProfileRepository
 import com.example.myfitnessapp.ui.screen.wizard.add.lesson.AddLessonScreen
 import com.example.myfitnessapp.ui.screen.wizard.add.lesson.AddLessonViewModel
+import com.example.myfitnessapp.ui.screen.wizard.add.profile.AddProfileScreen
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.animation.leftSlideInNaviAnimation
 import com.example.myfitnessapp.util.animation.leftSlideOutNaviAnimation
@@ -70,6 +71,9 @@ class MainActivity : ComponentActivity() {
                     enterTransition = { EnterTransition.None },
                     exitTransition = { ExitTransition.None }
                 ) {
+                    composable(NaviScreen.AddProfile.route) {
+                        AddProfileScreen()
+                    }
                     composable(
                         route = NaviScreen.Main.route,
                         enterTransition = {
@@ -96,6 +100,9 @@ class MainActivity : ComponentActivity() {
                             },
                             onAddLesson = {
                                 mainNavController.navigate(WizardNaviPage.AddLessonMain.route)
+                            },
+                            onAddProfile = {
+                                mainNavController.navigate(NaviScreen.AddProfile.route)
                             }
                         )
                     }

@@ -3,6 +3,7 @@ package com.example.myfitnessapp.ui.screen.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myfitnessapp.event.Event
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,8 +15,19 @@ class MainViewModel : ViewModel() {
     private val _eventFlow = MutableSharedFlow<Event>()
     val eventFlow = _eventFlow.asSharedFlow()
 
-    private var _shouldBottomNaviShown = MutableStateFlow(true)
+    private val _shouldBottomNaviShown = MutableStateFlow(true)
     val shouldBottomNaviShown: StateFlow<Boolean> = _shouldBottomNaviShown
+
+    private val _needAddProfile = MutableStateFlow(true)
+    val needAddProfile: StateFlow<Boolean> = _needAddProfile
+
+    init {
+        viewModelScope.launch {
+            // TODO check if profile exists or navigate to `Add Profile` page
+            delay(500)
+            _needAddProfile.value = true
+        }
+    }
 
     fun sentEvent(event: Event) {
         viewModelScope.launch {

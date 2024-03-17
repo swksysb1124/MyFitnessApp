@@ -3,6 +3,10 @@ package com.example.myfitnessapp.navigation
 sealed class NaviScreen(
     val route: String,
 ) {
+    data object AddProfile: NaviScreen(
+        route = "/add-profile"
+    )
+
     data object Main : NaviScreen(
         route = "/main"
     )
