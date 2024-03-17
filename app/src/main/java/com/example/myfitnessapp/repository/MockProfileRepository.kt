@@ -6,13 +6,13 @@ class MockProfileRepository : ProfileRepository {
     /**
      * cached profile, default height = 169.5, default weight = 82.30
      */
-    private var profile = Profile(height = 169, weight = 82)
+    private var profile = Profile(1, height = 169, weight = 82)
 
-    override fun getProfile(): Profile {
+    override suspend fun getProfile(): Profile {
         return profile
     }
 
-    override fun saveProfile(newProfile: Profile) {
+    override suspend fun saveProfile(newProfile: Profile) {
         profile = newProfile
     }
 }

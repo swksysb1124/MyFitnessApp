@@ -47,20 +47,23 @@ class ProfileViewModel(
         value: String
     ) {
         val updateValue = value.toIntOrNull() ?: 0
-        val profile = profileRepository.getProfile()
-        when (type) {
-            ProfileEditType.Height -> {
-                profileRepository.saveProfile(
-                    profile.copy(height = updateValue)
-                )
-                _heightInCm.value = updateValue
-            }
+        viewModelScope.launch {
+            // TODO: may ignore this step by caching
+            val profile = profileRepository.getProfile()
+            when (type) {
+                ProfileEditType.Height -> {
+                    profileRepository.saveProfile(
+                        profile.copy(height = updateValue)
+                    )
+                    _heightInCm.value = updateValue
+                }
 
-            ProfileEditType.Weight -> {
-                profileRepository.saveProfile(
-                    profile.copy(weight = updateValue)
-                )
-                _weightInKg.value = updateValue
+                ProfileEditType.Weight -> {
+                    profileRepository.saveProfile(
+                        profile.copy(weight = updateValue)
+                    )
+                    _weightInKg.value = updateValue
+                }
             }
         }
     }
