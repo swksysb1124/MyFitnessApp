@@ -10,9 +10,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.myfitnessapp.event.RefreshLessonListEvent
 import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.repository.LessonRepository
+import com.example.myfitnessapp.repository.ProfileRepository
 import com.example.myfitnessapp.ui.screen.main.MainViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
@@ -21,6 +24,7 @@ import kotlinx.coroutines.launch
 
 class MyLessonViewModel(
     private val mainViewModel: MainViewModel,
+    private val profileRepository: ProfileRepository,
     private val lessonRepository: LessonRepository
 ) : ViewModel() {
     private val _lessons = MutableLiveData<List<Lesson>>()
@@ -34,9 +38,20 @@ class MyLessonViewModel(
     private val _hasLessonsSelected = MutableStateFlow(false)
     val hasLessonsSelected: StateFlow<Boolean> = _hasLessonsSelected
 
+    private val _needAddProfile = MutableSharedFlow<Boolean>()
+    val needAddProfile: SharedFlow<Boolean> = _needAddProfile
+
     init {
+        checkIfNeedAddProfile()
         fetchLessonList()
         collectDataChange()
+    }
+
+    private fun checkIfNeedAddProfile() {
+        viewModelScope.launch {
+            val savedProfile = profileRepository.getProfile()
+            _needAddProfile.emit(savedProfile == null)
+        }
     }
 
     private fun collectDataChange() {

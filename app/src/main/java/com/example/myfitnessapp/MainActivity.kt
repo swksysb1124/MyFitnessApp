@@ -18,10 +18,12 @@ import com.example.myfitnessapp.database.exercise.ExerciseDao
 import com.example.myfitnessapp.database.lesson.LessonDao
 import com.example.myfitnessapp.datasource.DatabaseLessonDataSource
 import com.example.myfitnessapp.datasource.LocalLessonDataSource
+import com.example.myfitnessapp.event.RefreshLessonListEvent
 import com.example.myfitnessapp.navigation.NaviScreen
 import com.example.myfitnessapp.navigation.WizardNaviPage
 import com.example.myfitnessapp.repository.LessonExerciseRepository
 import com.example.myfitnessapp.repository.LessonRepository
+import com.example.myfitnessapp.repository.MockProfileRepository
 import com.example.myfitnessapp.repository.ProfileRepository
 import com.example.myfitnessapp.ui.screen.lession.LessonContentScreen
 import com.example.myfitnessapp.ui.screen.lession.LessonContentViewModel
@@ -29,11 +31,10 @@ import com.example.myfitnessapp.ui.screen.lession.LessonExercisePage
 import com.example.myfitnessapp.ui.screen.lession.LessonExerciseViewModel
 import com.example.myfitnessapp.ui.screen.main.MainScreen
 import com.example.myfitnessapp.ui.screen.main.MainViewModel
-import com.example.myfitnessapp.event.RefreshLessonListEvent
-import com.example.myfitnessapp.repository.MockProfileRepository
 import com.example.myfitnessapp.ui.screen.wizard.add.lesson.AddLessonScreen
 import com.example.myfitnessapp.ui.screen.wizard.add.lesson.AddLessonViewModel
 import com.example.myfitnessapp.ui.screen.wizard.add.profile.AddProfileScreen
+import com.example.myfitnessapp.ui.screen.wizard.add.profile.AddProfileViewModel
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.animation.leftSlideInNaviAnimation
 import com.example.myfitnessapp.util.animation.leftSlideOutNaviAnimation
@@ -72,7 +73,13 @@ class MainActivity : ComponentActivity() {
                     exitTransition = { ExitTransition.None }
                 ) {
                     composable(NaviScreen.AddProfile.route) {
-                        AddProfileScreen()
+                        AddProfileScreen(
+                            viewModel = viewModel {
+                                AddProfileViewModel(profileRepository)
+                            },
+                            onConfirm = mainNavController::popBackStack,
+                            onFinished = ::finish
+                        )
                     }
                     composable(
                         route = NaviScreen.Main.route,

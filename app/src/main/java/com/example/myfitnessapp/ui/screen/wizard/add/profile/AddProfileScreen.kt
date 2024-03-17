@@ -1,6 +1,7 @@
 package com.example.myfitnessapp.ui.screen.wizard.add.profile
 
 import android.content.res.Configuration
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myfitnessapp.repository.MockProfileRepository
 import com.example.myfitnessapp.ui.component.SettingWizardLayout
 import com.example.myfitnessapp.ui.component.WizardType
 import com.example.myfitnessapp.ui.screen.wizard.WizardTextField
@@ -25,12 +27,17 @@ import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
 @Composable
 fun AddProfileScreen(
-    viewModel: ProfileViewModel,
-    onConfirm: () -> Unit
+    viewModel: AddProfileViewModel,
+    onConfirm: () -> Unit,
+    onFinished: () -> Unit
 ) {
     val height by viewModel.height.collectAsState("")
     val weight by viewModel.weight.collectAsState("")
     val isFieldsAllValid by viewModel.isFieldsAllValid.collectAsState(true)
+
+    BackHandler {
+        onFinished()
+    }
 
     SettingWizardLayout(
         title = "請輸入你的身高體重",
@@ -90,12 +97,13 @@ private fun isPositiveInteger(it: String): Boolean {
     name = "DefaultPreviewLight"
 )
 @Composable
-fun AddProfileScreen() {
-    val viewModel = ProfileViewModel()
+fun AddProfileScreenPreview() {
+    val viewModel = AddProfileViewModel(MockProfileRepository())
     MyFitnessAppTheme {
         AddProfileScreen(
             viewModel = viewModel,
-            onConfirm = {}
+            onConfirm = {},
+            onFinished = {}
         )
     }
 }

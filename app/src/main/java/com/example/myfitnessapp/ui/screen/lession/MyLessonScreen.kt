@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.datasource.MocKLessonDataSource
 import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.repository.LessonRepository
+import com.example.myfitnessapp.repository.MockProfileRepository
 import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.ui.icon.AddIconButton
 import com.example.myfitnessapp.ui.icon.CloseIconButton
@@ -43,6 +45,7 @@ fun MyLessonScreen(
     initMode: LessonScreenMode = LessonScreenMode.Normal,
     onLessonClick: (id: String) -> Unit = {},
     onAddLesson: () -> Unit = {},
+    onAddProfile: () -> Unit = {}
 ) {
     val lessons by viewModel.lessons.observeAsState(emptyList())
     val selectedLessons = remember { viewModel.selectedLessons }
@@ -50,6 +53,12 @@ fun MyLessonScreen(
     val hasSelectedLesson by viewModel.hasLessonsSelected.collectAsState(false)
     val isEditMode = (screenMode == LessonScreenMode.Edit)
     val hasLessons = lessons.isNotEmpty()
+    val needAddProfile by viewModel.needAddProfile.collectAsState(false)
+    LaunchedEffect(needAddProfile) {
+        if (needAddProfile) {
+            onAddProfile()
+        }
+    }
 
     Column(
         Modifier
@@ -205,6 +214,7 @@ private fun TitleIcons(
 fun MyPlanScreenPreview() {
     val viewModel = MyLessonViewModel(
         mainViewModel = MainViewModel(),
+        profileRepository = MockProfileRepository(),
         lessonRepository = LessonRepository(MocKLessonDataSource())
     )
     MyFitnessAppTheme {
@@ -226,6 +236,7 @@ fun MyPlanScreenPreview() {
 fun MyPlanScreenEditPreview() {
     val viewModel = MyLessonViewModel(
         mainViewModel = MainViewModel(),
+        profileRepository = MockProfileRepository(),
         lessonRepository = LessonRepository(MocKLessonDataSource())
     )
     MyFitnessAppTheme {
