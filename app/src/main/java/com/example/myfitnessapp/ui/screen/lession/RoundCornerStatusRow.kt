@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,8 +32,8 @@ fun RoundCornerStatusRow(
     ) {
         statusList.onEachIndexed { index, status ->
             val shape = getStatusShape(index, statusList)
-            val backgroundColor = buttonBackgroundColor
-            val textColor = textColor
+            val backgroundColor = MaterialTheme.colorScheme.secondary
+            val textColor = MaterialTheme.colorScheme.onSecondary
             Column(
                 modifier = Modifier
                     .weight(1f)
