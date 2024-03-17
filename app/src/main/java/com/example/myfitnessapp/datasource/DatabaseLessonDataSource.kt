@@ -1,9 +1,9 @@
 package com.example.myfitnessapp.datasource
 
-import com.example.myfitnessapp.database.ExerciseDao
-import com.example.myfitnessapp.database.ExerciseEntity
-import com.example.myfitnessapp.database.LessonDao
-import com.example.myfitnessapp.database.LessonEntity
+import com.example.myfitnessapp.database.exercise.ExerciseDao
+import com.example.myfitnessapp.database.exercise.ExerciseEntity
+import com.example.myfitnessapp.database.lesson.LessonDao
+import com.example.myfitnessapp.database.lesson.LessonEntity
 import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.model.ExerciseMetaData
 import com.example.myfitnessapp.model.Lesson

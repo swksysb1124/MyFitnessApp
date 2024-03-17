@@ -1,9 +1,11 @@
-package com.example.myfitnessapp.database
+package com.example.myfitnessapp.database.profile
 
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 
+@Dao
 interface ProfileDao {
     @Insert
     suspend fun insertProfile(profileEntity: ProfileEntity)

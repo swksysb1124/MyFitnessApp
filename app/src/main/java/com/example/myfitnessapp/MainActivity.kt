@@ -14,8 +14,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.room.Room
 import com.example.myfitnessapp.database.AppDatabase
-import com.example.myfitnessapp.database.ExerciseDao
-import com.example.myfitnessapp.database.LessonDao
+import com.example.myfitnessapp.database.exercise.ExerciseDao
+import com.example.myfitnessapp.database.lesson.LessonDao
 import com.example.myfitnessapp.datasource.DatabaseLessonDataSource
 import com.example.myfitnessapp.datasource.LocalLessonDataSource
 import com.example.myfitnessapp.navigation.NaviScreen
