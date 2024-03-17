@@ -41,13 +41,12 @@ class LessonContentViewModel(
             _lesson.value = lessonRepository.getLesson(id)
 
             val fetchedExercises = lessonExerciseRepository.getActivities(id)
-            val fetchedProfile = profileRepository.getProfile()
-
             _exercises.value = fetchedExercises
 
             _sumOfExerciseDuration.value =
                 fetchedExercises.sumOf { it.durationInSecond }.spokenDuration()
 
+            val fetchedProfile = profileRepository.getProfile() ?: return@launch
             _sumOfBurnedCalories.value = fetchedExercises.sumOf {
                 calculator.calculate(
                     mets = it.metaData.mets,
