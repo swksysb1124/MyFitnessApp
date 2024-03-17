@@ -22,7 +22,7 @@ fun SetLessonNamePage(
         title = "設定名稱",
         onBack = onBack,
         onNext = onNext,
-        nextEnabled = name.isNotEmpty(),
+        nextOrConfirmEnabled = name.isNotEmpty(),
     ) {
         WizardTextField(
             modifier = Modifier

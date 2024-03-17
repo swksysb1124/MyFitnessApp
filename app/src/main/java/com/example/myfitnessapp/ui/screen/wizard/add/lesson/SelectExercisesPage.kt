@@ -21,7 +21,7 @@ fun SelectExercisesPage(
         title = "請選擇想要的運動",
         onBack = onBack,
         onNext = onNext,
-        nextEnabled = nextEnabled
+        nextOrConfirmEnabled = nextEnabled
     ) {
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(exerciseMetaData) { metaData ->

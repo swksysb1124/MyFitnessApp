@@ -22,7 +22,7 @@ fun SettingWizardLayout(
     onBack: (() -> Unit)? = null,
     onNext: (() -> Unit)? = null,
     onConfirm: (() -> Unit)? = null,
-    nextEnabled: Boolean = true,
+    nextOrConfirmEnabled: Boolean = true,
     content: @Composable BoxScope.() -> Unit
 ) {
     Column(
@@ -45,7 +45,7 @@ fun SettingWizardLayout(
             ActionNextButton(
                 modifier = Modifier.align(Alignment.End),
                 onNext = onNext,
-                enabled = nextEnabled
+                enabled = nextOrConfirmEnabled
             )
         }
 
@@ -57,7 +57,7 @@ fun SettingWizardLayout(
                     .fillMaxWidth()
                     .align(Alignment.CenterHorizontally),
                 onConfirm = onConfirm,
-                enabled = nextEnabled
+                enabled = nextOrConfirmEnabled
             )
         }
     }
