@@ -7,23 +7,23 @@ import androidx.navigation.NavBackStackEntry
 fun AnimatedContentTransitionScope<NavBackStackEntry>.rightSlideOutNaviAnimation() =
     slideOutOfContainer(
         AnimatedContentTransitionScope.SlideDirection.Right,
-        animationSpec = tween(700)
+        animationSpec = tween(400)
     )
 
 fun AnimatedContentTransitionScope<NavBackStackEntry>.leftSlideOutNaviAnimation() =
     slideOutOfContainer(
         AnimatedContentTransitionScope.SlideDirection.Left,
-        animationSpec = tween(700)
+        animationSpec = tween(400)
     )
 
 fun AnimatedContentTransitionScope<NavBackStackEntry>.leftSlideInNaviAnimation() =
     slideIntoContainer(
         AnimatedContentTransitionScope.SlideDirection.Left,
-        animationSpec = tween(700)
+        animationSpec = tween(250)
     )
 
 fun AnimatedContentTransitionScope<NavBackStackEntry>.rightSlideInNaviAnimation() =
     slideIntoContainer(
         AnimatedContentTransitionScope.SlideDirection.Right,
-        animationSpec = tween(700)
+        animationSpec = tween(250)
     )
