@@ -22,14 +22,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.datasource.MocKLessonDataSource
 import com.example.myfitnessapp.model.Lesson
 import com.example.myfitnessapp.repository.LessonRepository
-import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.ui.icon.AddIconButton
 import com.example.myfitnessapp.ui.icon.CloseIconButton
@@ -41,12 +39,13 @@ import com.example.myfitnessapp.util.spokenDuration
 @Composable
 fun MyLessonScreen(
     viewModel: MyLessonViewModel,
+    initMode: LessonScreenMode = LessonScreenMode.Normal,
     onLessonClick: (id: String) -> Unit = {},
     onAddLesson: () -> Unit = {},
 ) {
     val lessons by viewModel.lessons.observeAsState(emptyList())
     val selectedLessons = remember { viewModel.selectedLessons }
-    val screenMode by viewModel.screenMode.collectAsState(LessonScreenMode.Normal)
+    val screenMode by viewModel.screenMode.collectAsState(initMode)
     val hasSelectedLesson by viewModel.hasLessonsSelected.collectAsState(false)
     val isEditMode = (screenMode == LessonScreenMode.Edit)
 
@@ -102,8 +101,7 @@ private fun BottomEditButtons(
         ) {
             Text(
                 text = "刪除",
-                color = if (enabled) textColor else Color.LightGray,
-                fontSize = 20.sp
+                fontSize = 22.sp
             )
         }
     }
@@ -189,5 +187,29 @@ fun MyPlanScreenPreview() {
     )
     MyFitnessAppTheme {
         MyLessonScreen(viewModel)
+    }
+}
+
+@Preview(
+    apiLevel = 33,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    name = "DefaultPreviewDark-Edit"
+)
+@Preview(
+    apiLevel = 33,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    name = "DefaultPreviewLight-Edit"
+)
+@Composable
+fun MyPlanScreenEditPreview() {
+    val viewModel = MyLessonViewModel(
+        mainViewModel = MainViewModel(),
+        lessonRepository = LessonRepository(MocKLessonDataSource())
+    )
+    MyFitnessAppTheme {
+        MyLessonScreen(
+            viewModel,
+            LessonScreenMode.Edit
+        )
     }
 }

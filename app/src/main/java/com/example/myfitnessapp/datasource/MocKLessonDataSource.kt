@@ -22,12 +22,6 @@ class MocKLessonDataSource: LocalLessonDataSource {
                 startTime = Time(18,0),
                 duration = 150,
                 daysOfWeek = listOf(DayOfWeek.MON, DayOfWeek.THU, DayOfWeek.FRI, DayOfWeek.SAT)
-            ),
-            Lesson(
-                id = "3",
-                startTime = Time(10,0),
-                duration = 30 * 60,
-                daysOfWeek = listOf(DayOfWeek.SUN)
             )
         )
     }
@@ -50,13 +44,6 @@ class MocKLessonDataSource: LocalLessonDataSource {
                 daysOfWeek = listOf(DayOfWeek.MON, DayOfWeek.THU, DayOfWeek.FRI, DayOfWeek.SAT)
             )
 
-            "3" -> Lesson(
-                id = "3",
-                startTime = Time(10,0),
-                duration = 30 * 60,
-                daysOfWeek = listOf(DayOfWeek.SUN)
-            )
-
             else -> null
         }
     }
@@ -74,10 +61,6 @@ class MocKLessonDataSource: LocalLessonDataSource {
                 Exercise.create(ExerciseMetaData.PushUp, 30),
                 Exercise.create(ExerciseMetaData.PullUp, 60),
                 Exercise.create(ExerciseMetaData.Bridge, 60),
-            )
-
-            "3" -> listOf(
-                Exercise.create(ExerciseMetaData.MediumStrengthRunning, 30 * 60),
             )
 
             else -> emptyList()
