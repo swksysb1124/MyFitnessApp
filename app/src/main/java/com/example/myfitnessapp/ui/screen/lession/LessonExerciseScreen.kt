@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,8 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.model.Rest
-import com.example.myfitnessapp.ui.color.backgroundColor
-import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.component.ScreenTitleRow
 import com.example.myfitnessapp.util.KeepScreenOn
 import com.example.myfitnessapp.util.formattedDuration
@@ -49,6 +48,8 @@ fun LessonExercisePage(
         }
     }
 
+    val backgroundColor = MaterialTheme.colorScheme.primaryContainer
+    val textColor = MaterialTheme.colorScheme.onPrimaryContainer
     KeepScreenOn()
     Surface(
         modifier = Modifier
