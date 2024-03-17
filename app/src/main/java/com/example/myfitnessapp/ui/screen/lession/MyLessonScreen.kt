@@ -21,6 +21,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,6 +49,7 @@ fun MyLessonScreen(
     val screenMode by viewModel.screenMode.collectAsState(initMode)
     val hasSelectedLesson by viewModel.hasLessonsSelected.collectAsState(false)
     val isEditMode = (screenMode == LessonScreenMode.Edit)
+    val hasLessons = lessons.isNotEmpty()
 
     Column(
         Modifier
@@ -60,21 +62,38 @@ fun MyLessonScreen(
                 TitleIcons(
                     screenMode = screenMode,
                     onAddLesson = onAddLesson,
+                    canEditLessons = hasLessons,
                     onEditEnter = { viewModel.onScreenModeChange(LessonScreenMode.Edit) },
                     onEditExit = { viewModel.onScreenModeChange(LessonScreenMode.Normal) }
                 )
             }
         )
-        LessonList(
-            modifier = Modifier.weight(1f),
-            lessons = lessons,
-            screenMode = screenMode,
-            onLessonClick = onLessonClick,
-            isSelected = selectedLessons::contains,
-            onSelectedChange = { selected, lesson ->
-                viewModel.onLessonSelectedChange(selectedLessons, selected, lesson)
+        if (hasLessons) {
+            LessonList(
+                modifier = Modifier.weight(1f),
+                lessons = lessons,
+                screenMode = screenMode,
+                onLessonClick = onLessonClick,
+                isSelected = selectedLessons::contains,
+                onSelectedChange = { selected, lesson ->
+                    viewModel.onLessonSelectedChange(selectedLessons, selected, lesson)
+                }
+            )
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                val textColor = MaterialTheme.colorScheme.onPrimaryContainer
+                val textFontSize = 22.sp
+                Text(text = "建立你的專屬訓練吧!", color = textColor, fontSize = textFontSize)
+                Text(text = "可以按上方的 + 新增訓練", color = textColor, fontSize = textFontSize)
             }
-        )
+        }
+
         AnimatedVisibility(isEditMode) {
             BottomEditButtons(
                 enabled = hasSelectedLesson,
@@ -150,6 +169,7 @@ enum class LessonScreenMode {
 @Composable
 private fun TitleIcons(
     screenMode: LessonScreenMode,
+    canEditLessons: Boolean,
     onAddLesson: () -> Unit,
     onEditEnter: () -> Unit,
     onEditExit: () -> Unit
@@ -163,7 +183,9 @@ private fun TitleIcons(
 
             else -> {
                 AddIconButton(iconTintColor, onAddLesson)
-                EditIconButton(iconTintColor, onEditEnter)
+                AnimatedVisibility(canEditLessons) {
+                    EditIconButton(iconTintColor, onEditEnter)
+                }
             }
         }
     }
