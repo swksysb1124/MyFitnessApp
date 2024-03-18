@@ -1,6 +1,7 @@
 package com.example.myfitnessapp.ui.screen.profile
 
 import android.content.res.Configuration
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,7 +28,8 @@ import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 @Composable
 fun ProfileScreen(
     viewModel: ProfileViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onFinish: () -> Unit = {}
 ) {
     val height by viewModel.heightInCm.observeAsState(0.0)
     val weight by viewModel.weightInKg.observeAsState(0.0)
@@ -38,6 +40,11 @@ fun ProfileScreen(
         )
     )
     val backgroundColor = MaterialTheme.colorScheme.primaryContainer
+
+    BackHandler {
+        onFinish()
+    }
+
     Column(
         modifier = modifier
             .background(backgroundColor)

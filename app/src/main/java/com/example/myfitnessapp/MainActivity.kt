@@ -114,7 +114,8 @@ class MainActivity : ComponentActivity() {
                             },
                             onAddProfile = {
                                 mainNavController.navigate(NaviScreen.AddProfile.route)
-                            }
+                            },
+                            onFinished = ::finish
                         )
                     }
                     composable(

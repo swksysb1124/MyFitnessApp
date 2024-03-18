@@ -45,7 +45,8 @@ fun MainScreen(
     profileRepository: ProfileRepository,
     onLessonClick: (id: String) -> Unit = {},
     onAddLesson: () -> Unit = {},
-    onAddProfile: () -> Unit = {}
+    onAddProfile: () -> Unit = {},
+    onFinished: () -> Unit = {}
 ) {
     val bottomNavController = rememberNavController()
     val bottomNaviScreen = listOf(
@@ -96,7 +97,8 @@ fun MainScreen(
                 ProfileScreen(
                     viewModel = viewModel {
                         ProfileViewModel(profileRepository)
-                    }
+                    },
+                    onFinish = onFinished
                 )
             }
         }
