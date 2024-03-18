@@ -1,6 +1,7 @@
 package com.example.myfitnessapp
 
 import android.os.Bundle
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.EnterTransition
@@ -61,11 +62,15 @@ class MainActivity : ComponentActivity() {
     private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         initializeDataSource()
         profileRepository = PersistProfileRepository(profileDao)
 
         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        mainViewModel.isReady.observe(this) { isReady ->
+            splashScreen.setKeepOnScreenCondition { !isReady }
+        }
 
         setContent {
             MyFitnessAppTheme {

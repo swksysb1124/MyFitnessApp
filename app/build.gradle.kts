@@ -82,4 +82,5 @@ dependencies {
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$roomVersion")
     implementation(kotlin("reflect"))
+    implementation("androidx.core:core-splashscreen:1.0.0")
 }
