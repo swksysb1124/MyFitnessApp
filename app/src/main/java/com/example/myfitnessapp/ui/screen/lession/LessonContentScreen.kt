@@ -47,7 +47,7 @@ fun LessonContentScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primaryContainer)
+            .background(MaterialTheme.colorScheme.surface)
     ) {
         ScreenTitleRow(
             title = title,
@@ -101,7 +101,7 @@ private fun StartTimeInfoRow(
     generateWeekDescription: String,
     modifier: Modifier = Modifier
 ) {
-    val textColor = MaterialTheme.colorScheme.onPrimaryContainer
+    val textColor = MaterialTheme.colorScheme.onSurface
     Column(modifier) {
         Text(
             text = "$startTime 開始",

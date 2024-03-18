@@ -75,10 +75,11 @@ private fun LessonContentRow(
     label: String,
     name: String
 ) {
+    val textColor = MaterialTheme.colorScheme.onSurface
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(
             label,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            color = textColor,
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
             style = TextStyle(
@@ -87,7 +88,7 @@ private fun LessonContentRow(
         )
         Text(
             name,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            color = textColor,
             fontSize = 20.sp
         )
     }

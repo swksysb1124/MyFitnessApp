@@ -39,7 +39,7 @@ fun ProfileScreen(
             isDialogOpen = false
         )
     )
-    val backgroundColor = MaterialTheme.colorScheme.primaryContainer
+    val backgroundColor = MaterialTheme.colorScheme.surface
 
     BackHandler {
         onFinish()
@@ -104,7 +104,7 @@ fun ProfileScreen(
 @Composable
 private fun RowDivider() {
     HorizontalDivider(
-        color = MaterialTheme.colorScheme.onPrimaryContainer,
+        color = MaterialTheme.colorScheme.onSurface,
         modifier = Modifier.padding(horizontal = 20.dp)
     )
 }
@@ -120,7 +120,7 @@ private fun ProfileInfoRow(
     value: String,
     modifier: Modifier = Modifier
 ) {
-    val textColor = MaterialTheme.colorScheme.onPrimaryContainer
+    val textColor = MaterialTheme.colorScheme.onSurface
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -129,7 +129,7 @@ private fun ProfileInfoRow(
         Row {
             Text(value, color = textColor, fontSize = 20.sp)
             NavigationIndicatorIcon(
-                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                tint = MaterialTheme.colorScheme.onSurface
             )
         }
     }

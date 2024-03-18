@@ -19,8 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.DayOfWeek
-import com.example.myfitnessapp.ui.color.backgroundColor
-import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 
 @Composable

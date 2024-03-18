@@ -12,7 +12,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myfitnessapp.model.Exercise
 import com.example.myfitnessapp.model.ExerciseMetaData
-import com.example.myfitnessapp.ui.color.textColor
 import com.example.myfitnessapp.ui.theme.MyFitnessAppTheme
 import com.example.myfitnessapp.util.spokenDuration
 
@@ -33,7 +31,7 @@ fun ExerciseRow(
     val name = exercise.name
     val duration = exercise.durationInSecond.spokenDuration()
     val headIcon = exercise.metaData.icon
-    val textColor = MaterialTheme.colorScheme.onPrimaryContainer
+    val textColor = MaterialTheme.colorScheme.onSurface
     Row(
         modifier = modifier
             .fillMaxWidth()

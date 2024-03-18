@@ -10,7 +10,6 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -25,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -56,7 +56,6 @@ fun MainScreen(
     val shouldBottomNaviShown by mainViewModel.shouldBottomNaviShown.collectAsState(true)
     val density = LocalDensity.current
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.primaryContainer,
         bottomBar = {
             AnimatedVisibility(
                 visible = shouldBottomNaviShown,
@@ -111,19 +110,16 @@ private fun MainScreenBottomBar(
     bottomNaviScreen: List<BottomNaviScreen>
 ) {
     var selectedItem by remember { mutableIntStateOf(0) }
-    NavigationBar(
-        containerColor = MaterialTheme.colorScheme.primary
-    ) {
+    NavigationBar {
         bottomNaviScreen.forEachIndexed { index, screen ->
             NavigationBarItem(
                 icon = {
                     Icon(
                         screen.icon,
                         contentDescription = screen.name,
-                        tint = MaterialTheme.colorScheme.onPrimary
                     )
                 },
-                label = { Text(screen.name, color = MaterialTheme.colorScheme.onPrimary) },
+                label = { Text(screen.name, fontSize = 14.sp) },
                 selected = selectedItem == index,
                 onClick = {
                     selectedItem = index

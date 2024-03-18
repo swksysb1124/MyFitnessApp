@@ -48,8 +48,8 @@ fun LessonExercisePage(
         }
     }
 
-    val backgroundColor = MaterialTheme.colorScheme.primaryContainer
-    val textColor = MaterialTheme.colorScheme.onPrimaryContainer
+    val backgroundColor = MaterialTheme.colorScheme.surface
+    val textColor = MaterialTheme.colorScheme.onSurface
     KeepScreenOn()
     Surface(
         modifier = Modifier

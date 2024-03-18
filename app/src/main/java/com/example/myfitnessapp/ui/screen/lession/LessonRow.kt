@@ -38,8 +38,8 @@ fun LessonRow(
     checked: Boolean = false,
     onCheckedChange: (Boolean) -> Unit = {}
 ) {
-    val backgroundColor = MaterialTheme.colorScheme.primary
-    val textColor = MaterialTheme.colorScheme.onPrimary
+    val backgroundColor = MaterialTheme.colorScheme.secondary
+    val textColor = MaterialTheme.colorScheme.onSecondary
     Row(
         modifier = modifier
             .fillMaxWidth()

@@ -27,7 +27,7 @@ fun SettingWizardLayout(
 ) {
     Column(
         modifier
-            .background(MaterialTheme.colorScheme.primaryContainer)
+            .background(MaterialTheme.colorScheme.surface)
             .fillMaxSize()
             .imePadding()
     ) {

@@ -62,7 +62,7 @@ fun MyLessonScreen(
 
     Column(
         Modifier
-            .background(MaterialTheme.colorScheme.primaryContainer)
+            .background(MaterialTheme.colorScheme.surface)
             .fillMaxSize()
     ) {
         ScreenTitleRow(
@@ -120,7 +120,7 @@ private fun BottomEditButtons(
     Row(
         Modifier
             .fillMaxWidth()
-            .height(56.dp)
+            .height(66.dp)
     ) {
         TextButton(
             enabled = enabled,
@@ -183,7 +183,7 @@ private fun TitleIcons(
     onEditEnter: () -> Unit,
     onEditExit: () -> Unit
 ) {
-    val iconTintColor = MaterialTheme.colorScheme.onPrimaryContainer
+    val iconTintColor = MaterialTheme.colorScheme.onSurface
     Row {
         when (screenMode) {
             LessonScreenMode.Edit -> {

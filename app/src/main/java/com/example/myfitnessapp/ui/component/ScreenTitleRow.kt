@@ -26,7 +26,7 @@ fun ScreenTitleRow(
 ) {
     Row(
         Modifier
-            .background(MaterialTheme.colorScheme.primaryContainer)
+            .background(MaterialTheme.colorScheme.surface)
             .fillMaxWidth()
             .height(100.dp)
             .padding(horizontal = 25.dp, vertical = 20.dp),
@@ -36,14 +36,14 @@ fun ScreenTitleRow(
         Row(verticalAlignment = Alignment.CenterVertically) {
             if (onBackPressed != null) {
                 BackIconButton(
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                    tint = MaterialTheme.colorScheme.onSurface,
                     onBackPressed = onBackPressed
                 )
             }
             Text(
                 title,
                 fontSize = 25.sp,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
         icons()

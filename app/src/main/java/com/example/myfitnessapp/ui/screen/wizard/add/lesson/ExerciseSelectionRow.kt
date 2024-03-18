@@ -28,7 +28,7 @@ fun ExerciseSelectionRow(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit
 ) {
-    val textColor = MaterialTheme.colorScheme.onPrimaryContainer
+    val textColor = MaterialTheme.colorScheme.onSurface
     Row(
         Modifier
             .fillMaxWidth()
