@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import studio.jasonsu.myfitness.domain.LessonManager
 import studio.jasonsu.myfitness.model.Activity
 import studio.jasonsu.myfitness.model.Exercise
@@ -11,9 +14,6 @@ import studio.jasonsu.myfitness.model.Rest
 import studio.jasonsu.myfitness.repository.LessonExerciseRepository
 import studio.jasonsu.myfitness.util.spokenDuration
 import studio.jasonsu.myfitness.util.tts.TextToSpeechEngine
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
 private const val remindToNextTimeInSecond = 5
 
@@ -32,13 +32,14 @@ class LessonExerciseViewModel(
     val onExerciseClose: LiveData<ExerciseCloseReason> = _onExerciseClose
 
     private lateinit var lessonManager: LessonManager
+
     init {
         viewModelScope.launch {
             val activities = lessonExerciseRepository.getActivities(lessonId)
             lessonManager = LessonManager(
                 activities = activities,
-                onActivityChange = ::onActivityChange,
-                onActivityTimeLeft = ::onActivityTimeLeft,
+                onActivityChange = { _, activity -> onActivityChange(activity) },
+                onActivityTimeLeft = { timeLeft, _ -> onActivityTimeLeft(timeLeft) },
                 onLessonStart = {},
                 onLessonStop = {
                     speakLessonStopped()
@@ -65,12 +66,12 @@ class LessonExerciseViewModel(
         }
     }
 
-    private fun onActivityChange(index: Int, exercise: Activity) {
+    private fun onActivityChange(exercise: Activity) {
         speakExerciseStarted(exercise)
         _currentExercise.value = exercise
     }
 
-    private fun onActivityTimeLeft(timeLeftInSecond: Int, activity: Activity) {
+    private fun onActivityTimeLeft(timeLeftInSecond: Int) {
         if (timeLeftInSecond <= remindToNextTimeInSecond) {
             speakExerciseTimeLeft(timeLeftInSecond)
         }

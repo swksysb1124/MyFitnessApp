@@ -18,7 +18,7 @@ class MockProfileRepository : ProfileRepository {
         profile = newProfile
     }
 
-    override suspend fun updateProfile(newProfile: Profile) {
-        profile = newProfile
+    override suspend fun updateProfile(updatedProfile: Profile) {
+        profile = updatedProfile
     }
 }
