@@ -7,7 +7,6 @@ data class Exercise(
     val metaData: ExerciseMetaData
 ) : Activity {
     companion object {
-        const val DefaultDuration = 60
         fun create(
             metaData: ExerciseMetaData,
             durationInSecond: Int,

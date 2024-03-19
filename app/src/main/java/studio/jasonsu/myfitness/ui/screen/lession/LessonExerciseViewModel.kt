@@ -1,6 +1,5 @@
 package studio.jasonsu.myfitness.ui.screen.lession
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -72,7 +71,6 @@ class LessonExerciseViewModel(
     }
 
     private fun onActivityTimeLeft(timeLeftInSecond: Int, activity: Activity) {
-        Log.d("JASON", "onActivityTimeLeft: timeLeftInSecond=$timeLeftInSecond")
         if (timeLeftInSecond <= remindToNextTimeInSecond) {
             speakExerciseTimeLeft(timeLeftInSecond)
         }
