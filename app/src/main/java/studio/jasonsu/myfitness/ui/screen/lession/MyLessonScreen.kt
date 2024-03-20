@@ -66,7 +66,7 @@ fun MyLessonScreen(
             .fillMaxSize()
     ) {
         ScreenTitleRow(
-            title = if (isEditMode) "選擇訓練" else "我的訓練",
+            title = if (isEditMode) "選擇運動計畫" else "我的運動計畫",
             icons = {
                 TitleIcons(
                     screenMode = screenMode,
@@ -98,8 +98,8 @@ fun MyLessonScreen(
             ) {
                 val textColor = MaterialTheme.colorScheme.onPrimaryContainer
                 val textFontSize = 22.sp
-                Text(text = "建立你的專屬訓練吧!", color = textColor, fontSize = textFontSize)
-                Text(text = "可以按上方的 + 新增訓練", color = textColor, fontSize = textFontSize)
+                Text(text = "建立你的專屬運動計畫吧!", color = textColor, fontSize = textFontSize)
+                Text(text = "可以按上方的 + 新增運動計畫", color = textColor, fontSize = textFontSize)
             }
         }
 

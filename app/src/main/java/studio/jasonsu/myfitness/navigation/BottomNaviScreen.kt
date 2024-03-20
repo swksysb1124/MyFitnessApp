@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 sealed class BottomNaviScreen(val route: String, val name: String, val icon: ImageVector) {
     data object MyLesson : BottomNaviScreen(
         route = "/my-lesson",
-        name = "我的訓練",
+        name = "我的運動計畫",
         icon = Icons.Filled.DateRange
     )
 
