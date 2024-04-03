@@ -71,7 +71,7 @@ class AddLessonViewModel(
         _hasExerciseSelected.value = selectedExercises.isNotEmpty()
     }
 
-    fun save(onComplete: () -> Unit) {
+    fun saveLesson(onComplete: () -> Unit) {
         val exercises = selectedExercises.map { metaData ->
             Exercise.create(metaData, metaData.suggestedDurationInSecond)
         }
@@ -82,11 +82,15 @@ class AddLessonViewModel(
             daysOfWeek = selectedDaysOfWeek
         )
         viewModelScope.launch {
+            // create a new lesson
             val lessonId = lessonRepository.createLesson(lesson)
             val updated = exercises.map {
                 Exercise.create(it.metaData, it.durationInSecond, lessonId = lessonId)
             }
+            // create exercises for the given lesson
             lessonExerciseRepository.createLessonExercises(updated)
+
+            // set lesson alarm
             lessonAlarmRepository.setLessonAlarm(lesson.copy(id = lessonId.toString()))
             onComplete()
         }
