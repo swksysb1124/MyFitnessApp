@@ -82,13 +82,16 @@ class AddLessonViewModel(
             daysOfWeek = selectedDaysOfWeek
         )
         viewModelScope.launch {
-            // create a new lesson
+            // create a new lesson and obtain the lesson id
             val lessonId = lessonRepository.createLesson(lesson)
-            val updated = exercises.map {
+
+            // update lessonId for exercise
+            val updatedExercises = exercises.map {
                 Exercise.create(it.metaData, it.durationInSecond, lessonId = lessonId)
             }
+
             // create exercises for the given lesson
-            lessonExerciseRepository.createLessonExercises(updated)
+            lessonExerciseRepository.createLessonExercises(updatedExercises)
 
             // set lesson alarm
             lessonAlarmRepository.setLessonAlarm(lesson.copy(id = lessonId.toString()))
