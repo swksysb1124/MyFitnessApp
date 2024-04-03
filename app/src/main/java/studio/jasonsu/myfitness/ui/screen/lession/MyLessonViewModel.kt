@@ -21,11 +21,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import studio.jasonsu.myfitness.repository.LessonAlarmRepository
 
 class MyLessonViewModel(
     private val mainViewModel: MainViewModel,
     private val profileRepository: ProfileRepository,
-    private val lessonRepository: LessonRepository
+    private val lessonRepository: LessonRepository,
+    private val lessonAlarmRepository: LessonAlarmRepository
 ) : ViewModel() {
     private val _lessons = MutableLiveData<List<Lesson>>()
     val lessons: LiveData<List<Lesson>> = _lessons
@@ -128,6 +130,8 @@ class MyLessonViewModel(
 
     private fun deleteLessonsAndRefresh(lessonIds: List<String>) {
         viewModelScope.launch {
+            val selectedLessons = lessonRepository.getLessonsByIds(lessonIds)
+            selectedLessons.forEach(lessonAlarmRepository::cancelLessonAlarm)
             lessonRepository.deleteLessonsByIds(lessonIds)
             refreshLessonList()
         }

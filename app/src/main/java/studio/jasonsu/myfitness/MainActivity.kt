@@ -34,10 +34,11 @@ class MainActivity : ComponentActivity() {
     private lateinit var dataSource: LocalLessonDataSource
 
     // repository
-    private val lessonExerciseRepository: LessonExerciseRepository by lazy { LessonExerciseRepository(dataSource) }
+    private val lessonExerciseRepository: LessonExerciseRepository
+            by lazy { LessonExerciseRepository(dataSource) }
     private val lessonRepository: LessonRepository by lazy { LessonRepository(dataSource) }
     private lateinit var profileRepository: ProfileRepository
-    private val lessonAlarmRepository = LessonAlarmRepository()
+    private val lessonAlarmRepository = LessonAlarmRepository(this)
 
     // main view model for sharing state between screen
     private lateinit var mainViewModel: MainViewModel
@@ -54,12 +55,12 @@ class MainActivity : ComponentActivity() {
         }
 
         setLessonNotificationChannel(this)
-        lessonAlarmRepository.setAlarm(this)
         setContent {
             MyFitnessApp(
                 profileRepository = profileRepository,
                 lessonRepository = lessonRepository,
                 lessonExerciseRepository = lessonExerciseRepository,
+                lessonAlarmRepository = lessonAlarmRepository,
                 textToSpeech = textToSpeech,
                 mainViewModel = mainViewModel,
                 onFinished = ::finish

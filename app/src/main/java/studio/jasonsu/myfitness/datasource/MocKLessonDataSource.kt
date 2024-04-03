@@ -48,6 +48,10 @@ class MocKLessonDataSource: LocalLessonDataSource {
         }
     }
 
+    override suspend fun getLessonsByIds(lessonIds: List<String>): List<Lesson> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getExercises(lessonId: String?): List<Exercise> {
         return when (lessonId) {
             "1" -> listOf(

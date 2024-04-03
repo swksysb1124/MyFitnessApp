@@ -17,6 +17,9 @@ interface LessonDao {
     @Query("SELECT * FROM lesson WHERE id = :lessonId")
     suspend fun getLessonById(lessonId: Int): LessonEntity
 
+    @Query("SELECT * FROM lesson WHERE id in (:lessonIds)")
+    suspend fun getLessonsByIds(lessonIds: List<Int>): List<LessonEntity>
+
     @Update
     suspend fun updateLesson(lesson: LessonEntity)
 

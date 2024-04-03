@@ -33,11 +33,10 @@
         </activity>
 
         <receiver android:name=".broadcast.LessonAlarmBroadcastReceiver"
-            android:exported="true"
-            android:enabled="false">
+            android:exported="true">
 
             <intent-filter>
-                <action android:name="MY_ACTION" />
+                <action android:name="LESSON_ALARM_ACTION" />
             </intent-filter>
         </receiver>
     </application>

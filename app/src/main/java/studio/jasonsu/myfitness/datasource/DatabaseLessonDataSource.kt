@@ -25,6 +25,12 @@ class DatabaseLessonDataSource(
         return lessonDao.getLessonById(id).toLesson()
     }
 
+    override suspend fun getLessonsByIds(lessonIds: List<String>): List<Lesson> {
+        if (lessonIds.isEmpty()) return emptyList()
+        return lessonDao.getLessonsByIds(lessonIds.map { it.toInt() })
+            .map { it.toLesson() }
+    }
+
     override suspend fun getExercises(lessonId: String?): List<Exercise> {
         val id = lessonId?.toIntOrNull() ?: return emptyList()
         return exerciseDao.getExercisesByLessonId(id)

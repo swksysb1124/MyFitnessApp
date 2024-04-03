@@ -8,6 +8,8 @@ class LessonRepository(
 ) {
     suspend fun getLessons(): List<Lesson> = dataSource.getAllLessons()
 
+    suspend fun getLessonsByIds(lessonIds: List<String>): List<Lesson> = dataSource.getLessonsByIds(lessonIds)
+
     suspend fun getLesson(lessonId: String?): Lesson? = dataSource.getLesson(lessonId)
 
     suspend fun createLesson(lesson: Lesson) = dataSource.createLesson(lesson)

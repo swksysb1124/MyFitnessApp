@@ -10,6 +10,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import studio.jasonsu.myfitness.MainActivity
 import studio.jasonsu.myfitness.R
+import studio.jasonsu.myfitness.model.LessonAlarm
 
 object NotificationUtil {
     fun createNotificationChannel(
@@ -24,20 +25,32 @@ object NotificationUtil {
         }
     }
 
-    fun createLessonStartNotification(context: Context): Notification {
+    fun createLessonStartNotification(
+        context: Context,
+        lessonAlarm: LessonAlarm?
+    ): Notification {
         val pendingIntent = PendingIntent.getActivity(
             context, 0,
             Intent(context, MainActivity::class.java),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
+        val contentText = when {
+            lessonAlarm != null ->
+                "您安排的運動將在${lessonAlarm.time.hour}:${lessonAlarm.time.minute}開始!"
+
+            else -> "您安排的運動即將開始!"
+        }
+
         return NotificationCompat.Builder(context, LESSON_ALARM_CHANNEL_ID)
-            .setContentTitle("您的運動開始了")
-            .setContentText("請開始運動")
+            .setContentTitle("來運動吧!")
+            .setContentText(contentText)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentIntent(pendingIntent)
             .build()
     }
 
-    const val LESSON_ALARM_CHANNEL_ID = "myfitness.notification.alarm.channel"
-    const val LESSON_START_CHANNEL_NAME = "myfitness.notification.start.lesson"
+    val LESSON_ALARM_CHANNEL_ID: String by lazy {
+        "myfitness.notification.channel.id".hashCode().toString()
+    }
+    const val LESSON_START_CHANNEL_NAME = "myfitness.notification.channel.start.lesson"
 }
