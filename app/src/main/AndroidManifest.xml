@@ -19,6 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFitnessApp.Splash"
+        android:name=".MyFitnessApplication"
         tools:targetApi="31">
         <activity
             android:name="studio.jasonsu.myfitness.MainActivity"
