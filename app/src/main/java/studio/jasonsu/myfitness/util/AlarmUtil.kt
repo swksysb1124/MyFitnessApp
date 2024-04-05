@@ -6,7 +6,12 @@ import android.content.Context
 
 object AlarmUtil {
 
-    fun setRepeatingAlarm(context: Context, triggerAtMillis: Long, intervalMillis: Long, pendingIntent: PendingIntent) {
+    fun setRepeatingAlarm(
+        context: Context,
+        triggerAtMillis: Long,
+        intervalMillis: Long,
+        pendingIntent: PendingIntent
+    ) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
@@ -16,7 +21,22 @@ object AlarmUtil {
         )
     }
 
-    fun cancelAlarm(context: Context, pendingIntent: PendingIntent) {
+    fun setAlarmClock(
+        context: Context,
+        triggerAtMillis: Long,
+        pendingIntent: PendingIntent
+    ) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.setAlarmClock(
+            AlarmManager.AlarmClockInfo(triggerAtMillis, pendingIntent),
+            pendingIntent
+        )
+    }
+
+    fun cancelAlarm(
+        context: Context,
+        pendingIntent: PendingIntent
+    ) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.cancel(pendingIntent)
     }

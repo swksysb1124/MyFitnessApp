@@ -18,17 +18,15 @@ class LessonAlarmRepository(
     private val context = WeakReference(context)
 
     fun setLessonAlarm(lesson: Lesson) {
-        val context = context.get() ?: return
         val lessonAlarm = LessonAlarm.from(lesson)
+        setLessonAlarm(lessonAlarm)
+    }
+
+    fun setLessonAlarm(lessonAlarm: LessonAlarm) {
+        val context = context.get() ?: return
         val triggerAtMillis = lessonAlarm.getTriggerAtMilli()
-        Log.d("MyFitnessApp", "$TAG setLessonAlarm: lesson=$lesson, lessonAlarm=$lessonAlarm")
         val pendingIntent = createLessonAlarmPendingIntent(context, lessonAlarm)
-        AlarmUtil.setRepeatingAlarm(
-            context,
-            triggerAtMillis,
-            AlarmManager.INTERVAL_DAY,
-            pendingIntent
-        )
+        AlarmUtil.setAlarmClock(context, triggerAtMillis, pendingIntent)
     }
 
     fun cancelLessonAlarm(lesson: Lesson) {

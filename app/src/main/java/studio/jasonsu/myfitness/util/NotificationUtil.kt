@@ -36,13 +36,13 @@ object NotificationUtil {
         )
         val contentText = when {
             lessonAlarm != null ->
-                "您安排的運動將在${lessonAlarm.time.hour}:${lessonAlarm.time.minute}開始!"
+                "${lessonAlarm.lessonName}將在${lessonAlarm.time.hour}:${lessonAlarm.time.minute}開始!"
 
             else -> "您安排的運動即將開始!"
         }
 
         return NotificationCompat.Builder(context, LESSON_ALARM_CHANNEL_ID)
-            .setContentTitle("來運動吧!")
+            .setContentTitle("運動小幫手提醒")
             .setContentText(contentText)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentIntent(pendingIntent)
@@ -53,4 +53,5 @@ object NotificationUtil {
         "myfitness.notification.channel.id".hashCode().toString()
     }
     const val LESSON_START_CHANNEL_NAME = "myfitness.notification.channel.start.lesson"
+    const val LESSON_ALARM_NOTIFICATION_ID = 0x110
 }
