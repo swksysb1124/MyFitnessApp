@@ -49,9 +49,7 @@ object NotificationUtil {
             .build()
     }
 
-    val LESSON_ALARM_CHANNEL_ID: String by lazy {
-        "myfitness.notification.channel.id".hashCode().toString()
-    }
-    const val LESSON_START_CHANNEL_NAME = "myfitness.notification.channel.start.lesson"
+    const val LESSON_ALARM_CHANNEL_ID = "myfitness.notification.channel.id"
+    const val LESSON_ALARM_CHANNEL_NAME = "運動提醒"
     const val LESSON_ALARM_NOTIFICATION_ID = 0x110
 }

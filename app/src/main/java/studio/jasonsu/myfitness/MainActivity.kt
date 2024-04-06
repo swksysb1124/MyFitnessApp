@@ -61,7 +61,7 @@ class MainActivity : MyFitnessActivity() {
         NotificationUtil.createNotificationChannel(
             manager = notificationManager,
             channelId = NotificationUtil.LESSON_ALARM_CHANNEL_ID,
-            channelName = NotificationUtil.LESSON_START_CHANNEL_NAME
+            channelName = NotificationUtil.LESSON_ALARM_CHANNEL_NAME
         )
     }
 
