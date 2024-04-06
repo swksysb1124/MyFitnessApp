@@ -3,6 +3,7 @@ package studio.jasonsu.myfitness
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -56,13 +57,15 @@ class MainActivity : MyFitnessActivity() {
     }
 
     private fun setLessonNotificationChannel(context: Context) {
-        val notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        NotificationUtil.createNotificationChannel(
-            manager = notificationManager,
-            channelId = NotificationUtil.LESSON_ALARM_CHANNEL_ID,
-            channelName = NotificationUtil.LESSON_ALARM_CHANNEL_NAME
-        )
+        if (Build.VERSION.SDK_INT >= 26) {
+            val notificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            NotificationUtil.createNotificationChannel(
+                manager = notificationManager,
+                channelId = NotificationUtil.LESSON_ALARM_CHANNEL_ID,
+                channelName = NotificationUtil.LESSON_ALARM_CHANNEL_NAME
+            )
+        }
     }
 
     private fun getLessonAlarm(intent: Intent) =
