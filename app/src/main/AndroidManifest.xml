@@ -24,6 +24,7 @@
         <activity
             android:name="studio.jasonsu.myfitness.MainActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -37,7 +38,7 @@
             android:exported="true">
 
             <intent-filter>
-                <action android:name="LESSON_ALARM_ACTION" />
+                <action android:name="studio.jasonsu.myfitness.lesson.alarm.ACTION" />
             </intent-filter>
         </receiver>
     </application>
