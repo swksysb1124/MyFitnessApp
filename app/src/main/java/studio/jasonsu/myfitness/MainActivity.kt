@@ -11,7 +11,8 @@ import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
 import studio.jasonsu.myfitness.app.MyFitnessApp
-import studio.jasonsu.myfitness.broadcast.LessonAlarmBroadcastReceiver
+import studio.jasonsu.myfitness.broadcast.LessonAlarmBroadcastReceiver.Companion.FOREGROUND_LESSON_ALARM_ACTION
+import studio.jasonsu.myfitness.broadcast.LessonAlarmBroadcastReceiver.Companion.LESSON_ALARM_EXTRA_KEY
 import studio.jasonsu.myfitness.model.LessonAlarm
 import studio.jasonsu.myfitness.ui.screen.main.MainViewModel
 import studio.jasonsu.myfitness.util.NotificationUtil
@@ -23,14 +24,8 @@ class MainActivity : MyFitnessActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         Log.d(TAG, "onNewIntent: intent=$intent")
-        if (intent?.action == LessonAlarmBroadcastReceiver.FOREGROUND_LESSON_ALARM_ACTION) {
-            val lessonAlarm = getLessonAlarm(intent)
-            if (lessonAlarm == null) {
-                Log.e(TAG, "received lessonAlarm is null")
-                return
-            }
-            Log.d(TAG, "${lessonAlarm.lessonName} 開始囉!!")
-            Toast.makeText(this, "${lessonAlarm.lessonName} 開始囉!!", Toast.LENGTH_LONG).show()
+        when (intent?.action) {
+            FOREGROUND_LESSON_ALARM_ACTION -> handleForegroundLessonAlarm(intent)
         }
     }
 
@@ -68,8 +63,18 @@ class MainActivity : MyFitnessActivity() {
         }
     }
 
+    private fun handleForegroundLessonAlarm(intent: Intent) {
+        val lessonAlarm = getLessonAlarm(intent)
+        if (lessonAlarm == null) {
+            Log.e(TAG, "received lessonAlarm is null")
+            return
+        }
+        Log.d(TAG, "${lessonAlarm.lessonName} 開始囉!!")
+        Toast.makeText(this, "${lessonAlarm.lessonName} 開始囉!!", Toast.LENGTH_LONG).show()
+    }
+
     private fun getLessonAlarm(intent: Intent) =
-        intent.extras?.getParcelable<LessonAlarm>(LessonAlarmBroadcastReceiver.LESSON_ALARM_EXTRA_KEY)
+        intent.extras?.getParcelable<LessonAlarm>(LESSON_ALARM_EXTRA_KEY)
 
     companion object {
         const val TAG = "MainActivity"
