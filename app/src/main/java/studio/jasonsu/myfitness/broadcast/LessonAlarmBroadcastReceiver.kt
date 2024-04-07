@@ -25,7 +25,7 @@ class LessonAlarmBroadcastReceiver : BroadcastReceiver() {
             if (isApplicationForeground(context)) {
                 notifyForegroundApplication(context, lessonAlarm)
             } else {
-                NotificationUtil.sendLessonAlarmNotification(context, lessonAlarm)
+                sendNotification(context, lessonAlarm)
             }
         }
         setNextAlarmClock(context, lessonAlarm)
@@ -41,6 +41,13 @@ class LessonAlarmBroadcastReceiver : BroadcastReceiver() {
             action = FOREGROUND_LESSON_ALARM_ACTION
         }
         context.startActivity(foregroundIntent)
+    }
+
+    private fun sendNotification(
+        context: Context,
+        lessonAlarm: LessonAlarm?
+    ) {
+        NotificationUtil.sendLessonAlarmNotification(context, lessonAlarm)
     }
 
     private fun getLessonAlarm(intent: Intent) =
