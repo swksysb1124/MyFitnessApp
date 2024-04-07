@@ -1,6 +1,5 @@
 package studio.jasonsu.myfitness.broadcast
 
-import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -11,7 +10,6 @@ import studio.jasonsu.myfitness.model.DayOfWeek
 import studio.jasonsu.myfitness.model.LessonAlarm
 import studio.jasonsu.myfitness.repository.LessonAlarmRepository
 import studio.jasonsu.myfitness.util.NotificationUtil
-import studio.jasonsu.myfitness.util.NotificationUtil.LESSON_ALARM_NOTIFICATION_ID
 import java.util.Calendar
 
 class LessonAlarmBroadcastReceiver : BroadcastReceiver() {
@@ -27,7 +25,7 @@ class LessonAlarmBroadcastReceiver : BroadcastReceiver() {
             if (isApplicationForeground(context)) {
                 notifyForegroundApplication(context, lessonAlarm)
             } else {
-                sendNotification(context, lessonAlarm)
+                NotificationUtil.sendLessonAlarmNotification(context, lessonAlarm)
             }
         }
         setNextAlarmClock(context, lessonAlarm)
@@ -67,16 +65,6 @@ class LessonAlarmBroadcastReceiver : BroadcastReceiver() {
         }
         return lessonAlarm.daysOfWeek.isNotEmpty() &&
                 lessonAlarm.daysOfWeek.contains(today)
-    }
-
-    private fun sendNotification(
-        context: Context,
-        lessonAlarm: LessonAlarm?
-    ) {
-        val notification = NotificationUtil.createLessonStartNotification(context, lessonAlarm)
-        val notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(LESSON_ALARM_NOTIFICATION_ID, notification)
     }
 
     private fun setNextAlarmClock(

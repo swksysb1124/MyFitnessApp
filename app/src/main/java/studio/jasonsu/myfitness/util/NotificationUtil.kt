@@ -7,30 +7,53 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import studio.jasonsu.myfitness.MainActivity
 import studio.jasonsu.myfitness.R
 import studio.jasonsu.myfitness.model.LessonAlarm
 
 object NotificationUtil {
-    fun createNotificationChannel(
+    fun setLessonNotificationChannel(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationManager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            createNotificationChannel(
+                manager = notificationManager,
+                channelId = LESSON_ALARM_CHANNEL_ID,
+                channelName = LESSON_ALARM_CHANNEL_NAME
+            )
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel(
         manager: NotificationManager,
         channelId: String,
         channelName: String
     ) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(channelId, channelName, importance)
-            manager.createNotificationChannel(channel)
-        }
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel(channelId, channelName, importance)
+        manager.createNotificationChannel(channel)
     }
 
-    fun createLessonStartNotification(
+    fun sendLessonAlarmNotification(
+        context: Context,
+        lessonAlarm: LessonAlarm?
+    ) {
+        val notification = createLessonAlarmNotification(context, lessonAlarm)
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(LESSON_ALARM_NOTIFICATION_ID, notification)
+    }
+
+    private fun createLessonAlarmNotification(
         context: Context,
         lessonAlarm: LessonAlarm?
     ): Notification {
         val pendingIntent = PendingIntent.getActivity(
-            context, 0,
+            context,
+            0,
             Intent(context, MainActivity::class.java),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
@@ -49,7 +72,7 @@ object NotificationUtil {
             .build()
     }
 
-    const val LESSON_ALARM_CHANNEL_ID = "myfitness.notification.channel.id"
-    const val LESSON_ALARM_CHANNEL_NAME = "運動提醒"
-    const val LESSON_ALARM_NOTIFICATION_ID = 0x110
+    private const val LESSON_ALARM_CHANNEL_ID = "myfitness.notification.channel.id"
+    private const val LESSON_ALARM_CHANNEL_NAME = "運動提醒"
+    private const val LESSON_ALARM_NOTIFICATION_ID = 0x110
 }
