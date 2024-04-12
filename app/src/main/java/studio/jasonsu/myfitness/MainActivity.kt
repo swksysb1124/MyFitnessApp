@@ -13,10 +13,18 @@ import studio.jasonsu.myfitness.broadcast.LessonAlarmBroadcastReceiver.Companion
 import studio.jasonsu.myfitness.model.LessonAlarm
 import studio.jasonsu.myfitness.ui.screen.main.MainViewModel
 import studio.jasonsu.myfitness.util.NotificationUtil
+import studio.jasonsu.myfitness.util.PermissionUtil
 
 class MainActivity : MyFitnessActivity() {
     // main view model for sharing state between screen
     private lateinit var mainViewModel: MainViewModel
+
+    private val permissionUtil = PermissionUtil(
+        this,
+        onNotificationRequestCallback = {
+
+        }
+    )
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
@@ -32,6 +40,7 @@ class MainActivity : MyFitnessActivity() {
         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         mainViewModel.isReady.observe(this) { isReady ->
             splashScreen.setKeepOnScreenCondition { !isReady }
+            permissionUtil.requestNotificationPermission()
         }
 
         NotificationUtil.setLessonNotificationChannel(this)
