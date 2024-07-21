@@ -1,4 +1,4 @@
-package studio.jasonsu.myfitness.domain
+package studio.jasonsu.myfitness.domain.usecase
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

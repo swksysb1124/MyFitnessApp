@@ -57,7 +57,6 @@ android {
 }
 
 dependencies {
-
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.activity:activity-compose:1.7.2")
@@ -89,4 +88,7 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     implementation(kotlin("reflect"))
     implementation("androidx.core:core-splashscreen:1.0.0")
+
+    // Konsist
+    testImplementation("com.lemonappdev:konsist:0.15.1")
 }
