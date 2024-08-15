@@ -1,0 +1,27 @@
+name: Push
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  test:
+    name: Unit Test
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "This job is running on a ${{ runner.os }} server hosted by GitHub!"
+      - uses: actions/checkout@v4
+      - run: echo "The ${{ github.repository }} repository has been cloned."
+      - run: echo "Setting up JDK"
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - run: echo "The workflow is now ready to test your code."
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+      - name: Test
+        run: ./gradlew test --stacktrace
