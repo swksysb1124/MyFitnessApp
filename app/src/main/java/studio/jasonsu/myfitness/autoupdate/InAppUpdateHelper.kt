@@ -1,10 +1,13 @@
 package studio.jasonsu.myfitness.autoupdate
 
-import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity.RESULT_OK
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
@@ -23,6 +26,19 @@ class InAppUpdateHelper(
     private val appUpdateManager by lazy { AppUpdateManagerFactory.create(activity.applicationContext) }
 
     private var appUpdateType = AppUpdateType.FLEXIBLE
+
+    private val inAppUpdateLauncher: ActivityResultLauncher<IntentSenderRequest> by lazy {
+        activity.registerForActivityResult(
+            ActivityResultContracts.StartIntentSenderForResult()
+        ) { result ->
+            if (result.resultCode == RESULT_OK) {
+                Log.e(TAG, "Update failed! Please check the update process for potential issues.")
+                if (appUpdateType == AppUpdateType.IMMEDIATE) {
+                    activity.finish()
+                }
+            }
+        }
+    }
 
     private val installStateUpdatedListener = InstallStateUpdatedListener { state ->
         if (state.installStatus() == InstallStatus.DOWNLOADED) {
@@ -47,7 +63,11 @@ class InAppUpdateHelper(
                 else -> false
             }
             if (isUpdateAvailable && isUpdateAllowed) {
-                appUpdateManager.startUpdateFlowForResult(info, appUpdateType, activity, UPDATE_REQUEST_CODE)
+                appUpdateManager.startUpdateFlowForResult(
+                    info,
+                    inAppUpdateLauncher,
+                    AppUpdateOptions.newBuilder(AppUpdateType.FLEXIBLE).build()
+                )
             }
         }
     }
@@ -63,7 +83,11 @@ class InAppUpdateHelper(
         if (appUpdateType == AppUpdateType.IMMEDIATE) {
             appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
                 if (info.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
-                    appUpdateManager.startUpdateFlowForResult(info, appUpdateType, activity, 100)
+                    appUpdateManager.startUpdateFlowForResult(
+                        info,
+                        inAppUpdateLauncher,
+                        AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE).build()
+                    )
                 }
             }
         }
@@ -73,22 +97,5 @@ class InAppUpdateHelper(
         if (appUpdateType == AppUpdateType.FLEXIBLE) {
             appUpdateManager.unregisterListener(installStateUpdatedListener)
         }
-    }
-
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
-        if (requestCode == UPDATE_REQUEST_CODE) {
-            if (resultCode != RESULT_OK) {
-                Log.e(TAG, "Update failed with resultCode: $resultCode. Please check the update process for potential issues.")
-                if (appUpdateType == AppUpdateType.IMMEDIATE) {
-                    activity.finish()
-                }
-            }
-            return true
-        }
-        return false
-    }
-
-    companion object {
-        private const val UPDATE_REQUEST_CODE = 100
     }
 }

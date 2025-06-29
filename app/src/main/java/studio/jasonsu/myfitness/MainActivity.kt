@@ -72,14 +72,6 @@ class MainActivity : MyFitnessActivity() {
         inAppUpdateHelper.onDestroy()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (inAppUpdateHelper.onActivityResult(requestCode, resultCode, data)) {
-            return
-        }
-    }
-
     private fun handleForegroundLessonAlarm(intent: Intent) {
         val lessonAlarm = getLessonAlarm(intent)
         if (lessonAlarm == null) {
