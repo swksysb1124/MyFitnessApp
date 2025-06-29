@@ -47,7 +47,7 @@ class InAppUpdateHelper(
                 else -> false
             }
             if (isUpdateAvailable && isUpdateAllowed) {
-                appUpdateManager.startUpdateFlowForResult(info, appUpdateType, activity, 100)
+                appUpdateManager.startUpdateFlowForResult(info, appUpdateType, activity, UPDATE_REQUEST_CODE)
             }
         }
     }
@@ -76,9 +76,9 @@ class InAppUpdateHelper(
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
-        if (requestCode == 100) {
+        if (requestCode == UPDATE_REQUEST_CODE) {
             if (resultCode != RESULT_OK) {
-                Log.e(TAG, "Something went wrong with the updating...")
+                Log.e(TAG, "Update failed with resultCode: $resultCode. Please check the update process for potential issues.")
                 if (appUpdateType == AppUpdateType.IMMEDIATE) {
                     activity.finish()
                 }
@@ -86,5 +86,9 @@ class InAppUpdateHelper(
             return true
         }
         return false
+    }
+
+    companion object {
+        private const val UPDATE_REQUEST_CODE = 100
     }
 }
