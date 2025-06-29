@@ -7,7 +7,9 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import studio.jasonsu.myfitness.app.MyFitnessApp
+import studio.jasonsu.myfitness.autoupdate.InAppUpdateHelper
 import studio.jasonsu.myfitness.broadcast.LessonAlarmBroadcastReceiver.Companion.FOREGROUND_LESSON_ALARM_ACTION
 import studio.jasonsu.myfitness.broadcast.LessonAlarmBroadcastReceiver.Companion.LESSON_ALARM_EXTRA_KEY
 import studio.jasonsu.myfitness.model.LessonAlarm
@@ -26,6 +28,8 @@ class MainActivity : MyFitnessActivity() {
         }
     )
 
+    private val inAppUpdateHelper by lazy { InAppUpdateHelper(this, lifecycleScope) }
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         Log.d(TAG, "onNewIntent: intent=$intent")
@@ -37,6 +41,7 @@ class MainActivity : MyFitnessActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+        inAppUpdateHelper.onCreate()
         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         mainViewModel.isReady.observe(this) { isReady ->
             splashScreen.setKeepOnScreenCondition { !isReady }
@@ -54,6 +59,24 @@ class MainActivity : MyFitnessActivity() {
                 mainViewModel = mainViewModel,
                 onFinished = ::finish
             )
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        inAppUpdateHelper.onResume()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        inAppUpdateHelper.onDestroy()
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (inAppUpdateHelper.onActivityResult(requestCode, resultCode, data)) {
+            return
         }
     }
 
