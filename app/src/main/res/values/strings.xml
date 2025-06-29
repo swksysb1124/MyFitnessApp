@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">運動小幫手</string>
+    <string name="in_app_update_success_message">下載成功. 將在5秒後自動重啟！</string>
 </resources>

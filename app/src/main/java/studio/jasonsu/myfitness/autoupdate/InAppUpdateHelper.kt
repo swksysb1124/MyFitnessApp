@@ -17,6 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import studio.jasonsu.myfitness.MainActivity
 import studio.jasonsu.myfitness.MainActivity.Companion.TAG
+import studio.jasonsu.myfitness.R
 import kotlin.time.Duration.Companion.seconds
 
 class InAppUpdateHelper(
@@ -31,7 +32,7 @@ class InAppUpdateHelper(
         activity.registerForActivityResult(
             ActivityResultContracts.StartIntentSenderForResult()
         ) { result ->
-            if (result.resultCode == RESULT_OK) {
+            if (result.resultCode != RESULT_OK) {
                 Log.e(TAG, "Update failed! Please check the update process for potential issues.")
                 if (appUpdateType == AppUpdateType.IMMEDIATE) {
                     activity.finish()
@@ -44,7 +45,7 @@ class InAppUpdateHelper(
         if (state.installStatus() == InstallStatus.DOWNLOADED) {
             Toast.makeText(
                 activity.applicationContext,
-                "下載成功. 將在5秒後自動重啟！",
+                activity.getString(R.string.in_app_update_success_message),
                 Toast.LENGTH_LONG
             ).show()
             scope.launch {
@@ -66,7 +67,7 @@ class InAppUpdateHelper(
                 appUpdateManager.startUpdateFlowForResult(
                     info,
                     inAppUpdateLauncher,
-                    AppUpdateOptions.newBuilder(AppUpdateType.FLEXIBLE).build()
+                    AppUpdateOptions.newBuilder(appUpdateType).build()
                 )
             }
         }
@@ -86,7 +87,7 @@ class InAppUpdateHelper(
                     appUpdateManager.startUpdateFlowForResult(
                         info,
                         inAppUpdateLauncher,
-                        AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE).build()
+                        AppUpdateOptions.newBuilder(appUpdateType).build()
                     )
                 }
             }
