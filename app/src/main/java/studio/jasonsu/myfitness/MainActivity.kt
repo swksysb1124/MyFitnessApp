@@ -16,6 +16,7 @@ import studio.jasonsu.myfitness.model.LessonAlarm
 import studio.jasonsu.myfitness.ui.screen.main.MainViewModel
 import studio.jasonsu.myfitness.util.NotificationUtil
 import studio.jasonsu.myfitness.util.PermissionUtil
+import studio.jasonsu.myfitness.util.parcelable
 
 class MainActivity : MyFitnessActivity() {
     // main view model for sharing state between screen
@@ -83,7 +84,7 @@ class MainActivity : MyFitnessActivity() {
     }
 
     private fun getLessonAlarm(intent: Intent) =
-        intent.extras?.getParcelable<LessonAlarm>(LESSON_ALARM_EXTRA_KEY)
+        intent.extras?.parcelable<LessonAlarm>(LESSON_ALARM_EXTRA_KEY)
 
     companion object {
         const val TAG = "MainActivity"

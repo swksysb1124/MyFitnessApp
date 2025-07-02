@@ -10,6 +10,7 @@ import studio.jasonsu.myfitness.model.DayOfWeek
 import studio.jasonsu.myfitness.model.LessonAlarm
 import studio.jasonsu.myfitness.repository.LessonAlarmRepository
 import studio.jasonsu.myfitness.util.NotificationUtil
+import studio.jasonsu.myfitness.util.parcelable
 import java.util.Calendar
 
 class LessonAlarmBroadcastReceiver : BroadcastReceiver() {
@@ -51,7 +52,7 @@ class LessonAlarmBroadcastReceiver : BroadcastReceiver() {
     }
 
     private fun getLessonAlarm(intent: Intent) =
-        intent.extras?.getParcelable<LessonAlarm>(LESSON_ALARM_EXTRA_KEY)
+        intent.extras?.parcelable<LessonAlarm>(LESSON_ALARM_EXTRA_KEY)
 
     private fun isApplicationForeground(context: Context) =
         (context.applicationContext as MyFitnessApplication).isApplicationForeground
