@@ -1,5 +1,7 @@
 package studio.jasonsu.myfitness.util
 
+import java.util.Locale
+
 /**
  * Covert duration in second to the format HH:mm:ss
  *
@@ -16,9 +18,9 @@ fun Int.formattedDuration(): String {
     val minute = (seconds % 3600) / 60
     val secondLeft = (seconds % 60)
     return if (hour < 1) {
-        String.format("%02d:%02d", minute, secondLeft)
+        String.format(Locale.getDefault(), "%02d:%02d", minute, secondLeft)
     } else {
-        String.format("%d:%02d:%02d", hour, minute, secondLeft)
+        String.format(Locale.getDefault(), "%d:%02d:%02d", hour, minute, secondLeft)
     }
 }
 

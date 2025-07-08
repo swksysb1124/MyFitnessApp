@@ -7,13 +7,16 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import studio.jasonsu.myfitness.app.MyFitnessApp
+import studio.jasonsu.myfitness.autoupdate.InAppUpdateHelper
 import studio.jasonsu.myfitness.broadcast.LessonAlarmBroadcastReceiver.Companion.FOREGROUND_LESSON_ALARM_ACTION
 import studio.jasonsu.myfitness.broadcast.LessonAlarmBroadcastReceiver.Companion.LESSON_ALARM_EXTRA_KEY
 import studio.jasonsu.myfitness.model.LessonAlarm
 import studio.jasonsu.myfitness.ui.screen.main.MainViewModel
 import studio.jasonsu.myfitness.util.NotificationUtil
 import studio.jasonsu.myfitness.util.PermissionUtil
+import studio.jasonsu.myfitness.util.parcelable
 
 class MainActivity : MyFitnessActivity() {
     // main view model for sharing state between screen
@@ -26,6 +29,8 @@ class MainActivity : MyFitnessActivity() {
         }
     )
 
+    private val inAppUpdateHelper by lazy { InAppUpdateHelper(this, lifecycleScope) }
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         Log.d(TAG, "onNewIntent: intent=$intent")
@@ -37,6 +42,7 @@ class MainActivity : MyFitnessActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+        inAppUpdateHelper.onCreate()
         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         mainViewModel.isReady.observe(this) { isReady ->
             splashScreen.setKeepOnScreenCondition { !isReady }
@@ -57,6 +63,16 @@ class MainActivity : MyFitnessActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        inAppUpdateHelper.onResume()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        inAppUpdateHelper.onDestroy()
+    }
+
     private fun handleForegroundLessonAlarm(intent: Intent) {
         val lessonAlarm = getLessonAlarm(intent)
         if (lessonAlarm == null) {
@@ -68,7 +84,7 @@ class MainActivity : MyFitnessActivity() {
     }
 
     private fun getLessonAlarm(intent: Intent) =
-        intent.extras?.getParcelable<LessonAlarm>(LESSON_ALARM_EXTRA_KEY)
+        intent.extras?.parcelable<LessonAlarm>(LESSON_ALARM_EXTRA_KEY)
 
     companion object {
         const val TAG = "MainActivity"

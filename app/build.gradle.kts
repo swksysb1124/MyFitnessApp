@@ -7,14 +7,14 @@ plugins {
 
 android {
     namespace = "studio.jasonsu.myfitness"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "studio.jasonsu.myfitness"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 2
-        versionName = "1.0"
+        targetSdk = 35
+        versionCode = 3
+        versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -57,7 +57,6 @@ android {
 }
 
 dependencies {
-
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.activity:activity-compose:1.7.2")
@@ -89,4 +88,11 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     implementation(kotlin("reflect"))
     implementation("androidx.core:core-splashscreen:1.0.0")
+
+    // Konsist
+    testImplementation("com.lemonappdev:konsist:0.15.1")
+
+    // In-app Update
+    implementation("com.google.android.play:app-update:2.1.0")
+    implementation("com.google.android.play:app-update-ktx:2.1.0")
 }

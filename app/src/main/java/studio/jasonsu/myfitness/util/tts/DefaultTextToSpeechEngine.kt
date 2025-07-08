@@ -24,7 +24,7 @@ class DefaultTextToSpeechEngine(context: Context) : TextToSpeechEngine {
 
     override fun speak(text: String) {
         checkTextToSpeakInitialized()
-        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null)
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
     }
 
     private fun checkTextToSpeakInitialized() {
