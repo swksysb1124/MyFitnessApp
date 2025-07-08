@@ -1,6 +1,6 @@
 {
   "name": "myfitnessapp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "This is a personal project that implement a helper app to help people schedule their fitness plan.",
   "main": "index.js",
   "scripts": {
