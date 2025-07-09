@@ -12,7 +12,6 @@ import androidx.navigation.navArgument
 import studio.jasonsu.myfitness.event.RefreshLessonListEvent
 import studio.jasonsu.myfitness.navigation.NaviScreen
 import studio.jasonsu.myfitness.navigation.WizardNaviPage
-import studio.jasonsu.myfitness.repository.LessonAlarmRepository
 import studio.jasonsu.myfitness.repository.LessonExerciseRepository
 import studio.jasonsu.myfitness.repository.LessonRepository
 import studio.jasonsu.myfitness.repository.ProfileRepository
@@ -38,7 +37,6 @@ fun MyFitnessApp(
     profileRepository: ProfileRepository,
     lessonRepository: LessonRepository,
     lessonExerciseRepository: LessonExerciseRepository,
-    lessonAlarmRepository: LessonAlarmRepository,
     textToSpeech: TextToSpeechEngine,
     mainViewModel: MainViewModel,
     onFinished: () -> Unit,
@@ -78,7 +76,6 @@ fun MyFitnessApp(
                 MainScreen(
                     mainViewModel = mainViewModel,
                     lessonRepository = lessonRepository,
-                    lessonAlarmRepository = lessonAlarmRepository,
                     profileRepository = profileRepository,
                     onLessonClick = { id ->
                         mainNavController.navigate(
@@ -174,8 +171,7 @@ fun MyFitnessApp(
                     viewModel = viewModel {
                         AddLessonViewModel(
                             lessonRepository = lessonRepository,
-                            lessonExerciseRepository = lessonExerciseRepository,
-                            lessonAlarmRepository = lessonAlarmRepository
+                            lessonExerciseRepository = lessonExerciseRepository
                         )
                     },
                     onDismiss = mainNavController::popBackStack,

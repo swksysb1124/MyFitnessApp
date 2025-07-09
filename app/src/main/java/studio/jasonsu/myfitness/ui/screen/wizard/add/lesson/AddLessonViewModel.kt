@@ -13,12 +13,10 @@ import studio.jasonsu.myfitness.model.Time
 import studio.jasonsu.myfitness.repository.LessonExerciseRepository
 import studio.jasonsu.myfitness.repository.LessonRepository
 import kotlinx.coroutines.launch
-import studio.jasonsu.myfitness.repository.LessonAlarmRepository
 
 class AddLessonViewModel(
     private val lessonRepository: LessonRepository,
-    private val lessonExerciseRepository: LessonExerciseRepository,
-    private val lessonAlarmRepository: LessonAlarmRepository
+    private val lessonExerciseRepository: LessonExerciseRepository
 ) : ViewModel() {
     private val _name = MutableLiveData<String>()
     val name: LiveData<String> = _name
@@ -93,8 +91,6 @@ class AddLessonViewModel(
             // create exercises for the given lesson
             lessonExerciseRepository.createLessonExercises(updatedExercises)
 
-            // set lesson alarm
-            lessonAlarmRepository.setLessonAlarm(lesson.copy(id = lessonId.toString()))
             onComplete()
         }
     }
