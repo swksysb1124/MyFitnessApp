@@ -8,7 +8,6 @@ import studio.jasonsu.myfitness.database.lesson.LessonDao
 import studio.jasonsu.myfitness.database.profile.ProfileDao
 import studio.jasonsu.myfitness.datasource.DatabaseLessonDataSource
 import studio.jasonsu.myfitness.datasource.LocalLessonDataSource
-import studio.jasonsu.myfitness.repository.LessonAlarmRepository
 import studio.jasonsu.myfitness.repository.LessonExerciseRepository
 import studio.jasonsu.myfitness.repository.LessonRepository
 import studio.jasonsu.myfitness.repository.PersistProfileRepository
@@ -32,7 +31,6 @@ class MyFitnessApplication: Application() {
     val lessonExerciseRepository: LessonExerciseRepository
             by lazy { LessonExerciseRepository(dataSource) }
     val lessonRepository: LessonRepository by lazy { LessonRepository(dataSource) }
-    val lessonAlarmRepository = LessonAlarmRepository(this)
 
     override fun onCreate() {
         super.onCreate()
