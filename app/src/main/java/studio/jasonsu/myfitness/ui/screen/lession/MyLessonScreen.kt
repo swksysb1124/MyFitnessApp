@@ -24,13 +24,11 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import studio.jasonsu.myfitness.datasource.MocKLessonDataSource
 import studio.jasonsu.myfitness.model.Lesson
-import studio.jasonsu.myfitness.repository.LessonAlarmRepository
 import studio.jasonsu.myfitness.repository.LessonRepository
 import studio.jasonsu.myfitness.repository.MockProfileRepository
 import studio.jasonsu.myfitness.ui.component.ScreenTitleRow
@@ -217,8 +215,7 @@ fun MyPlanScreenPreview() {
     val viewModel = MyLessonViewModel(
         mainViewModel = MainViewModel(),
         profileRepository = MockProfileRepository(),
-        lessonRepository = LessonRepository(MocKLessonDataSource()),
-        lessonAlarmRepository = LessonAlarmRepository(LocalContext.current)
+        lessonRepository = LessonRepository(MocKLessonDataSource())
     )
     MyFitnessAppTheme {
         MyLessonScreen(viewModel)
@@ -240,8 +237,7 @@ fun MyPlanScreenEditPreview() {
     val viewModel = MyLessonViewModel(
         mainViewModel = MainViewModel(),
         profileRepository = MockProfileRepository(),
-        lessonRepository = LessonRepository(MocKLessonDataSource()),
-        lessonAlarmRepository = LessonAlarmRepository(LocalContext.current)
+        lessonRepository = LessonRepository(MocKLessonDataSource())
     )
     MyFitnessAppTheme {
         MyLessonScreen(

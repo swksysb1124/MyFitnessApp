@@ -31,7 +31,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import studio.jasonsu.myfitness.navigation.BottomNaviScreen
-import studio.jasonsu.myfitness.repository.LessonAlarmRepository
 import studio.jasonsu.myfitness.repository.LessonRepository
 import studio.jasonsu.myfitness.repository.ProfileRepository
 import studio.jasonsu.myfitness.ui.screen.lession.MyLessonScreen
@@ -43,7 +42,6 @@ import studio.jasonsu.myfitness.ui.screen.profile.ProfileViewModel
 fun MainScreen(
     mainViewModel: MainViewModel,
     lessonRepository: LessonRepository,
-    lessonAlarmRepository: LessonAlarmRepository,
     profileRepository: ProfileRepository,
     onLessonClick: (id: String) -> Unit = {},
     onAddLesson: () -> Unit = {},
@@ -86,8 +84,7 @@ fun MainScreen(
                         MyLessonViewModel(
                             mainViewModel = mainViewModel,
                             profileRepository = profileRepository,
-                            lessonRepository = lessonRepository,
-                            lessonAlarmRepository =lessonAlarmRepository
+                            lessonRepository = lessonRepository
                         )
                     },
                     onLessonClick = onLessonClick,

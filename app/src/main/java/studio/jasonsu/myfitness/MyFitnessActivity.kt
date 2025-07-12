@@ -1,7 +1,6 @@
 package studio.jasonsu.myfitness
 
 import androidx.activity.ComponentActivity
-import studio.jasonsu.myfitness.repository.LessonAlarmRepository
 import studio.jasonsu.myfitness.repository.LessonExerciseRepository
 import studio.jasonsu.myfitness.repository.LessonRepository
 import studio.jasonsu.myfitness.repository.ProfileRepository
@@ -15,9 +14,6 @@ abstract class MyFitnessActivity : ComponentActivity() {
 
     val lessonExerciseRepository: LessonExerciseRepository
         get() = (application as MyFitnessApplication).lessonExerciseRepository
-
-    val lessonAlarmRepository: LessonAlarmRepository
-        get() = (application as MyFitnessApplication).lessonAlarmRepository
 
     val textToSpeech: TextToSpeechEngine
         get() = (application as MyFitnessApplication).textToSpeech

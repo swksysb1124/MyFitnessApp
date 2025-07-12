@@ -12,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -22,7 +21,6 @@ import androidx.compose.ui.unit.sp
 import studio.jasonsu.myfitness.datasource.MocKLessonDataSource
 import studio.jasonsu.myfitness.model.DayOfWeek
 import studio.jasonsu.myfitness.model.Lesson
-import studio.jasonsu.myfitness.repository.LessonAlarmRepository
 import studio.jasonsu.myfitness.repository.LessonExerciseRepository
 import studio.jasonsu.myfitness.repository.LessonRepository
 import studio.jasonsu.myfitness.ui.component.SettingWizardLayout
@@ -111,11 +109,9 @@ fun LessonSettingConfirmPagePreview() {
     val dataSource = MocKLessonDataSource()
     val lessonRepository = LessonRepository(dataSource)
     val lessonExerciseRepository = LessonExerciseRepository(dataSource)
-    val lessonAlarmRepository = LessonAlarmRepository(LocalContext.current)
     val viewModel = AddLessonViewModel(
         lessonRepository,
-        lessonExerciseRepository,
-        lessonAlarmRepository
+        lessonExerciseRepository
     )
     MyFitnessAppTheme {
         LessonContentConfirmPage(
