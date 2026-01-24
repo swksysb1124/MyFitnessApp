@@ -4,12 +4,10 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import studio.jasonsu.myfitness.model.DayOfWeek
-import studio.jasonsu.myfitness.model.Lesson
 import studio.jasonsu.myfitness.navigation.WizardNaviPage
 
 @Composable
@@ -18,10 +16,10 @@ fun AddLessonScreen(
     onDismiss: () -> Unit,
     onWizardSettingComplete: () -> Unit
 ) {
-    val name by viewModel.name.observeAsState("")
-    val startTime by viewModel.startTime.observeAsState(Lesson.DefaultStartTime)
-    val hasExerciseSelected by viewModel.hasExerciseSelected.observeAsState(false)
-    val weekDescription by viewModel.weekDescription.observeAsState(DayOfWeek.Unspecified)
+    val name by viewModel.name.collectAsStateWithLifecycle()
+    val startTime by viewModel.startTime.collectAsStateWithLifecycle()
+    val hasExerciseSelected by viewModel.hasExerciseSelected.collectAsStateWithLifecycle()
+    val weekDescription by viewModel.weekDescription.collectAsStateWithLifecycle()
 
     val wizardNaviController = rememberNavController()
     NavHost(

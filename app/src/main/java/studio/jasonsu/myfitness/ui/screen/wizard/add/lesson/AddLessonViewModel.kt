@@ -1,10 +1,12 @@
 package studio.jasonsu.myfitness.ui.screen.wizard.add.lesson
 
 import androidx.compose.runtime.mutableStateListOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import studio.jasonsu.myfitness.model.DayOfWeek
 import studio.jasonsu.myfitness.model.Exercise
 import studio.jasonsu.myfitness.model.ExerciseMetaData
@@ -18,17 +20,20 @@ class AddLessonViewModel(
     private val lessonRepository: LessonRepository,
     private val lessonExerciseRepository: LessonExerciseRepository
 ) : ViewModel() {
-    private val _name = MutableLiveData<String>()
-    val name: LiveData<String> = _name
+    private val _name = MutableStateFlow(DEFAULT_LESSON_NAME)
+    val name = _name.asStateFlow()
 
-    private val _startTime = MutableLiveData<Time>()
-    val startTime: LiveData<Time> = _startTime
+    private val _description = MutableSharedFlow<String>()
+    val description = _description.asSharedFlow()
 
-    private val _weekDescription = MutableLiveData<String>()
-    val weekDescription: LiveData<String> = _weekDescription
+    private val _startTime = MutableStateFlow(Lesson.DefaultStartTime)
+    val startTime = _startTime.asStateFlow()
 
-    private val _hasExerciseSelected = MutableLiveData<Boolean>()
-    val hasExerciseSelected: LiveData<Boolean> = _hasExerciseSelected
+    private val _weekDescription = MutableStateFlow(DayOfWeek.Unspecified)
+    val weekDescription = _weekDescription.asStateFlow()
+
+    private val _hasExerciseSelected = MutableStateFlow(false)
+    val hasExerciseSelected = _hasExerciseSelected.asStateFlow()
 
     val selectedDaysOfWeek = mutableStateListOf<DayOfWeek>()
 

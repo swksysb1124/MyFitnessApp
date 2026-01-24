@@ -1,9 +1,9 @@
 package studio.jasonsu.myfitness.ui.screen.lession
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import studio.jasonsu.myfitness.domain.CaloriesBurnedCalculator
 import studio.jasonsu.myfitness.model.Exercise
 import studio.jasonsu.myfitness.model.Lesson
@@ -21,24 +21,24 @@ class LessonContentViewModel(
     profileRepository: ProfileRepository,
     private val calculator: CaloriesBurnedCalculator = CaloriesBurnedCalculator()
 ) : ViewModel() {
-    private val _exercises = MutableLiveData<List<Exercise>>()
-    val exercises: LiveData<List<Exercise>> = _exercises
+    private val _exercises = MutableStateFlow<List<Exercise>>(emptyList())
+    val exercises = _exercises.asStateFlow()
 
-    private val _sumOfExerciseDuration = MutableLiveData<String>()
-    val sumOfExerciseDuration: LiveData<String> = _sumOfExerciseDuration
+    private val _sumOfExerciseDuration = MutableStateFlow("")
+    val sumOfExerciseDuration = _sumOfExerciseDuration.asStateFlow()
 
-    private val _sumOfBurnedCalories = MutableLiveData<String>()
-    val sumOfBurnedCalories: LiveData<String> = _sumOfBurnedCalories
+    private val _sumOfBurnedCalories = MutableStateFlow("-")
+    val sumOfBurnedCalories = _sumOfBurnedCalories.asStateFlow()
 
-    private val _lesson = MutableLiveData<Lesson>()
-    val lesson: LiveData<Lesson> = _lesson
+    private val _lesson = MutableStateFlow(Lesson())
+    val lesson = _lesson.asStateFlow()
 
-    private val _buttonLabel = MutableLiveData("立即開始")
-    val buttonLabel: LiveData<String> = _buttonLabel
+    private val _buttonLabel = MutableStateFlow("立即開始")
+    val buttonLabel = _buttonLabel.asStateFlow()
 
     init {
         viewModelScope.launch {
-            _lesson.value = lessonRepository.getLesson(id)
+            _lesson.value = lessonRepository.getLesson(id) ?: Lesson()
 
             val fetchedExercises = lessonExerciseRepository.getActivities(id)
             _exercises.value = fetchedExercises

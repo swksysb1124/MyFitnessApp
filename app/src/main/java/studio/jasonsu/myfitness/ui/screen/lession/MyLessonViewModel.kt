@@ -3,8 +3,6 @@ package studio.jasonsu.myfitness.ui.screen.lession
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import studio.jasonsu.myfitness.event.RefreshLessonListEvent
@@ -15,8 +13,8 @@ import studio.jasonsu.myfitness.ui.screen.main.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -27,19 +25,19 @@ class MyLessonViewModel(
     private val profileRepository: ProfileRepository,
     private val lessonRepository: LessonRepository
 ) : ViewModel() {
-    private val _lessons = MutableLiveData<List<Lesson>>()
-    val lessons: LiveData<List<Lesson>> = _lessons
+    private val _lessons = MutableStateFlow<List<Lesson>>(emptyList())
+    val lessons = _lessons.asStateFlow()
 
     private val _screenMode = MutableStateFlow(LessonScreenMode.Normal)
-    val screenMode: StateFlow<LessonScreenMode> = _screenMode
+    val screenMode = _screenMode.asStateFlow()
 
     val selectedLessons = mutableStateListOf<Lesson>()
 
     private val _hasLessonsSelected = MutableStateFlow(false)
-    val hasLessonsSelected: StateFlow<Boolean> = _hasLessonsSelected
+    val hasLessonsSelected = _hasLessonsSelected.asStateFlow()
 
     private val _needAddProfile = MutableSharedFlow<Boolean>()
-    val needAddProfile: SharedFlow<Boolean> = _needAddProfile
+    val needAddProfile = _needAddProfile.asSharedFlow()
 
     init {
         checkIfNeedAddProfile()
