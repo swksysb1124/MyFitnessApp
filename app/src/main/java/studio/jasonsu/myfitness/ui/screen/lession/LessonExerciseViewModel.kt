@@ -1,7 +1,5 @@
 package studio.jasonsu.myfitness.ui.screen.lession
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,14 +20,14 @@ class LessonExerciseViewModel(
     private val textToSpeech: TextToSpeechEngine,
     private val lessonExerciseRepository: LessonExerciseRepository
 ) : ViewModel() {
-    private val _currentExercise = MutableLiveData<Activity>()
-    val currentExercise: LiveData<Activity> = _currentExercise
+    private val _currentExercise = MutableStateFlow<Activity?>(null)
+    val currentExercise = _currentExercise.asStateFlow()
 
     private val _timeLeftInSecond = MutableStateFlow(0)
     val timeLeft = _timeLeftInSecond.asStateFlow()
 
-    private val _onExerciseClose = MutableLiveData(ExerciseCloseReason.NotYetClose)
-    val onExerciseClose: LiveData<ExerciseCloseReason> = _onExerciseClose
+    private val _onExerciseClose = MutableStateFlow(ExerciseCloseReason.NotYetClose)
+    val onExerciseClose = _onExerciseClose.asStateFlow()
 
     private lateinit var lessonManager: LessonManager
 

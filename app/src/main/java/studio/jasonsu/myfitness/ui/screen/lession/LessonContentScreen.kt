@@ -11,11 +11,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import studio.jasonsu.myfitness.datasource.MocKLessonDataSource
 import studio.jasonsu.myfitness.model.DayOfWeek
 import studio.jasonsu.myfitness.repository.LessonExerciseRepository
@@ -31,8 +31,8 @@ fun LessonContentScreen(
     onBackPressed: () -> Unit = {},
     onStartButtonClick: (id: String?) -> Unit = {}
 ) {
-    val lesson by viewModel.lesson.observeAsState()
-    val exercises by viewModel.exercises.observeAsState(emptyList())
+    val lesson by viewModel.lesson.collectAsStateWithLifecycle()
+    val exercises by viewModel.exercises.collectAsStateWithLifecycle()
 
     val title = lesson?.name?.takeIf { it.isNotEmpty() } ?: "訓練內容"
     val startTime = lesson?.startTime?.toString() ?: "-"
@@ -40,9 +40,9 @@ fun LessonContentScreen(
         .let(DayOfWeek.Companion::generateWeekDescription)
         .let { " | $it" }
 
-    val sumOfExerciseDuration by viewModel.sumOfExerciseDuration.observeAsState("-")
-    val sumOfBurnedCalories by viewModel.sumOfBurnedCalories.observeAsState("-")
-    val buttonLabel by viewModel.buttonLabel.observeAsState("立即開始")
+    val sumOfExerciseDuration by viewModel.sumOfExerciseDuration.collectAsStateWithLifecycle()
+    val sumOfBurnedCalories by viewModel.sumOfBurnedCalories.collectAsStateWithLifecycle()
+    val buttonLabel by viewModel.buttonLabel.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier

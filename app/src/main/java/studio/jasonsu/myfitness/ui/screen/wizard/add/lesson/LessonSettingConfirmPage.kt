@@ -9,7 +9,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -18,9 +17,9 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import studio.jasonsu.myfitness.datasource.MocKLessonDataSource
 import studio.jasonsu.myfitness.model.DayOfWeek
-import studio.jasonsu.myfitness.model.Lesson
 import studio.jasonsu.myfitness.repository.LessonExerciseRepository
 import studio.jasonsu.myfitness.repository.LessonRepository
 import studio.jasonsu.myfitness.ui.component.SettingWizardLayout
@@ -33,8 +32,8 @@ fun LessonContentConfirmPage(
     onBack: () -> Unit,
     onConfirm: () -> Unit
 ) {
-    val name by viewModel.name.observeAsState(AddLessonViewModel.DEFAULT_LESSON_NAME)
-    val startTime by viewModel.startTime.observeAsState(Lesson.DefaultStartTime)
+    val name by viewModel.name.collectAsStateWithLifecycle()
+    val startTime by viewModel.startTime.collectAsStateWithLifecycle()
     val selectedDaysOfWeek = remember { viewModel.selectedDaysOfWeek }
     val selectedExercises = remember { viewModel.selectedExercises }
 

@@ -6,6 +6,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import studio.jasonsu.myfitness.R
 
 @Composable
 fun NavigationIndicatorIcon(
@@ -13,7 +15,7 @@ fun NavigationIndicatorIcon(
 ) {
     Icon(
         imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
-        contentDescription = null,
+        contentDescription = stringResource(R.string.cd_navigate_forward),
         tint = tint
     )
 }

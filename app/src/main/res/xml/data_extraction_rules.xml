@@ -1,19 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-   Sample data extraction rules file; uncomment and customize as necessary.
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Data extraction rules for MyFitnessApp (Android 12+).
    See https://developer.android.com/about/versions/12/backup-restore#xml-changes
-   for details.
 -->
 <data-extraction-rules>
     <cloud-backup>
-        <!-- TODO: Use <include> and <exclude> to control what is backed up.
-        <include .../>
-        <exclude .../>
-        -->
+        <!-- Include Room database for cloud backup -->
+        <include domain="database" path="my-lesson-database" />
+        <include domain="database" path="my-lesson-database-wal" />
+        <include domain="database" path="my-lesson-database-shm" />
+        <!-- Include shared preferences -->
+        <include domain="sharedpref" path="." />
     </cloud-backup>
-    <!--
     <device-transfer>
-        <include .../>
-        <exclude .../>
+        <!-- Include Room database for device-to-device transfer -->
+        <include domain="database" path="my-lesson-database" />
+        <include domain="database" path="my-lesson-database-wal" />
+        <include domain="database" path="my-lesson-database-shm" />
+        <!-- Include shared preferences -->
+        <include domain="sharedpref" path="." />
     </device-transfer>
-    -->
 </data-extraction-rules>
