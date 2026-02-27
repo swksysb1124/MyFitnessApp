@@ -9,7 +9,9 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import studio.jasonsu.myfitness.R
 
 @Composable
 fun AddIconButton(
@@ -22,7 +24,7 @@ fun AddIconButton(
         Icon(
             modifier = Modifier.size(25.dp),
             imageVector = Icons.Filled.Add,
-            contentDescription = null,
+            contentDescription = stringResource(R.string.cd_add),
             tint = tint
         )
     }

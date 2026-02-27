@@ -18,9 +18,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import studio.jasonsu.myfitness.R
 import studio.jasonsu.myfitness.model.Exercise
 import studio.jasonsu.myfitness.model.Rest
 import studio.jasonsu.myfitness.ui.component.ScreenTitleRow
@@ -68,7 +70,7 @@ fun LessonExercisePage(
                             .fillMaxWidth()
                             .height(300.dp),
                         painter = painterResource(id = (currentExercise as Exercise).metaData.icon),
-                        contentDescription = null
+                        contentDescription = stringResource(R.string.cd_exercise_icon)
                     )
                 }
                 val activityName = when (currentExercise) {
