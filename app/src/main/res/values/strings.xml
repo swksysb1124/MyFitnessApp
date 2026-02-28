@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">運動小幫手</string>
     <string name="in_app_update_success_message">下載成功。將在5秒後自動重啟！</string>
+
+    <!-- Accessibility descriptions -->
+    <string name="cd_back">返回</string>
+    <string name="cd_add">新增</string>
+    <string name="cd_edit">編輯</string>
+    <string name="cd_close">關閉</string>
+    <string name="cd_date_range">選擇日期</string>
+    <string name="cd_navigate_forward">前往</string>
+    <string name="cd_exercise_icon">運動圖示</string>
 </resources>

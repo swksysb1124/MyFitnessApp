@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -17,23 +16,22 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import studio.jasonsu.myfitness.ui.theme.MyFitnessAppTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel
 ) {
-    val name by viewModel.name.observeAsState("")
-    val phoneNumber by viewModel.phoneNumber.observeAsState("")
-    val email by viewModel.email.observeAsState("")
-    val isNameExceedMaxLength by viewModel.isNameExceedMaxLength.observeAsState(false)
+    val name by viewModel.name.collectAsStateWithLifecycle()
+    val phoneNumber by viewModel.phoneNumber.collectAsStateWithLifecycle()
+    val email by viewModel.email.collectAsStateWithLifecycle()
+    val isNameExceedMaxLength by viewModel.isNameExceedMaxLength.collectAsStateWithLifecycle()
 
     Scaffold { contentPadding ->
         Surface(
@@ -84,7 +82,6 @@ fun LoginScreen(
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ListItem(
     title: String,

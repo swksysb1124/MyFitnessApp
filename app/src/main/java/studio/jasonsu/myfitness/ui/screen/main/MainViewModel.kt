@@ -1,7 +1,5 @@
 package studio.jasonsu.myfitness.ui.screen.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
@@ -20,8 +18,8 @@ class MainViewModel : ViewModel() {
     private val _shouldBottomNaviShown = MutableStateFlow(true)
     val shouldBottomNaviShown: StateFlow<Boolean> = _shouldBottomNaviShown
 
-    private val _isReady = MutableLiveData(false)
-    val isReady: LiveData<Boolean> = _isReady
+    private val _isReady = MutableStateFlow(false)
+    val isReady = _isReady.asSharedFlow()
 
     init {
         viewModelScope.launch {

@@ -1,9 +1,9 @@
 package studio.jasonsu.myfitness.ui.screen.profile
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import studio.jasonsu.myfitness.model.Profile
 import studio.jasonsu.myfitness.repository.ProfileRepository
@@ -11,14 +11,19 @@ import studio.jasonsu.myfitness.repository.ProfileRepository
 class ProfileViewModel(
     private val profileRepository: ProfileRepository
 ) : ViewModel() {
-    private val _heightInCm = MutableLiveData<Int>()
-    val heightInCm: LiveData<Int> = _heightInCm
+    private val _heightInCm = MutableStateFlow(0)
+    val heightInCm = _heightInCm.asStateFlow()
 
-    private val _weightInKg = MutableLiveData<Int>()
-    val weightInKg: LiveData<Int> = _weightInKg
+    private val _weightInKg = MutableStateFlow(0)
+    val weightInKg = _weightInKg.asStateFlow()
 
-    private val _editDialogConfig = MutableLiveData<ProfileEditDialogConfig>()
-    val editDialogConfig: LiveData<ProfileEditDialogConfig> = _editDialogConfig
+    private val _editDialogConfig = MutableStateFlow(
+        ProfileEditDialogConfig(
+            ProfileEditType.Height,
+            isDialogOpen = false
+        )
+    )
+    val editDialogConfig = _editDialogConfig.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -51,7 +56,7 @@ class ProfileViewModel(
         viewModelScope.launch {
             when (type) {
                 ProfileEditType.Height -> {
-                    val weight = _weightInKg.value?.takeIf { it > 0 } ?: return@launch
+                    val weight = _weightInKg.value.takeIf { it > 0 } ?: return@launch
                     profileRepository.updateProfile(
                         Profile.createPrimaryProfile(updateValue, weight)
                     )
@@ -59,7 +64,7 @@ class ProfileViewModel(
                 }
 
                 ProfileEditType.Weight -> {
-                    val height = _heightInCm.value?.takeIf { it > 0 } ?: return@launch
+                    val height = _heightInCm.value.takeIf { it > 0 } ?: return@launch
                     profileRepository.updateProfile(
                         Profile.createPrimaryProfile(height, updateValue)
                     )
