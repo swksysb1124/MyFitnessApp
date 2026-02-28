@@ -4,9 +4,7 @@
 - Refactor ViewModels and UI to use StateFlow and improve accessibility.
 - Add content descriptions to UI elements for better accessibility.
 
-
 # [1.1.0](https://github.com/swksysb1124/MyFitnessApp/compare/v1.0.0...v1.1.0) (2025-07-12)
-
 
 ### Features
 
