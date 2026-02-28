@@ -3,8 +3,11 @@ package studio.jasonsu.myfitness
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 import studio.jasonsu.myfitness.app.MyFitnessApp
 import studio.jasonsu.myfitness.autoupdate.InAppUpdateHelper
 import studio.jasonsu.myfitness.ui.screen.main.MainViewModel
@@ -20,8 +23,13 @@ class MainActivity : MyFitnessActivity() {
         super.onCreate(savedInstanceState)
         inAppUpdateHelper.onCreate()
         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        mainViewModel.isReady.observe(this) { isReady ->
-            splashScreen.setKeepOnScreenCondition { !isReady }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainViewModel.isReady.collect { isReady ->
+                    splashScreen.setKeepOnScreenCondition { !isReady }
+                }
+            }
         }
 
         setContent {
