@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "studio.jasonsu.myfitness"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "studio.jasonsu.myfitness"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 4
         versionName = "1.1.1"
 
