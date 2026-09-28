@@ -111,3 +111,4 @@ jobs:
           releaseName: ${{ github.ref_name }}
           status: inProgress
           userFraction: 0.1
+          whatsNewDirectory: distribution/whatsnew
