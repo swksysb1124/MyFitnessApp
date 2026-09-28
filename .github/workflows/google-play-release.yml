@@ -1,0 +1,113 @@
+name: Google Play Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: google-play-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Publish to Google Play
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source and tags
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: temurin
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Validate release tag and version
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+
+          if [[ ! "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Release tags must use semantic versions, for example v1.2.0."
+            exit 1
+          fi
+
+          git fetch origin develop --no-tags
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/develop; then
+            echo "The tagged commit must already be part of develop."
+            exit 1
+          fi
+
+          tag_version="${RELEASE_TAG#v}"
+          version_name="$(sed -nE 's/^[[:space:]]*versionName[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/p' app/build.gradle.kts)"
+          if [[ "$version_name" != "$tag_version" ]]; then
+            echo "Tag version ($tag_version) must match app versionName ($version_name)."
+            exit 1
+          fi
+
+          version_code="$(sed -nE 's/^[[:space:]]*versionCode[[:space:]]*=[[:space:]]*([0-9]+).*/\1/p' app/build.gradle.kts)"
+          if [[ ! "$version_code" =~ ^[0-9]+$ ]]; then
+            echo "Could not read a numeric versionCode from app/build.gradle.kts."
+            exit 1
+          fi
+
+          highest_version_code=0
+          while IFS= read -r existing_tag; do
+            if [[ "$existing_tag" == "$RELEASE_TAG" ]]; then
+              continue
+            fi
+            if ! gradle_file="$(git show "$existing_tag:app/build.gradle.kts" 2>/dev/null)"; then
+              continue
+            fi
+            existing_code="$(printf '%s\n' "$gradle_file" | sed -nE 's/^[[:space:]]*versionCode[[:space:]]*=[[:space:]]*([0-9]+).*/\1/p')"
+            if [[ "$existing_code" =~ ^[0-9]+$ ]] && (( existing_code > highest_version_code )); then
+              highest_version_code="$existing_code"
+            fi
+          done < <(git tag --merged origin/develop --list 'v[0-9]*')
+
+          if (( version_code <= highest_version_code )); then
+            echo "versionCode ($version_code) must be greater than previously tagged versionCode ($highest_version_code)."
+            exit 1
+          fi
+
+      - name: Decode upload keystore
+        shell: bash
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$KEYSTORE_BASE64" ]]; then
+            echo "The KEYSTORE_BASE64 Actions secret is required."
+            exit 1
+          fi
+          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/upload-keystore.jks"
+          echo "KEYSTORE_FILE=$RUNNER_TEMP/upload-keystore.jks" >> "$GITHUB_ENV"
+
+      - name: Build signed release bundle
+        run: ./gradlew :app:bundleRelease --stacktrace
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Upload staged release to Google Play
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: studio.jasonsu.myfitness
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          tracks: production
+          releaseName: ${{ github.ref_name }}
+          status: inProgress
+          userFraction: 0.1
